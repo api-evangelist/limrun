@@ -1,0 +1,74 @@
+generated: '2026-07-19'
+method: searched
+source: openapi/limrun-openapi-original.yml
+docs: https://docs.limrun.com/docs/reference/sdk
+notes: >-
+  The harvested OpenAPI declares no components.securitySchemes, so the mechanical derive produced
+  nothing. This profile is taken from the provider's SDK reference, MCP page, and the live RFC 8414
+  document at api.limrun.com. Limrun uses two distinct credentials plus an OAuth surface reserved
+  for MCP, and separately offers OIDC single sign-on for console access.
+summary:
+  types:
+  - http
+  - oauth2
+  - openIdConnect
+  api_key_in:
+  - header
+  oauth2_flows:
+  - authorizationCode
+schemes:
+- name: OrgAPIKey
+  type: http
+  scheme: bearer
+  in: header
+  header: Authorization
+  key_prefix: lim_
+  env_var: LIM_API_KEY
+  issued_at: https://console.limrun.com
+  scope: >-
+    The REST control plane at api.limrun.com - create, list, get, and delete instances and assets.
+  warning: Must never ship to a browser or end-user client.
+  source: docs
+- name: PerInstanceToken
+  type: http
+  scheme: bearer
+  in: header
+  header: Authorization
+  obtained_from: instance.status.token (returned when the instance reaches ready)
+  scope: >-
+    The per-instance data plane - apiUrl device daemon, endpointWebSocketUrl (also accepted as a
+    ?token= query parameter), adbWebSocketUrl, sandbox.xcode.url, and the per-instance MCP endpoint.
+    Embedded in signedStreamUrl for browser streaming. Valid only while the instance runs and only
+    for that instance.
+  source: docs
+- name: SignedStreamURL
+  type: bearer-in-url
+  obtained_from: instance.status.signedStreamUrl
+  scope: >-
+    Browser watch URL with the token baked in. Anyone holding the URL can open the running simulator
+    without an interactive auth flow - the mechanism for sharing a live device with a reviewer.
+  source: docs
+- name: MCPOAuth
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    issuer: https://api.limrun.com
+    authorizationUrl: https://api.limrun.com/authn/oauth/authorize
+    tokenUrl: https://api.limrun.com/authn/oauth/token
+    registrationUrl: https://api.limrun.com/authn/oauth/register
+    code_challenge_methods:
+    - S256
+    token_endpoint_auth_methods:
+    - none
+    scopes:
+    - mcp
+  source: https://api.limrun.com/.well-known/oauth-authorization-server
+- name: OrganizationSSO
+  type: openIdConnect
+  scope: Organization single sign-on for the Limrun console; Okta Integration Network supported.
+  docs: https://docs.limrun.com/docs/reference/single-sign-on
+  source: docs
+credential_confusion_note: >-
+  The provider's own SDK reference calls out mixing the org API key and the per-instance token as
+  "the most common integration bug". The two pages also disagree on which credential authenticates
+  MCP - see mcp/limrun-mcp.yml.
