@@ -1,0 +1,411 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Limrun Analytics Ios Instances API
+tags:
+- name: Ios Instances
+paths:
+  /v1/ios_instances:
+    get:
+      summary: List iOS instances
+      operationId: listIOSInstances
+      parameters:
+      - name: region
+        description: Region where the instance is scheduled on.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: state
+        description: 'State filter to apply to Android instances to return. Each comma-separated state will be used as part of
+
+          an OR clause, e.g. "assigned,ready" will return all instances that are either assigned or ready.
+
+
+          Valid states: creating, assigned, ready, terminated, unknown
+
+          '
+        required: false
+        in: query
+        schema:
+          type: string
+          example: assigned,ready
+      - name: labelSelector
+        description: 'Labels filter to apply to instances to return.
+
+          Expects a comma-separated list of key=value pairs (e.g., env=prod,region=us-west).
+
+          '
+        required: false
+        in: query
+        schema:
+          type: string
+          example: env=prod,version=1.2
+      - name: limit
+        description: 'Maximum number of items to be returned. The default is 50.
+
+          '
+        in: query
+        schema:
+          type: integer
+          example: 50
+          default: 50
+      - name: startingAfter
+        in: query
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IOSInstance'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Ios Instances
+    post:
+      summary: Create an iOS instance
+      operationId: createIOSInstance
+      parameters:
+      - name: wait
+        description: Return after the instance is ready to connect.
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: reuseIfExists
+        description: 'If there is another instance with given labels and region, return that one instead of creating
+
+          a new instance.
+
+          '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IOSInstanceCreate'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IOSInstance'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Ios Instances
+  /v1/ios_instances/{id}:
+    get:
+      summary: Get iOS instance with given ID
+      operationId: getIOSInstance
+      parameters:
+      - name: id
+        description: iOS instance ID, e.g. ios_someid
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IOSInstance'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Ios Instances
+    delete:
+      summary: Delete iOS instance with given name
+      operationId: deleteIOSInstance
+      parameters:
+      - name: id
+        description: iOS instance ID, e.g. ios_someid
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Ios Instances
+components:
+  schemas:
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
+      required:
+      - message
+    IOSSandboxStatus:
+      type: object
+      properties:
+        xcode:
+          type: object
+          properties:
+            url:
+              type: string
+    IOSInstanceState:
+      type: string
+      enum:
+      - unknown
+      - creating
+      - assigned
+      - ready
+      - terminated
+    IOSInstance:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            id:
+              type: string
+            displayName:
+              type: string
+            organizationId:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+            terminatedAt:
+              type: string
+              format: date-time
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+          required:
+          - id
+          - organizationId
+          - createdAt
+        spec:
+          type: object
+          properties:
+            region:
+              type: string
+              description: 'The region where the instance will be created. If not given, will be decided based on scheduling clues
+
+                and availability.'
+            inactivityTimeout:
+              type: string
+              format: duration
+              description: 'After how many minutes of inactivity should the instance be terminated.
+
+                The timer starts once the instance becomes ready.
+
+                Example values 1m, 10m, 3h.
+
+                Default is 3m.
+
+                Providing "0" uses the organization''s default inactivity timeout.'
+              default: 3m
+            hardTimeout:
+              type: string
+              format: duration
+              description: 'After how many minutes should the instance be terminated.
+
+                Example values 1m, 10m, 3h.
+
+                Default is "0" which means no hard timeout.'
+              default: '0'
+          required:
+          - region
+          - inactivityTimeout
+        status:
+          type: object
+          properties:
+            state:
+              $ref: '#/components/schemas/IOSInstanceState'
+            apiUrl:
+              type: string
+            endpointWebSocketUrl:
+              type: string
+            signedStreamUrl:
+              type: string
+            targetHttpPortUrlPrefix:
+              type: string
+            mcpUrl:
+              type: string
+            sandbox:
+              $ref: '#/components/schemas/IOSSandboxStatus'
+            token:
+              type: string
+            errorMessage:
+              type: string
+            terminationReason:
+              $ref: '#/components/schemas/TerminationReason'
+          required:
+          - state
+          - token
+      required:
+      - metadata
+      - spec
+      - status
+    TerminationReason:
+      type: string
+      description: "Machine-readable reason the instance was terminated. Always present once\nstate is \"terminated\", never present before that. New values may be added\nover time, so treat any unrecognized value as \"Unknown\". Known values:\n- \"UserRequested\": terminated by a delete request to the API.\n- \"InactivityTimeout\": the timeout given in spec.inactivityTimeout elapsed.\n- \"HardTimeout\": the timeout given in spec.hardTimeout elapsed.\n- \"Unknown\": terminated for a cause the platform did not attribute,\n  including instances that failed to get ready during creation. See\n  errorMessage for details when available."
+      example: InactivityTimeout
+    IOSInstanceCreate:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            displayName:
+              type: string
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+        spec:
+          type: object
+          properties:
+            sandbox:
+              type: object
+              properties:
+                xcode:
+                  type: object
+                  properties:
+                    enabled:
+                      type: boolean
+            clues:
+              type: array
+              items:
+                type: object
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                    - ClientIP
+                  clientIp:
+                    type: string
+                required:
+                - kind
+            model:
+              type: string
+              description: The model for the Apple Simulator. Default is iphone.
+              default: iphone
+              enum:
+              - iphone
+              - ipad
+              - watch
+            region:
+              type: string
+              description: "Where the instance will be created. If not given, the region is decided based on scheduling clues\n(client IP) and availability.\n\nA region is a preference, not a hard pin: the request always overflows to every other available\nregion, ordered by proximity, when the preferred ones are full.\n\nAccepted values:\n  * A specific region name (e.g. \"us-west1\"). It is tried first, then the remaining regions in order of\n    proximity to it. Scheduling clues (client IP) are ignored when a region is given.\n  * A region group name (e.g. \"us\", \"eu\"). Its member regions are tried first in their listed order,\n    then the remaining regions by proximity to the first member.\n  * A pipe-separated, ordered list of regions (e.g. \"us-east1|us-west1\"). Those are tried first in the\n    given order, then the remaining regions by proximity to the first."
+            inactivityTimeout:
+              type: string
+              format: duration
+              description: 'After how many minutes of inactivity should the instance be terminated.
+
+                The timer starts once the instance becomes ready.
+
+                Example values 1m, 10m, 3h.
+
+                Default is 3m.
+
+                Providing "0" uses the organization''s default inactivity timeout.'
+              default: 3m
+            hardTimeout:
+              type: string
+              format: duration
+              description: 'After how many minutes should the instance be terminated.
+
+                Example values 1m, 10m, 3h.
+
+                Default is "0" which means no hard timeout.'
+              default: '0'
+            forceBundleId:
+              type: string
+              minLength: 1
+              description: 'Keeps this app in the foreground after it is first observed there.
+
+                This does not launch the app when the simulator starts. Once armed,
+
+                closing or backgrounding the app causes it to be brought back to
+
+                the foreground.'
+            initialAssets:
+              type: array
+              items:
+                type: object
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                    - App
+                    - Keychain
+                    default: App
+                  source:
+                    type: string
+                    enum:
+                    - URL
+                    - AssetName
+                    - AssetID
+                    default: URL
+                  url:
+                    type: string
+                  assetName:
+                    type: string
+                  assetId:
+                    type: string
+                  encryptionKey:
+                    type: string
+                    description: 'Base64/base64url-encoded 32-byte key used to decrypt Keychain assets.
+
+                      Required when kind is Keychain.
+
+                      '
+                  launchMode:
+                    type: string
+                    description: 'Launch mode specifies how to launch the app after installation.
+
+                      '
+                    enum:
+                    - ForegroundIfRunning
+                    - RelaunchIfRunning
+                    - FailIfRunning
+                required:
+                - kind
+                - source

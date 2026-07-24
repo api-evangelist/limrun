@@ -1,0 +1,436 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Limrun Analytics Xcode Instances API
+tags:
+- name: Xcode Instances
+paths:
+  /v1/xcode_instances:
+    get:
+      summary: List Xcode instances
+      operationId: listXcodeInstances
+      parameters:
+      - name: state
+        description: 'State filter to apply to Xcode instances to return. Each comma-separated state will be used as part of
+
+          an OR clause, e.g. "assigned,ready" will return all instances that are either assigned or ready.
+
+
+          Valid states: creating, assigned, ready, terminated, unknown
+
+          '
+        required: false
+        in: query
+        schema:
+          type: string
+          example: assigned,ready
+      - name: labelSelector
+        description: 'Labels filter to apply to instances to return.
+
+          Expects a comma-separated list of key=value pairs (e.g., env=prod,region=us-west).
+
+          '
+        required: false
+        in: query
+        schema:
+          type: string
+          example: env=prod,version=1.2
+      - name: limit
+        description: 'Maximum number of items to be returned. The default is 50.
+
+          '
+        in: query
+        schema:
+          type: integer
+          example: 50
+          default: 50
+      - name: startingAfter
+        in: query
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/XcodeInstance'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Xcode Instances
+    post:
+      summary: Create an Xcode instance
+      operationId: createXcodeInstance
+      parameters:
+      - name: wait
+        description: Return after the instance is ready to connect.
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: reuseIfExists
+        description: 'If there is another instance with given labels and region, return that one instead of creating
+
+          a new instance.
+
+          '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/XcodeInstanceCreate'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/XcodeInstance'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Xcode Instances
+  /v1/xcode_instances/{id}:
+    get:
+      summary: Get Xcode instance with given ID
+      operationId: getXcodeInstance
+      parameters:
+      - name: id
+        description: Xcode instance ID, e.g. sandbox_someid
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/XcodeInstance'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Xcode Instances
+    delete:
+      summary: Delete Xcode instance with given name
+      operationId: deleteXcodeInstance
+      parameters:
+      - name: id
+        description: Xcode instance ID, e.g. sandbox_someid
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Xcode Instances
+  /v1/xcode_instances/{id}/build_logs:
+    get:
+      summary: List persisted build logs for an Xcode instance.
+      description: 'Returns metadata and a short-lived presigned download URL for each
+
+        build that ran on the given Xcode instance. Builds are returned in
+
+        chronological order. Logs persist after the instance is terminated,
+
+        subject to the configured retention window.
+
+        '
+      operationId: listXcodeInstanceBuildLogs
+      parameters:
+      - name: id
+        description: Xcode instance ID, e.g. sandbox_someid
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/XcodeBuildLog'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Xcode Instances
+  /v1/xcode_instances/{id}/bazel_build_logs:
+    get:
+      summary: List persisted Bazel build records for an Xcode instance.
+      description: 'Returns a summary and a short-lived presigned download URL for each
+
+        Bazel build (RBE invocation) that ran on the given Xcode instance.
+
+        Builds are returned in chronological order. Records persist after the
+
+        instance is terminated, subject to the configured retention window.
+
+        '
+      operationId: listBazelInstanceBuildLogs
+      parameters:
+      - name: id
+        description: Xcode instance ID, e.g. sandbox_someid
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BazelBuildLog'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Xcode Instances
+components:
+  schemas:
+    XcodeInstanceState:
+      type: string
+      enum:
+      - unknown
+      - creating
+      - assigned
+      - ready
+      - terminated
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
+      required:
+      - message
+    XcodeBuildLog:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Exec ID assigned by limbuild, e.g. build-1776140344112378000.
+        status:
+          type: string
+          description: Terminal status reported by limbuild (e.g. SUCCEEDED, FAILED, CANCELLED).
+        exitCode:
+          type: integer
+          description: Exit code of xcodebuild, if the build reached completion.
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        buildDurationMs:
+          type: integer
+          description: Time spent running xcodebuild, in milliseconds.
+        error:
+          type: string
+          description: Error message captured by limbuild on failure, if any.
+        downloadUrl:
+          type: string
+          description: Short-lived presigned URL for fetching the full .jsonl log from object storage.
+      required:
+      - id
+      - status
+      - downloadUrl
+    XcodeInstanceCreate:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            displayName:
+              type: string
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+        spec:
+          type: object
+          properties:
+            clues:
+              type: array
+              items:
+                type: object
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                    - ClientIP
+                  clientIp:
+                    type: string
+                required:
+                - kind
+            region:
+              type: string
+              description: "Where the instance will be created. If not given, the region is decided based on scheduling clues\n(client IP) and availability.\n\nA region is a preference, not a hard pin: the request always overflows to every other available\nregion, ordered by proximity, when the preferred ones are full.\n\nAccepted values:\n  * A specific region name (e.g. \"us-west1\"). It is tried first, then the remaining regions in order of\n    proximity to it. Scheduling clues (client IP) are ignored when a region is given.\n  * A region group name (e.g. \"us\", \"eu\"). Its member regions are tried first in their listed order,\n    then the remaining regions by proximity to the first member.\n  * A pipe-separated, ordered list of regions (e.g. \"us-east1|us-west1\"). Those are tried first in the\n    given order, then the remaining regions by proximity to the first."
+            inactivityTimeout:
+              type: string
+              format: duration
+              description: 'After how many minutes of inactivity should the instance be terminated.
+
+                The timer starts once the instance becomes ready.
+
+                Example values 1m, 10m, 3h.
+
+                Default is 5m.
+
+                Providing "0" uses the organization''s default inactivity timeout.'
+              default: 5m
+            hardTimeout:
+              type: string
+              format: duration
+              description: 'After how many minutes should the instance be terminated.
+
+                Example values 1m, 10m, 3h.
+
+                Default is "0" which means no hard timeout.'
+              default: '0'
+    BazelBuildLog:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Bazel invocation ID (UUID) from the build event stream.
+        status:
+          type: string
+          description: Terminal status (SUCCEEDED, FAILED, CANCELLED, INCOMPLETE).
+        pattern:
+          type: array
+          items:
+            type: string
+          description: The build target patterns, if captured.
+        startedAt:
+          type: string
+          format: date-time
+        durationMs:
+          type: integer
+          description: Wall-clock duration of the invocation, in milliseconds.
+        error:
+          type: string
+          description: Error message captured on failure, if any.
+        downloadUrl:
+          type: string
+          description: Short-lived presigned URL for fetching the full .jsonl record from object storage.
+      required:
+      - id
+      - status
+      - downloadUrl
+    TerminationReason:
+      type: string
+      description: "Machine-readable reason the instance was terminated. Always present once\nstate is \"terminated\", never present before that. New values may be added\nover time, so treat any unrecognized value as \"Unknown\". Known values:\n- \"UserRequested\": terminated by a delete request to the API.\n- \"InactivityTimeout\": the timeout given in spec.inactivityTimeout elapsed.\n- \"HardTimeout\": the timeout given in spec.hardTimeout elapsed.\n- \"Unknown\": terminated for a cause the platform did not attribute,\n  including instances that failed to get ready during creation. See\n  errorMessage for details when available."
+      example: InactivityTimeout
+    XcodeInstance:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            id:
+              type: string
+            displayName:
+              type: string
+            organizationId:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+            terminatedAt:
+              type: string
+              format: date-time
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+          required:
+          - id
+          - organizationId
+          - createdAt
+        spec:
+          type: object
+          properties:
+            region:
+              type: string
+            inactivityTimeout:
+              type: string
+              format: duration
+              default: 5m
+            hardTimeout:
+              type: string
+              format: duration
+              default: '0'
+          required:
+          - region
+          - inactivityTimeout
+        status:
+          type: object
+          properties:
+            state:
+              $ref: '#/components/schemas/XcodeInstanceState'
+            apiUrl:
+              type: string
+            token:
+              type: string
+            errorMessage:
+              type: string
+            terminationReason:
+              $ref: '#/components/schemas/TerminationReason'
+          required:
+          - state
+          - token
+      required:
+      - metadata
+      - spec
+      - status

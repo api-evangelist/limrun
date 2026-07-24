@@ -1,0 +1,505 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Limrun Analytics API
+tags:
+- name: Analytics
+paths:
+  /v1/analytics/private:
+    get:
+      summary: Get analytics across all organizations
+      operationId: getPrivateAnalytics
+      parameters:
+      - name: from
+        description: Start of the time range (inclusive, RFC3339)
+        required: true
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        description: End of the time range (exclusive, RFC3339)
+        required: true
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: region
+        description: Optional region filter
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: bucket
+        description: Time bucket granularity for the analytics series
+        required: false
+        in: query
+        schema:
+          type: string
+          enum:
+          - hour
+          - day
+          - week
+          - minute
+          default: day
+      - name: timezone
+        description: Optional IANA timezone used for time bucket grouping. Defaults to America/Los_Angeles when omitted.
+        required: false
+        in: query
+        schema:
+          type: string
+          default: America/Los_Angeles
+      - name: labels
+        description: Label selector to filter instances (e.g., "env=prod,team=backend")
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Analytics
+  /v1/analytics:
+    get:
+      summary: Get analytics for the authenticated organization
+      operationId: getAnalytics
+      parameters:
+      - name: from
+        description: Start of the time range (inclusive, RFC3339)
+        required: true
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        description: End of the time range (exclusive, RFC3339)
+        required: true
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: region
+        description: Optional region filter
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: bucket
+        description: Time bucket granularity for the analytics series
+        required: false
+        in: query
+        schema:
+          type: string
+          enum:
+          - hour
+          - day
+          - week
+          - minute
+          default: day
+      - name: timezone
+        description: Optional IANA timezone used for time bucket grouping. Defaults to America/Los_Angeles when omitted.
+        required: false
+        in: query
+        schema:
+          type: string
+          default: America/Los_Angeles
+      - name: labels
+        description: Label selector to filter instances (e.g., "env=prod,team=backend")
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Analytics
+  /v1/analytics/instances:
+    get:
+      summary: Get per-instance analytics for the authenticated organization
+      description: Returns per-instance analytics grouped by minute bucket for detailed chart views.
+      operationId: getAnalyticsInstances
+      parameters:
+      - name: from
+        description: Start of the time range (inclusive, RFC3339)
+        required: true
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        description: End of the time range (exclusive, RFC3339)
+        required: true
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: region
+        description: Optional region filter
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: timezone
+        description: Optional IANA timezone used for minute bucket grouping. Defaults to America/Los_Angeles when omitted.
+        required: false
+        in: query
+        schema:
+          type: string
+          default: America/Los_Angeles
+      - name: labels
+        description: Label selector to filter instances (e.g., "env=prod,team=backend")
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsInstancesResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Analytics
+components:
+  schemas:
+    AnalyticsRegionStats:
+      type: object
+      description: Complete analytics for a specific region including billing breakdown
+      properties:
+        runtimeMinutes:
+          type: integer
+          format: int64
+          description: Actual runtime minutes before platform multiplier
+        billedMinutes:
+          type: integer
+          format: int64
+          description: Billed minutes with platform multiplier applied
+        avgDurationMinutes:
+          type: number
+          format: double
+          description: Average instance duration in minutes
+        count:
+          type: integer
+          format: int64
+          description: Number of unique instances
+        cost:
+          type: number
+          format: double
+          description: Total cost in dollars
+        creditsBilledMinutes:
+          type: integer
+          format: int64
+          description: Minutes billed to credits
+        subscriptionBilledMinutes:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+          description: Map of subscription ID to billed minutes
+        onDemandBilledMinutes:
+          type: integer
+          format: int64
+          description: Minutes billed on-demand
+        creditsCost:
+          type: number
+          format: double
+          description: Cost from credits (always 0)
+        subscriptionCost:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+          description: Map of subscription ID to cost in dollars
+        onDemandCost:
+          type: number
+          format: double
+          description: Cost from on-demand billing in dollars
+      required:
+      - runtimeMinutes
+      - billedMinutes
+      - avgDurationMinutes
+      - count
+      - cost
+      - creditsBilledMinutes
+      - onDemandBilledMinutes
+      - creditsCost
+      - onDemandCost
+    AnalyticsEntry:
+      type: object
+      description: Analytics data for a single time bucket, broken down by platform and region
+      properties:
+        timestamp:
+          type: string
+          description: RFC3339 timestamp for the start of the bucket in the requested timezone, including the local offset
+        android:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AnalyticsRegionStats'
+          description: Map of region to analytics stats for Android
+        ios:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AnalyticsRegionStats'
+          description: Map of region to analytics stats for iOS
+        xcode:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AnalyticsRegionStats'
+          description: Map of region to analytics stats for Xcode
+        gradle:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AnalyticsRegionStats'
+          description: Map of region to analytics stats for Gradle
+        instances:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnalyticsInstance'
+          description: Individual instance details for this time bucket
+      required:
+      - timestamp
+      - android
+      - ios
+      - xcode
+      - gradle
+    AnalyticsResponse:
+      type: object
+      properties:
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+        bucket:
+          type: string
+          enum:
+          - hour
+          - day
+          - week
+          - minute
+        timezone:
+          type: string
+          description: IANA timezone used for time bucket grouping
+        asOf:
+          type: string
+          format: date-time
+        series:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnalyticsEntry'
+        summary:
+          $ref: '#/components/schemas/AnalyticsSummary'
+      required:
+      - from
+      - to
+      - bucket
+      - timezone
+      - asOf
+      - series
+      - summary
+    CostBreakdown:
+      type: object
+      description: Cost breakdown by billing source in dollars
+      properties:
+        creditsCost:
+          type: number
+          format: double
+          description: Cost from credits (always 0)
+        subscriptionCost:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+          description: Map of subscription ID to cost in dollars
+        planCost:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+          description: Map of plan ID to cost in dollars
+        onDemandCost:
+          type: number
+          format: double
+          description: Cost from on-demand billing in dollars
+      required:
+      - creditsCost
+      - onDemandCost
+    AnalyticsInstancesResponse:
+      type: object
+      properties:
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+        asOf:
+          type: string
+          format: date-time
+        timezone:
+          type: string
+          description: IANA timezone used for time bucket grouping
+        series:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnalyticsInstanceEntry'
+      required:
+      - from
+      - to
+      - asOf
+      - timezone
+      - series
+    AnalyticsInstance:
+      type: object
+      description: Analytics details for a single instance within a time bucket
+      properties:
+        instanceTid:
+          type: string
+          description: Instance type ID (e.g., ios_xxx, android_xxx)
+        platform:
+          type: string
+          enum:
+          - android
+          - ios
+          - xcode
+          - gradle
+          description: Platform name.
+        region:
+          type: string
+          description: Region where the instance ran
+        runtimeMinutes:
+          type: integer
+          format: int64
+          description: Actual runtime minutes before platform multiplier
+        billedMinutes:
+          type: integer
+          format: int64
+          description: Billed minutes with platform multiplier applied
+        cost:
+          type: number
+          format: double
+          description: Total cost in dollars for this instance
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Instance labels at billing time
+        billedBreakdown:
+          $ref: '#/components/schemas/BilledBreakdown'
+        costBreakdown:
+          $ref: '#/components/schemas/CostBreakdown'
+      required:
+      - instanceTid
+      - platform
+      - runtimeMinutes
+      - billedMinutes
+      - cost
+    AnalyticsSummary:
+      type: object
+      description: Summary of analytics across all time buckets, broken down by platform and region
+      properties:
+        android:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AnalyticsRegionStats'
+          description: Map of region to analytics stats for Android
+        ios:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AnalyticsRegionStats'
+          description: Map of region to analytics stats for iOS
+        xcode:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AnalyticsRegionStats'
+          description: Map of region to analytics stats for Xcode
+        gradle:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AnalyticsRegionStats'
+          description: Map of region to analytics stats for Gradle
+      required:
+      - android
+      - ios
+      - xcode
+      - gradle
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
+      required:
+      - message
+    AnalyticsInstanceEntry:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          description: RFC3339 timestamp for the start of the minute bucket in the requested timezone, including the local offset
+        instances:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnalyticsInstance'
+      required:
+      - timestamp
+      - instances
+    BilledBreakdown:
+      type: object
+      properties:
+        creditsBilledMinutes:
+          type: integer
+          format: int64
+        subscriptionBilledMinutes:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+          description: Map of subscription ID to billed minutes
+        planBilledMinutes:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+          description: Map of plan ID to billed minutes
+        onDemandBilledMinutes:
+          type: integer
+          format: int64
+      required:
+      - creditsBilledMinutes
+      - onDemandBilledMinutes

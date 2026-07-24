@@ -1,0 +1,84 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Limrun Analytics Downloads API
+tags:
+- name: Downloads
+paths:
+  /v1/downloads/resolve:
+    post:
+      summary: Resolve a runtime download URL
+      description: 'Resolves a runtime limulator download URL into the internal download bundle shape.
+
+        URLs that point at Limrun-owned asset-storage buckets may be upgraded to a
+
+        header-signed TAG request with the original URL as fallback, but only after
+
+        the original URL successfully authorizes a one-byte probe. Other URLs are
+
+        returned unchanged. Possession of the source URL is the authorization
+
+        capability for this endpoint.
+
+        '
+      operationId: resolveDownload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResolveDownloadRequest'
+      responses:
+        '200':
+          description: Resolved download request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResolvedDownload'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Downloads
+components:
+  schemas:
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
+      required:
+      - message
+    ResolveDownloadRequest:
+      type: object
+      properties:
+        url:
+          type: string
+      required:
+      - url
+    ResolvedDownload:
+      type: object
+      properties:
+        url:
+          type: string
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+        fallbackUrl:
+          type: string
+        fallbackHeaders:
+          type: object
+          additionalProperties:
+            type: string
+      required:
+      - url

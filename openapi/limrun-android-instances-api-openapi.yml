@@ -1,0 +1,414 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Limrun Analytics Android Instances API
+tags:
+- name: Android Instances
+paths:
+  /v1/android_instances:
+    get:
+      summary: List Android instances
+      operationId: listAndroidInstancesV1
+      parameters:
+      - name: region
+        description: Region where the instance is scheduled on.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: state
+        description: 'State filter to apply to Android instances to return. Each comma-separated state will be used as part of
+
+          an OR clause, e.g. "assigned,ready" will return all instances that are either assigned or ready.
+
+
+          Valid states: creating, assigned, ready, terminated, unknown
+
+          '
+        required: false
+        in: query
+        schema:
+          type: string
+          example: assigned,ready
+      - name: labelSelector
+        description: 'Labels filter to apply to Android instances to return.
+
+          Expects a comma-separated list of key=value pairs (e.g., env=prod,region=us-west).
+
+          '
+        required: false
+        in: query
+        schema:
+          type: string
+          example: env=prod,version=1.2
+      - name: limit
+        description: 'Maximum number of instances to be returned. The default is 50.
+
+          '
+        in: query
+        schema:
+          type: integer
+          example: 50
+          default: 50
+      - name: startingAfter
+        in: query
+        schema:
+          type: string
+      - name: endingBefore
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AndroidInstance'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Android Instances
+    post:
+      summary: Create an Android instance
+      operationId: createAndroidInstanceV1
+      parameters:
+      - name: wait
+        description: Return after the instance is ready to connect.
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: reuseIfExists
+        description: 'If there is another instance with given labels and region, return that one instead of creating
+
+          a new instance.
+
+          '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AndroidInstanceCreate'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AndroidInstance'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Android Instances
+  /v1/android_instances/{id}:
+    get:
+      summary: Get Android instance with given ID
+      operationId: getAndroidInstanceV1
+      parameters:
+      - name: id
+        description: Android instance ID, e.g. android_someid
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AndroidInstance'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Android Instances
+    delete:
+      summary: Delete Android instance with given name
+      operationId: deleteAndroidInstanceV1
+      parameters:
+      - name: id
+        description: Android instance ID, e.g. android_someid
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Android Instances
+components:
+  schemas:
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
+      required:
+      - message
+    AndroidInstance:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            id:
+              type: string
+            displayName:
+              type: string
+            organizationId:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+            terminatedAt:
+              type: string
+              format: date-time
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+          required:
+          - id
+          - organizationId
+          - createdAt
+        spec:
+          type: object
+          properties:
+            region:
+              type: string
+              description: 'The region where the instance will be created. If not given, will be decided based on scheduling clues
+
+                and availability.'
+            inactivityTimeout:
+              type: string
+              format: duration
+              description: 'After how many minutes of inactivity should the instance be terminated.
+
+                The timer starts once the instance becomes ready.
+
+                Example values 1m, 10m, 3h.
+
+                Default is 3m.
+
+                Providing "0" uses the organization''s default inactivity timeout.'
+              default: 3m
+            hardTimeout:
+              type: string
+              format: duration
+              description: 'After how many minutes should the instance be terminated.
+
+                Example values 1m, 10m, 3h.
+
+                Default is "0" which means no hard timeout.'
+              default: '0'
+          required:
+          - region
+          - inactivityTimeout
+        status:
+          type: object
+          properties:
+            state:
+              $ref: '#/components/schemas/AndroidInstanceState'
+            apiUrl:
+              type: string
+            adbWebSocketUrl:
+              type: string
+            endpointWebSocketUrl:
+              type: string
+            signedStreamUrl:
+              type: string
+            mcpUrl:
+              type: string
+            targetHttpPortUrlPrefix:
+              type: string
+            token:
+              type: string
+            sandbox:
+              $ref: '#/components/schemas/AndroidSandboxStatus'
+            errorMessage:
+              type: string
+            terminationReason:
+              $ref: '#/components/schemas/TerminationReason'
+          required:
+          - state
+          - token
+      required:
+      - metadata
+      - spec
+      - status
+    AndroidSandboxStatus:
+      type: object
+      properties:
+        playwrightAndroid:
+          type: object
+          properties:
+            url:
+              type: string
+    SandboxSpec:
+      type: object
+      properties:
+        playwrightAndroid:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+            version:
+              type: string
+              enum:
+              - 1.56.1-lim.1
+              - 1.60.0-lim.1
+    TerminationReason:
+      type: string
+      description: "Machine-readable reason the instance was terminated. Always present once\nstate is \"terminated\", never present before that. New values may be added\nover time, so treat any unrecognized value as \"Unknown\". Known values:\n- \"UserRequested\": terminated by a delete request to the API.\n- \"InactivityTimeout\": the timeout given in spec.inactivityTimeout elapsed.\n- \"HardTimeout\": the timeout given in spec.hardTimeout elapsed.\n- \"Unknown\": terminated for a cause the platform did not attribute,\n  including instances that failed to get ready during creation. See\n  errorMessage for details when available."
+      example: InactivityTimeout
+    AndroidInstanceState:
+      type: string
+      enum:
+      - unknown
+      - creating
+      - assigned
+      - ready
+      - terminated
+    AndroidInstanceCreate:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            displayName:
+              type: string
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+        spec:
+          type: object
+          properties:
+            clues:
+              type: array
+              items:
+                type: object
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                    - ClientIP
+                    - OSVersion
+                  clientIp:
+                    type: string
+                  osVersion:
+                    type: string
+                    description: The major version of Android, e.g. "13", "14" or "15".
+                required:
+                - kind
+            region:
+              type: string
+              description: "Where the instance will be created. If not given, the region is decided based on scheduling clues\n(client IP) and availability.\n\nA region is a preference, not a hard pin: the request always overflows to every other available\nregion, ordered by proximity, when the preferred ones are full.\n\nAccepted values:\n  * A specific region name (e.g. \"us-west1\"). It is tried first, then the remaining regions in order of\n    proximity to it. Scheduling clues (client IP) are ignored when a region is given.\n  * A region group name (e.g. \"us\", \"eu\"). Its member regions are tried first in their listed order,\n    then the remaining regions by proximity to the first member.\n  * A pipe-separated, ordered list of regions (e.g. \"us-east1|us-west1\"). Those are tried first in the\n    given order, then the remaining regions by proximity to the first."
+            inactivityTimeout:
+              type: string
+              format: duration
+              description: 'After how many minutes of inactivity should the instance be terminated.
+
+                The timer starts once the instance becomes ready.
+
+                Example values 1m, 10m, 3h.
+
+                Default is 3m.
+
+                Providing "0" uses the organization''s default inactivity timeout.'
+              default: 3m
+            hardTimeout:
+              type: string
+              format: duration
+              description: 'After how many minutes should the instance be terminated.
+
+                Example values 1m, 10m, 3h.
+
+                Default is "0" which means no hard timeout.'
+              default: '0'
+            sandbox:
+              $ref: '#/components/schemas/SandboxSpec'
+            initialAssets:
+              type: array
+              items:
+                type: object
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                    - App
+                    - Configuration
+                    default: App
+                  configuration:
+                    type: object
+                    properties:
+                      kind:
+                        type: string
+                        enum:
+                        - ChromeFlag
+                      chromeFlag:
+                        type: string
+                        enum:
+                        - enable-command-line-on-non-rooted-devices@1
+                    required:
+                    - kind
+                  source:
+                    type: string
+                    enum:
+                    - URL
+                    - URLs
+                    - AssetName
+                    - AssetNames
+                    - AssetIDs
+                    default: URL
+                  url:
+                    type: string
+                  assetName:
+                    type: string
+                  urls:
+                    type: array
+                    items:
+                      type: string
+                  assetNames:
+                    type: array
+                    items:
+                      type: string
+                  assetIds:
+                    type: array
+                    items:
+                      type: string
+                required:
+                - kind

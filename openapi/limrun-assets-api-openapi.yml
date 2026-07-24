@@ -1,0 +1,304 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Limrun Analytics Assets API
+tags:
+- name: Assets
+paths:
+  /v1/assets/{assetId}:
+    get:
+      summary: Get the asset with given ID.
+      operationId: getAsset
+      parameters:
+      - name: assetId
+        description: Asset ID
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: includeDownloadUrl
+        description: Toggles whether a download URL should be included in the response
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: includeUploadUrl
+        description: Toggles whether an upload URL should be included in the response
+        required: false
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Assets
+    delete:
+      summary: Delete the asset with given ID.
+      operationId: deleteAsset
+      parameters:
+      - name: assetId
+        description: Asset ID
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Assets
+  /v1/assets:
+    get:
+      summary: List organization's all assets with given filters. If none given, return all assets.
+      operationId: listAssets
+      parameters:
+      - name: nameFilter
+        description: 'Case-sensitive exact match on the asset name.
+
+          Cannot be combined with namePrefixFilter.
+
+          When combined with includeAppStore=true, a leading "appstore/" is stripped
+
+          before querying App Store assets (whose stored names never carry the prefix).
+
+          '
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: namePrefixFilter
+        description: 'Case-sensitive prefix match on the asset name.
+
+          LIKE wildcards ("%", "_") in the value are treated as literal characters, not wildcards.
+
+          Empty string is rejected with 400; omit the parameter if no filtering is desired.
+
+          Cannot be combined with nameFilter.
+
+          When combined with includeAppStore=true, a leading "appstore/" is stripped
+
+          before querying App Store assets (whose stored names never carry the prefix);
+
+          a partial prefix like "appstor" will not match any App Store assets.
+
+          '
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: includeAppStore
+        description: 'If true, also includes assets from Limrun App Store where you have access to.
+
+          App Store assets will be returned with a "appstore/" prefix in their names.
+
+          '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: includeDownloadUrl
+        description: Toggles whether a download URL should be included in the response
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: includeUploadUrl
+        description: Toggles whether an upload URL should be included in the response
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: kindFilter
+        description: Filters assets by kind.
+        required: false
+        in: query
+        schema:
+          $ref: '#/components/schemas/AssetKind'
+      - name: limit
+        description: 'Maximum number of items to be returned. The default is 50.
+
+          '
+        in: query
+        schema:
+          type: integer
+          example: 50
+          default: 50
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Asset'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Assets
+    put:
+      summary: 'Creates an asset and returns upload and download URLs. If there is a corresponding file uploaded in the storage
+
+        with given name, its MD5 is returned so you can check if a re-upload is necessary. If no MD5 is returned, then
+
+        there is no corresponding file in the storage so downloading it directly or using it in instances will fail
+
+        until you use the returned upload URL to submit the file.'
+      operationId: putAsset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssetPut'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetPutResult'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      tags:
+      - Assets
+components:
+  schemas:
+    AssetPlatform:
+      type: string
+      enum:
+      - ios
+      - android
+      - xcode
+    AssetKind:
+      type: string
+      enum:
+      - App
+      - Keychain
+      default: App
+    AssetPutResult:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        kind:
+          $ref: '#/components/schemas/AssetKind'
+        platform:
+          $ref: '#/components/schemas/AssetPlatform'
+        md5:
+          type: string
+          description: Returned only if there is a corresponding file uploaded already.
+        expiresAt:
+          type: string
+          format: date-time
+          description: When set, the time after which the asset is automatically deleted.
+        signedUploadUrl:
+          type: string
+        signedDownloadUrl:
+          type: string
+      required:
+      - id
+      - name
+      - kind
+      - signedUploadUrl
+      - signedDownloadUrl
+    AssetPut:
+      type: object
+      properties:
+        name:
+          type: string
+        kind:
+          $ref: '#/components/schemas/AssetKind'
+        platform:
+          $ref: '#/components/schemas/AssetPlatform'
+        ttl:
+          type: string
+          description: 'Optional time-to-live as a Go duration string (e.g. "24h"). When set, the
+
+            asset is deleted this long after now; minimum is 1m. Omit for no expiry.
+
+            On re-upload of an existing asset, a value updates the expiry while omitting
+
+            it leaves the current expiry unchanged.
+
+            '
+      required:
+      - name
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
+      required:
+      - message
+    Asset:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        kind:
+          $ref: '#/components/schemas/AssetKind'
+        displayName:
+          type: string
+          description: Human-readable display name for the asset. If not set, the name should be used.
+        platform:
+          $ref: '#/components/schemas/AssetPlatform'
+          description: The platform this asset is for. If not set, the asset is available for all platforms.
+        os:
+          type: string
+          enum:
+          - ios
+          - android
+          - xcode
+          deprecated: true
+          description: 'Deprecated: alias of platform, always mirrors it. Use platform instead.'
+        md5:
+          type: string
+          description: Returned only if there is a corresponding file uploaded already.
+        expiresAt:
+          type: string
+          format: date-time
+          description: When set, the time after which the asset is automatically deleted.
+        signedUploadUrl:
+          type: string
+        signedDownloadUrl:
+          type: string
+      required:
+      - id
+      - name
+      - kind
