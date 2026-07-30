@@ -1,0 +1,2213 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Limrun API
+paths:
+  /v1/analytics/private:
+    get:
+      summary: Get analytics across all organizations
+      operationId: getPrivateAnalytics
+      parameters:
+        - name: from
+          description: Start of the time range (inclusive, RFC3339)
+          required: true
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          description: End of the time range (exclusive, RFC3339)
+          required: true
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: region
+          description: Optional region filter
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: bucket
+          description: Time bucket granularity for the analytics series
+          required: false
+          in: query
+          schema:
+            type: string
+            enum: [hour, day, week, minute]
+            default: day
+        - name: timezone
+          description: Optional IANA timezone used for time bucket grouping. Defaults to America/Los_Angeles when omitted.
+          required: false
+          in: query
+          schema:
+            type: string
+            default: America/Los_Angeles
+        - name: labels
+          description: Label selector to filter instances (e.g., "env=prod,team=backend")
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalyticsResponse"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+  /v1/analytics:
+    get:
+      summary: Get analytics for the authenticated organization
+      operationId: getAnalytics
+      parameters:
+        - name: from
+          description: Start of the time range (inclusive, RFC3339)
+          required: true
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          description: End of the time range (exclusive, RFC3339)
+          required: true
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: region
+          description: Optional region filter
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: bucket
+          description: Time bucket granularity for the analytics series
+          required: false
+          in: query
+          schema:
+            type: string
+            enum: [hour, day, week, minute]
+            default: day
+        - name: timezone
+          description: Optional IANA timezone used for time bucket grouping. Defaults to America/Los_Angeles when omitted.
+          required: false
+          in: query
+          schema:
+            type: string
+            default: America/Los_Angeles
+        - name: labels
+          description: Label selector to filter instances (e.g., "env=prod,team=backend")
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalyticsResponse"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+  /v1/analytics/instances:
+    get:
+      summary: Get per-instance analytics for the authenticated organization
+      description: Returns per-instance analytics grouped by minute bucket for detailed chart views.
+      operationId: getAnalyticsInstances
+      parameters:
+        - name: from
+          description: Start of the time range (inclusive, RFC3339)
+          required: true
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          description: End of the time range (exclusive, RFC3339)
+          required: true
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: region
+          description: Optional region filter
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: timezone
+          description: Optional IANA timezone used for minute bucket grouping. Defaults to America/Los_Angeles when omitted.
+          required: false
+          in: query
+          schema:
+            type: string
+            default: America/Los_Angeles
+        - name: labels
+          description: Label selector to filter instances (e.g., "env=prod,team=backend")
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalyticsInstancesResponse"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+  /v1/android_instances:
+    get:
+      summary: List Android instances
+      operationId: listAndroidInstancesV1
+      parameters:
+        - name: region
+          description: Region where the instance is scheduled on.
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: state
+          description: |
+            State filter to apply to Android instances to return. Each comma-separated state will be used as part of
+            an OR clause, e.g. "assigned,ready" will return all instances that are either assigned or ready.
+
+            Valid states: creating, assigned, ready, terminated, unknown
+          required: false
+          in: query
+          schema:
+            type: string
+            example: "assigned,ready"
+        - name: labelSelector
+          description: |
+            Labels filter to apply to Android instances to return.
+            Expects a comma-separated list of key=value pairs (e.g., env=prod,region=us-west).
+          required: false
+          in: query
+          schema:
+            type: string
+            example: "env=prod,version=1.2"
+        - name: limit
+          description: |
+            Maximum number of instances to be returned. The default is 50.
+          in: query
+          schema:
+            type: integer
+            example: 50
+            default: 50
+        - name: startingAfter
+          in: query
+          schema:
+            type: string
+        - name: endingBefore
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AndroidInstance"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+    post:
+      summary: Create an Android instance
+      operationId: createAndroidInstanceV1
+      parameters:
+        - name: wait
+          description: Return after the instance is ready to connect.
+          required: false
+          in: query
+          schema:
+            type: boolean
+        - name: reuseIfExists
+          description: |
+            If there is another instance with given labels and region, return that one instead of creating
+            a new instance.
+          required: false
+          in: query
+          schema:
+            type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AndroidInstanceCreate"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AndroidInstance"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+  /v1/android_instances/{id}:
+    get:
+      summary: Get Android instance with given ID
+      operationId: getAndroidInstanceV1
+      parameters:
+        - name: id
+          description: Android instance ID, e.g. android_someid
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AndroidInstance"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+    delete:
+      summary: Delete Android instance with given name
+      operationId: deleteAndroidInstanceV1
+      parameters:
+        - name: id
+          description: Android instance ID, e.g. android_someid
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+
+  /v1/ios_instances:
+    get:
+      summary: List iOS instances
+      operationId: listIOSInstances
+      parameters:
+        - name: region
+          description: Region where the instance is scheduled on.
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: state
+          description: |
+            State filter to apply to Android instances to return. Each comma-separated state will be used as part of
+            an OR clause, e.g. "assigned,ready" will return all instances that are either assigned or ready.
+
+            Valid states: creating, assigned, ready, terminated, unknown
+          required: false
+          in: query
+          schema:
+            type: string
+            example: "assigned,ready"
+        - name: labelSelector
+          description: |
+            Labels filter to apply to instances to return.
+            Expects a comma-separated list of key=value pairs (e.g., env=prod,region=us-west).
+          required: false
+          in: query
+          schema:
+            type: string
+            example: "env=prod,version=1.2"
+        - name: limit
+          description: |
+            Maximum number of items to be returned. The default is 50.
+          in: query
+          schema:
+            type: integer
+            example: 50
+            default: 50
+        - name: startingAfter
+          in: query
+          schema:
+            type: string
+        - name: endingBefore
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/IOSInstance"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+    post:
+      summary: Create an iOS instance
+      operationId: createIOSInstance
+      parameters:
+        - name: wait
+          description: Return after the instance is ready to connect.
+          required: false
+          in: query
+          schema:
+            type: boolean
+        - name: reuseIfExists
+          description: |
+            If there is another instance with given labels and region, return that one instead of creating
+            a new instance.
+          required: false
+          in: query
+          schema:
+            type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IOSInstanceCreate"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IOSInstance"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+  /v1/ios_instances/{id}:
+    get:
+      summary: Get iOS instance with given ID
+      operationId: getIOSInstance
+      parameters:
+        - name: id
+          description: iOS instance ID, e.g. ios_someid
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IOSInstance"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+    delete:
+      summary: Delete iOS instance with given name
+      operationId: deleteIOSInstance
+      parameters:
+        - name: id
+          description: iOS instance ID, e.g. ios_someid
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+  /v1/downloads/resolve:
+    post:
+      summary: Resolve a runtime download URL
+      description: |
+        Resolves a runtime limulator download URL into the internal download bundle shape.
+        URLs that point at Limrun-owned asset-storage buckets may be upgraded to a
+        header-signed TAG request with the original URL as fallback, but only after
+        the original URL successfully authorizes a one-byte probe. Other URLs are
+        returned unchanged. Possession of the source URL is the authorization
+        capability for this endpoint.
+      operationId: resolveDownload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResolveDownloadRequest"
+      responses:
+        '200':
+          description: Resolved download request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResolvedDownload"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+  /v1/xcode_instances:
+    get:
+      summary: List Xcode instances
+      operationId: listXcodeInstances
+      parameters:
+        - name: state
+          description: |
+            State filter to apply to Xcode instances to return. Each comma-separated state will be used as part of
+            an OR clause, e.g. "assigned,ready" will return all instances that are either assigned or ready.
+
+            Valid states: creating, assigned, ready, terminated, unknown
+          required: false
+          in: query
+          schema:
+            type: string
+            example: "assigned,ready"
+        - name: labelSelector
+          description: |
+            Labels filter to apply to instances to return.
+            Expects a comma-separated list of key=value pairs (e.g., env=prod,region=us-west).
+          required: false
+          in: query
+          schema:
+            type: string
+            example: "env=prod,version=1.2"
+        - name: limit
+          description: |
+            Maximum number of items to be returned. The default is 50.
+          in: query
+          schema:
+            type: integer
+            example: 50
+            default: 50
+        - name: startingAfter
+          in: query
+          schema:
+            type: string
+        - name: endingBefore
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/XcodeInstance"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+    post:
+      summary: Create an Xcode instance
+      operationId: createXcodeInstance
+      parameters:
+        - name: wait
+          description: Return after the instance is ready to connect.
+          required: false
+          in: query
+          schema:
+            type: boolean
+        - name: reuseIfExists
+          description: |
+            If there is another instance with given labels and region, return that one instead of creating
+            a new instance.
+          required: false
+          in: query
+          schema:
+            type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/XcodeInstanceCreate"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/XcodeInstance"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+  /v1/xcode_instances/{id}:
+    get:
+      summary: Get Xcode instance with given ID
+      operationId: getXcodeInstance
+      parameters:
+        - name: id
+          description: Xcode instance ID, e.g. sandbox_someid
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/XcodeInstance"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+    delete:
+      summary: Delete Xcode instance with given name
+      operationId: deleteXcodeInstance
+      parameters:
+        - name: id
+          description: Xcode instance ID, e.g. sandbox_someid
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+  /v1/gradle_instances:
+    get:
+      summary: List Gradle instances
+      operationId: listGradleInstances
+      parameters:
+        - name: state
+          description: |
+            State filter to apply to Gradle instances to return. Each comma-separated state will be used as part of
+            an OR clause, e.g. "assigned,ready" will return all instances that are either assigned or ready.
+
+            Valid states: creating, assigned, ready, terminated, unknown
+          required: false
+          in: query
+          schema:
+            type: string
+            example: "assigned,ready"
+        - name: labelSelector
+          description: |
+            Labels filter to apply to instances to return.
+            Expects a comma-separated list of key=value pairs (e.g., env=prod,region=us-west).
+          required: false
+          in: query
+          schema:
+            type: string
+            example: "env=prod,version=1.2"
+        - name: limit
+          description: |
+            Maximum number of items to be returned. The default is 50.
+          in: query
+          schema:
+            type: integer
+            example: 50
+            default: 50
+        - name: startingAfter
+          in: query
+          schema:
+            type: string
+        - name: endingBefore
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GradleInstance"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+    post:
+      summary: Create a Gradle instance
+      operationId: createGradleInstance
+      parameters:
+        - name: wait
+          description: Return after the instance is ready to connect.
+          required: false
+          in: query
+          schema:
+            type: boolean
+        - name: reuseIfExists
+          description: |
+            If there is another instance with given labels and region, return that one instead of creating
+            a new instance.
+          required: false
+          in: query
+          schema:
+            type: boolean
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GradleInstanceCreate"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GradleInstance"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+  /v1/gradle_instances/{id}:
+    get:
+      summary: Get Gradle instance with given ID
+      operationId: getGradleInstance
+      parameters:
+        - name: id
+          description: Gradle instance ID, e.g. gradle_someid
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GradleInstance"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+    delete:
+      summary: Delete Gradle instance with given name
+      operationId: deleteGradleInstance
+      parameters:
+        - name: id
+          description: Gradle instance ID, e.g. gradle_someid
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+  /v1/xcode_instances/{id}/build_logs:
+    get:
+      summary: List persisted build logs for an Xcode instance.
+      description: |
+        Returns metadata and a short-lived presigned download URL for each
+        build that ran on the given Xcode instance. Builds are returned in
+        chronological order. Logs persist after the instance is terminated,
+        subject to the configured retention window.
+      operationId: listXcodeInstanceBuildLogs
+      parameters:
+        - name: id
+          description: Xcode instance ID, e.g. sandbox_someid
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/XcodeBuildLog"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+  /v1/xcode_instances/{id}/bazel_build_logs:
+    get:
+      summary: List persisted Bazel build records for an Xcode instance.
+      description: |
+        Returns a summary and a short-lived presigned download URL for each
+        Bazel build (RBE invocation) that ran on the given Xcode instance.
+        Builds are returned in chronological order. Records persist after the
+        instance is terminated, subject to the configured retention window.
+      operationId: listBazelInstanceBuildLogs
+      parameters:
+        - name: id
+          description: Xcode instance ID, e.g. sandbox_someid
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BazelBuildLog"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+  /v1/assets/{assetId}:
+    get:
+      summary: Get the asset with given ID.
+      operationId: getAsset
+      parameters:
+        - name: assetId
+          description: Asset ID
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: includeDownloadUrl
+          description: Toggles whether a download URL should be included in the response
+          required: false
+          in: query
+          schema:
+            type: boolean
+        - name: includeUploadUrl
+          description: Toggles whether an upload URL should be included in the response
+          required: false
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Asset"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+    delete:
+      summary: Delete the asset with given ID.
+      operationId: deleteAsset
+      parameters:
+        - name: assetId
+          description: Asset ID
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+  /v1/assets:
+    get:
+      summary: List organization's all assets with given filters. If none given, return all assets.
+      operationId: listAssets
+      parameters:
+        - name: nameFilter
+          description: |
+            Case-sensitive exact match on the asset name.
+            Cannot be combined with namePrefixFilter.
+            When combined with includeAppStore=true, a leading "appstore/" is stripped
+            before querying App Store assets (whose stored names never carry the prefix).
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: namePrefixFilter
+          description: |
+            Case-sensitive prefix match on the asset name.
+            LIKE wildcards ("%", "_") in the value are treated as literal characters, not wildcards.
+            Empty string is rejected with 400; omit the parameter if no filtering is desired.
+            Cannot be combined with nameFilter.
+            When combined with includeAppStore=true, a leading "appstore/" is stripped
+            before querying App Store assets (whose stored names never carry the prefix);
+            a partial prefix like "appstor" will not match any App Store assets.
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: includeAppStore
+          description: |
+            If true, also includes assets from Limrun App Store where you have access to.
+            App Store assets will be returned with a "appstore/" prefix in their names.
+          required: false
+          in: query
+          schema:
+            type: boolean
+        - name: includeDownloadUrl
+          description: Toggles whether a download URL should be included in the response
+          required: false
+          in: query
+          schema:
+            type: boolean
+        - name: includeUploadUrl
+          description: Toggles whether an upload URL should be included in the response
+          required: false
+          in: query
+          schema:
+            type: boolean
+        - name: kindFilter
+          description: Filters assets by kind.
+          required: false
+          in: query
+          schema:
+            $ref: "#/components/schemas/AssetKind"
+        - name: limit
+          description: |
+            Maximum number of items to be returned. The default is 50.
+          in: query
+          schema:
+            type: integer
+            example: 50
+            default: 50
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Asset"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+    put:
+      summary: |-
+        Creates an asset and returns upload and download URLs. If there is a corresponding file uploaded in the storage
+        with given name, its MD5 is returned so you can check if a re-upload is necessary. If no MD5 is returned, then
+        there is no corresponding file in the storage so downloading it directly or using it in instances will fail
+        until you use the returned upload URL to submit the file.
+      operationId: putAsset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssetPut"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssetPutResult"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+
+components:
+  schemas:
+    AndroidInstanceCreate:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            displayName:
+              type: string
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+        spec:
+          type: object
+          properties:
+            clues:
+              type: array
+              items:
+                type: object
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                      - ClientIP
+                      - OSVersion
+                  clientIp:
+                    type: string
+                  osVersion:
+                    type: string
+                    description: The major version of Android, e.g. "13", "14" or "15".
+                required:
+                  - kind
+            region:
+              type: string
+              description: |-
+                Where the instance will be created. If not given, the region is decided based on scheduling clues
+                (client IP) and availability.
+
+                A region is a preference, not a hard pin: the request always overflows to every other available
+                region, ordered by proximity, when the preferred ones are full.
+
+                Accepted values:
+                  * A specific region name (e.g. "us-west1"). It is tried first, then the remaining regions in order of
+                    proximity to it. Scheduling clues (client IP) are ignored when a region is given.
+                  * A region group name (e.g. "us", "eu"). Its member regions are tried first in their listed order,
+                    then the remaining regions by proximity to the first member.
+                  * A pipe-separated, ordered list of regions (e.g. "us-east1|us-west1"). Those are tried first in the
+                    given order, then the remaining regions by proximity to the first.
+            inactivityTimeout:
+              type: string
+              format: duration
+              description: |-
+                After how many minutes of inactivity should the instance be terminated.
+                The timer starts once the instance becomes ready.
+                Example values 1m, 10m, 3h.
+                Default is 3m.
+                Providing "0" uses the organization's default inactivity timeout.
+              default: 3m
+            hardTimeout:
+              type: string
+              format: duration
+              description: |-
+                After how many minutes should the instance be terminated.
+                Example values 1m, 10m, 3h.
+                Default is "0" which means no hard timeout.
+              default: "0"
+            sandbox:
+              $ref: "#/components/schemas/SandboxSpec"
+            initialAssets:
+              type: array
+              items:
+                type: object
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                      - App
+                      - Configuration
+                    default: App
+                  configuration:
+                    type: object
+                    properties:
+                      kind:
+                        type: string
+                        enum:
+                          - ChromeFlag
+                      chromeFlag:
+                        type: string
+                        enum:
+                          - "enable-command-line-on-non-rooted-devices@1"
+                    required:
+                      - kind
+                  source:
+                    type: string
+                    enum:
+                      - URL
+                      - URLs
+                      - AssetName
+                      - AssetNames
+                      - AssetIDs
+                    default: URL
+                  url:
+                    type: string
+                  assetName:
+                    type: string
+                  urls:
+                    type: array
+                    items:
+                      type: string
+                  assetNames:
+                    type: array
+                    items:
+                      type: string
+                  assetIds:
+                    type: array
+                    items:
+                      type: string
+                required:
+                  - kind
+    AndroidInstance:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            id:
+              type: string
+            displayName:
+              type: string
+            organizationId:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+            terminatedAt:
+              type: string
+              format: date-time
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+          required:
+            - id
+            - organizationId
+            - createdAt
+        spec:
+          type: object
+          properties:
+            region:
+              type: string
+              description: |-
+                The region where the instance will be created. If not given, will be decided based on scheduling clues
+                and availability.
+            inactivityTimeout:
+              type: string
+              format: duration
+              description: |-
+                After how many minutes of inactivity should the instance be terminated.
+                The timer starts once the instance becomes ready.
+                Example values 1m, 10m, 3h.
+                Default is 3m.
+                Providing "0" uses the organization's default inactivity timeout.
+              default: 3m
+            hardTimeout:
+              type: string
+              format: duration
+              description: |-
+                After how many minutes should the instance be terminated.
+                Example values 1m, 10m, 3h.
+                Default is "0" which means no hard timeout.
+              default: "0"
+          required:
+            - region
+            - inactivityTimeout
+        status:
+          type: object
+          properties:
+            state:
+              $ref: "#/components/schemas/AndroidInstanceState"
+            apiUrl:
+              type: string
+            adbWebSocketUrl:
+              type: string
+            endpointWebSocketUrl:
+              type: string
+            signedStreamUrl:
+              type: string
+            mcpUrl:
+              type: string
+            targetHttpPortUrlPrefix:
+              type: string
+            token:
+              type: string
+            sandbox:
+              $ref: "#/components/schemas/AndroidSandboxStatus"
+            errorMessage:
+              type: string
+            terminationReason:
+              $ref: "#/components/schemas/TerminationReason"
+          required:
+            - state
+            - token
+      required:
+        - metadata
+        - spec
+        - status
+    IOSInstanceCreate:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            displayName:
+              type: string
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+        spec:
+          type: object
+          properties:
+            sandbox:
+              type: object
+              properties:
+                xcode:
+                  type: object
+                  properties:
+                    enabled:
+                      type: boolean
+            clues:
+              type: array
+              items:
+                type: object
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                      - ClientIP
+                  clientIp:
+                    type: string
+                required:
+                  - kind
+            model:
+              type: string
+              description: The model for the Apple Simulator. Default is iphone.
+              default: iphone
+              enum:
+                - iphone
+                - ipad
+                - watch
+            region:
+              type: string
+              description: |-
+                Where the instance will be created. If not given, the region is decided based on scheduling clues
+                (client IP) and availability.
+
+                A region is a preference, not a hard pin: the request always overflows to every other available
+                region, ordered by proximity, when the preferred ones are full.
+
+                Accepted values:
+                  * A specific region name (e.g. "us-west1"). It is tried first, then the remaining regions in order of
+                    proximity to it. Scheduling clues (client IP) are ignored when a region is given.
+                  * A region group name (e.g. "us", "eu"). Its member regions are tried first in their listed order,
+                    then the remaining regions by proximity to the first member.
+                  * A pipe-separated, ordered list of regions (e.g. "us-east1|us-west1"). Those are tried first in the
+                    given order, then the remaining regions by proximity to the first.
+            inactivityTimeout:
+              type: string
+              format: duration
+              description: |-
+                After how many minutes of inactivity should the instance be terminated.
+                The timer starts once the instance becomes ready.
+                Example values 1m, 10m, 3h.
+                Default is 3m.
+                Providing "0" uses the organization's default inactivity timeout.
+              default: 3m
+            hardTimeout:
+              type: string
+              format: duration
+              description: |-
+                After how many minutes should the instance be terminated.
+                Example values 1m, 10m, 3h.
+                Default is "0" which means no hard timeout.
+              default: "0"
+            forceBundleId:
+              type: string
+              minLength: 1
+              description: |-
+                Keeps this app in the foreground after it is first observed there.
+                This does not launch the app when the simulator starts. Once armed,
+                closing or backgrounding the app causes it to be brought back to
+                the foreground.
+            initialAssets:
+              type: array
+              items:
+                type: object
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                      - App
+                      - Keychain
+                    default: App
+                  source:
+                    type: string
+                    enum:
+                      - URL
+                      - AssetName
+                      - AssetID
+                    default: URL
+                  url:
+                    type: string
+                  assetName:
+                    type: string
+                  assetId:
+                    type: string
+                  encryptionKey:
+                    type: string
+                    description: |
+                      Base64/base64url-encoded 32-byte key used to decrypt Keychain assets.
+                      Required when kind is Keychain.
+                  launchMode:
+                    type: string
+                    description: |
+                      Launch mode specifies how to launch the app after installation.
+                    enum:
+                      - ForegroundIfRunning
+                      - RelaunchIfRunning
+                      - FailIfRunning
+                required:
+                  - kind
+                  - source
+    IOSInstance:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            id:
+              type: string
+            displayName:
+              type: string
+            organizationId:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+            terminatedAt:
+              type: string
+              format: date-time
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+          required:
+            - id
+            - organizationId
+            - createdAt
+        spec:
+          type: object
+          properties:
+            region:
+              type: string
+              description: |-
+                The region where the instance will be created. If not given, will be decided based on scheduling clues
+                and availability.
+            inactivityTimeout:
+              type: string
+              format: duration
+              description: |-
+                After how many minutes of inactivity should the instance be terminated.
+                The timer starts once the instance becomes ready.
+                Example values 1m, 10m, 3h.
+                Default is 3m.
+                Providing "0" uses the organization's default inactivity timeout.
+              default: 3m
+            hardTimeout:
+              type: string
+              format: duration
+              description: |-
+                After how many minutes should the instance be terminated.
+                Example values 1m, 10m, 3h.
+                Default is "0" which means no hard timeout.
+              default: "0"
+          required:
+            - region
+            - inactivityTimeout
+        status:
+          type: object
+          properties:
+            state:
+              $ref: "#/components/schemas/IOSInstanceState"
+            apiUrl:
+              type: string
+            endpointWebSocketUrl:
+              type: string
+            signedStreamUrl:
+              type: string
+            targetHttpPortUrlPrefix:
+              type: string
+            mcpUrl:
+              type: string
+            sandbox:
+              $ref: "#/components/schemas/IOSSandboxStatus"
+            token:
+              type: string
+            errorMessage:
+              type: string
+            terminationReason:
+              $ref: "#/components/schemas/TerminationReason"
+          required:
+            - state
+            - token
+      required:
+        - metadata
+        - spec
+        - status
+    AndroidInstanceState:
+      type: string
+      # This enum is copied to DB schema as well.
+      enum:
+        - unknown
+        - creating
+        - assigned
+        - ready
+        - terminated
+    IOSInstanceState:
+      type: string
+      # This enum is copied to DB schema as well.
+      enum:
+        - unknown
+        - creating
+        - assigned
+        - ready
+        - terminated
+    XcodeInstanceCreate:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            displayName:
+              type: string
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+        spec:
+          type: object
+          properties:
+            clues:
+              type: array
+              items:
+                type: object
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                      - ClientIP
+                  clientIp:
+                    type: string
+                required:
+                  - kind
+            region:
+              type: string
+              description: |-
+                Where the instance will be created. If not given, the region is decided based on scheduling clues
+                (client IP) and availability.
+
+                A region is a preference, not a hard pin: the request always overflows to every other available
+                region, ordered by proximity, when the preferred ones are full.
+
+                Accepted values:
+                  * A specific region name (e.g. "us-west1"). It is tried first, then the remaining regions in order of
+                    proximity to it. Scheduling clues (client IP) are ignored when a region is given.
+                  * A region group name (e.g. "us", "eu"). Its member regions are tried first in their listed order,
+                    then the remaining regions by proximity to the first member.
+                  * A pipe-separated, ordered list of regions (e.g. "us-east1|us-west1"). Those are tried first in the
+                    given order, then the remaining regions by proximity to the first.
+            inactivityTimeout:
+              type: string
+              format: duration
+              description: |-
+                After how many minutes of inactivity should the instance be terminated.
+                The timer starts once the instance becomes ready.
+                Example values 1m, 10m, 3h.
+                Default is 5m.
+                Providing "0" uses the organization's default inactivity timeout.
+              default: 5m
+            hardTimeout:
+              type: string
+              format: duration
+              description: |-
+                After how many minutes should the instance be terminated.
+                Example values 1m, 10m, 3h.
+                Default is "0" which means no hard timeout.
+              default: "0"
+    XcodeInstance:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            id:
+              type: string
+            displayName:
+              type: string
+            organizationId:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+            terminatedAt:
+              type: string
+              format: date-time
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+          required:
+            - id
+            - organizationId
+            - createdAt
+        spec:
+          type: object
+          properties:
+            region:
+              type: string
+            inactivityTimeout:
+              type: string
+              format: duration
+              default: 5m
+            hardTimeout:
+              type: string
+              format: duration
+              default: "0"
+          required:
+            - region
+            - inactivityTimeout
+        status:
+          type: object
+          properties:
+            state:
+              $ref: "#/components/schemas/XcodeInstanceState"
+            apiUrl:
+              type: string
+            token:
+              type: string
+            errorMessage:
+              type: string
+            terminationReason:
+              $ref: "#/components/schemas/TerminationReason"
+          required:
+            - state
+            - token
+      required:
+        - metadata
+        - spec
+        - status
+    XcodeInstanceState:
+      type: string
+      enum:
+        - unknown
+        - creating
+        - assigned
+        - ready
+        - terminated
+    GradleInstanceCreate:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            displayName:
+              type: string
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+        spec:
+          type: object
+          properties:
+            clues:
+              type: array
+              items:
+                type: object
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                      - ClientIP
+                  clientIp:
+                    type: string
+                required:
+                  - kind
+            region:
+              type: string
+              description: |-
+                Where the instance will be created. If not given, the region is decided based on scheduling clues
+                (client IP) and availability.
+
+                A region is a preference, not a hard pin: the request always overflows to every other available
+                region, ordered by proximity, when the preferred ones are full.
+
+                Accepted values:
+                  * A specific region name (e.g. "us-west1"). It is tried first, then the remaining regions in order of
+                    proximity to it. Scheduling clues (client IP) are ignored when a region is given.
+                  * A region group name (e.g. "us", "eu"). Its member regions are tried first in their listed order,
+                    then the remaining regions by proximity to the first member.
+                  * A pipe-separated, ordered list of regions (e.g. "us-east1|us-west1"). Those are tried first in the
+                    given order, then the remaining regions by proximity to the first.
+            inactivityTimeout:
+              type: string
+              format: duration
+              description: |-
+                After how many minutes of inactivity should the instance be terminated.
+                The timer starts once the instance becomes ready.
+                Example values 1m, 10m, 3h.
+                Default is 5m; a non-positive value falls back to the default.
+              default: 5m
+            hardTimeout:
+              type: string
+              format: duration
+              description: |-
+                After how many minutes should the instance be terminated.
+                Example values 1m, 10m, 3h.
+                Default is "0" which means no hard timeout.
+              default: "0"
+    GradleInstance:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            id:
+              type: string
+            displayName:
+              type: string
+            organizationId:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+            terminatedAt:
+              type: string
+              format: date-time
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+          required:
+            - id
+            - organizationId
+            - createdAt
+        spec:
+          type: object
+          properties:
+            region:
+              type: string
+            inactivityTimeout:
+              type: string
+              format: duration
+              default: 5m
+            hardTimeout:
+              type: string
+              format: duration
+              default: "0"
+          required:
+            - region
+            - inactivityTimeout
+        status:
+          type: object
+          properties:
+            state:
+              $ref: "#/components/schemas/GradleInstanceState"
+            apiUrl:
+              type: string
+            token:
+              type: string
+            errorMessage:
+              type: string
+            terminationReason:
+              $ref: "#/components/schemas/TerminationReason"
+          required:
+            - state
+            - token
+      required:
+        - metadata
+        - spec
+        - status
+    GradleInstanceState:
+      type: string
+      enum:
+        - unknown
+        - creating
+        - assigned
+        - ready
+        - terminated
+    XcodeBuildLog:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Exec ID assigned by limbuild, e.g. build-1776140344112378000.
+        status:
+          type: string
+          description: Terminal status reported by limbuild (e.g. SUCCEEDED, FAILED, CANCELLED).
+        exitCode:
+          type: integer
+          description: Exit code of xcodebuild, if the build reached completion.
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        buildDurationMs:
+          type: integer
+          description: Time spent running xcodebuild, in milliseconds.
+        error:
+          type: string
+          description: Error message captured by limbuild on failure, if any.
+        downloadUrl:
+          type: string
+          description: Short-lived presigned URL for fetching the full .jsonl log from object storage.
+      required:
+        - id
+        - status
+        - downloadUrl
+    BazelBuildLog:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Bazel invocation ID (UUID) from the build event stream.
+        status:
+          type: string
+          description: Terminal status (SUCCEEDED, FAILED, CANCELLED, INCOMPLETE).
+        pattern:
+          type: array
+          items:
+            type: string
+          description: The build target patterns, if captured.
+        startedAt:
+          type: string
+          format: date-time
+        durationMs:
+          type: integer
+          description: Wall-clock duration of the invocation, in milliseconds.
+        error:
+          type: string
+          description: Error message captured on failure, if any.
+        downloadUrl:
+          type: string
+          description: Short-lived presigned URL for fetching the full .jsonl record from object storage.
+      required:
+        - id
+        - status
+        - downloadUrl
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+            - NoSubscription
+            - NoRemainingMinutes
+            - ConcurrencyLimitReached
+      required:
+        - message
+    TerminationReason:
+      # Deliberately not an enum: generated SDKs type enums as closed unions,
+      # which would make every future reason a breaking change for clients.
+      # Keep the known values in sync with ClassifyTerminationReason.
+      type: string
+      description: |-
+        Machine-readable reason the instance was terminated. Always present once
+        state is "terminated", never present before that. New values may be added
+        over time, so treat any unrecognized value as "Unknown". Known values:
+        - "UserRequested": terminated by a delete request to the API.
+        - "InactivityTimeout": the timeout given in spec.inactivityTimeout elapsed.
+        - "HardTimeout": the timeout given in spec.hardTimeout elapsed.
+        - "Unknown": terminated for a cause the platform did not attribute,
+          including instances that failed to get ready during creation. See
+          errorMessage for details when available.
+      example: InactivityTimeout
+    ResolveDownloadRequest:
+      type: object
+      properties:
+        url:
+          type: string
+      required:
+        - url
+    ResolvedDownload:
+      type: object
+      properties:
+        url:
+          type: string
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+        fallbackUrl:
+          type: string
+        fallbackHeaders:
+          type: object
+          additionalProperties:
+            type: string
+      required:
+        - url
+    AssetPut:
+      type: object
+      properties:
+        name:
+          type: string
+        kind:
+          $ref: "#/components/schemas/AssetKind"
+        platform:
+          $ref: "#/components/schemas/AssetPlatform"
+        ttl:
+          type: string
+          description: |
+            Optional time-to-live as a Go duration string (e.g. "24h"). When set, the
+            asset is deleted this long after now; minimum is 1m. Omit for no expiry.
+            On re-upload of an existing asset, a value updates the expiry while omitting
+            it leaves the current expiry unchanged.
+      required:
+        - name
+    AssetKind:
+      type: string
+      enum: [App, Keychain]
+      default: App
+    AssetPlatform:
+      type: string
+      enum: [ios, android, xcode]
+    Asset:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        kind:
+          $ref: "#/components/schemas/AssetKind"
+        displayName:
+          type: string
+          description: Human-readable display name for the asset. If not set, the name should be used.
+        platform:
+          $ref: "#/components/schemas/AssetPlatform"
+          description: The platform this asset is for. If not set, the asset is available for all platforms.
+        os:
+          type: string
+          enum: [ios, android, xcode]
+          deprecated: true
+          description: "Deprecated: alias of platform, always mirrors it. Use platform instead."
+        md5:
+          type: string
+          description: Returned only if there is a corresponding file uploaded already.
+        expiresAt:
+          type: string
+          format: date-time
+          description: When set, the time after which the asset is automatically deleted.
+        signedUploadUrl:
+          type: string
+        signedDownloadUrl:
+          type: string
+      required:
+        - id
+        - name
+        - kind
+    AssetPutResult:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        kind:
+          $ref: "#/components/schemas/AssetKind"
+        platform:
+          $ref: "#/components/schemas/AssetPlatform"
+        md5:
+          type: string
+          description: Returned only if there is a corresponding file uploaded already.
+        expiresAt:
+          type: string
+          format: date-time
+          description: When set, the time after which the asset is automatically deleted.
+        signedUploadUrl:
+          type: string
+        signedDownloadUrl:
+          type: string
+      required:
+        - id
+        - name
+        - kind
+        - signedUploadUrl
+        - signedDownloadUrl
+    AndroidSandboxStatus:
+      type: object
+      properties:
+        playwrightAndroid:
+          type: object
+          properties:
+            url:
+              type: string
+    IOSSandboxStatus:
+      type: object
+      properties:
+        xcode:
+          type: object
+          properties:
+            url:
+              type: string
+    SandboxSpec:
+      type: object
+      properties:
+        playwrightAndroid:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+            version:
+              type: string
+              enum:
+                - 1.56.1-lim.1
+                - 1.60.0-lim.1
+    AnalyticsResponse:
+      type: object
+      properties:
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+        bucket:
+          type: string
+          enum:
+            - hour
+            - day
+            - week
+            - minute
+        timezone:
+          type: string
+          description: IANA timezone used for time bucket grouping
+        asOf:
+          type: string
+          format: date-time
+        series:
+          type: array
+          items:
+            $ref: "#/components/schemas/AnalyticsEntry"
+        summary:
+          $ref: "#/components/schemas/AnalyticsSummary"
+      required:
+        - from
+        - to
+        - bucket
+        - timezone
+        - asOf
+        - series
+        - summary
+    AnalyticsEntry:
+      type: object
+      description: Analytics data for a single time bucket, broken down by platform and region
+      properties:
+        timestamp:
+          type: string
+          description: RFC3339 timestamp for the start of the bucket in the requested timezone, including the local offset
+        android:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AnalyticsRegionStats"
+          description: Map of region to analytics stats for Android
+        ios:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AnalyticsRegionStats"
+          description: Map of region to analytics stats for iOS
+        xcode:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AnalyticsRegionStats"
+          description: Map of region to analytics stats for Xcode
+        gradle:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AnalyticsRegionStats"
+          description: Map of region to analytics stats for Gradle
+        instances:
+          type: array
+          items:
+            $ref: "#/components/schemas/AnalyticsInstance"
+          description: Individual instance details for this time bucket
+      required:
+        - timestamp
+        - android
+        - ios
+        - xcode
+        - gradle
+    AnalyticsRegionStats:
+      type: object
+      description: Complete analytics for a specific region including billing breakdown
+      properties:
+        runtimeMinutes:
+          type: integer
+          format: int64
+          description: Actual runtime minutes before platform multiplier
+        billedMinutes:
+          type: integer
+          format: int64
+          description: Billed minutes with platform multiplier applied
+        avgDurationMinutes:
+          type: number
+          format: double
+          description: Average instance duration in minutes
+        count:
+          type: integer
+          format: int64
+          description: Number of unique instances
+        cost:
+          type: number
+          format: double
+          description: Total cost in dollars
+        creditsBilledMinutes:
+          type: integer
+          format: int64
+          description: Minutes billed to credits
+        subscriptionBilledMinutes:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+          description: Map of subscription ID to billed minutes
+        onDemandBilledMinutes:
+          type: integer
+          format: int64
+          description: Minutes billed on-demand
+        creditsCost:
+          type: number
+          format: double
+          description: Cost from credits (always 0)
+        subscriptionCost:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+          description: Map of subscription ID to cost in dollars
+        onDemandCost:
+          type: number
+          format: double
+          description: Cost from on-demand billing in dollars
+      required:
+        - runtimeMinutes
+        - billedMinutes
+        - avgDurationMinutes
+        - count
+        - cost
+        - creditsBilledMinutes
+        - onDemandBilledMinutes
+        - creditsCost
+        - onDemandCost
+    BilledBreakdown:
+      type: object
+      properties:
+        creditsBilledMinutes:
+          type: integer
+          format: int64
+        subscriptionBilledMinutes:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+          description: Map of subscription ID to billed minutes
+        planBilledMinutes:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+          description: Map of plan ID to billed minutes
+        onDemandBilledMinutes:
+          type: integer
+          format: int64
+      required:
+        - creditsBilledMinutes
+        - onDemandBilledMinutes
+    CostBreakdown:
+      type: object
+      description: Cost breakdown by billing source in dollars
+      properties:
+        creditsCost:
+          type: number
+          format: double
+          description: Cost from credits (always 0)
+        subscriptionCost:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+          description: Map of subscription ID to cost in dollars
+        planCost:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+          description: Map of plan ID to cost in dollars
+        onDemandCost:
+          type: number
+          format: double
+          description: Cost from on-demand billing in dollars
+      required:
+        - creditsCost
+        - onDemandCost
+    AnalyticsInstance:
+      type: object
+      description: Analytics details for a single instance within a time bucket
+      properties:
+        instanceTid:
+          type: string
+          description: Instance type ID (e.g., ios_xxx, android_xxx)
+        platform:
+          type: string
+          enum:
+            - android
+            - ios
+            - xcode
+            - gradle
+          description: Platform name.
+        region:
+          type: string
+          description: Region where the instance ran
+        runtimeMinutes:
+          type: integer
+          format: int64
+          description: Actual runtime minutes before platform multiplier
+        billedMinutes:
+          type: integer
+          format: int64
+          description: Billed minutes with platform multiplier applied
+        cost:
+          type: number
+          format: double
+          description: Total cost in dollars for this instance
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Instance labels at billing time
+        billedBreakdown:
+          $ref: "#/components/schemas/BilledBreakdown"
+        costBreakdown:
+          $ref: "#/components/schemas/CostBreakdown"
+      required:
+        - instanceTid
+        - platform
+        - runtimeMinutes
+        - billedMinutes
+        - cost
+    AnalyticsSummary:
+      type: object
+      description: Summary of analytics across all time buckets, broken down by platform and region
+      properties:
+        android:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AnalyticsRegionStats"
+          description: Map of region to analytics stats for Android
+        ios:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AnalyticsRegionStats"
+          description: Map of region to analytics stats for iOS
+        xcode:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AnalyticsRegionStats"
+          description: Map of region to analytics stats for Xcode
+        gradle:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AnalyticsRegionStats"
+          description: Map of region to analytics stats for Gradle
+      required:
+        - android
+        - ios
+        - xcode
+        - gradle
+    AnalyticsInstancesResponse:
+      type: object
+      properties:
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+        asOf:
+          type: string
+          format: date-time
+        timezone:
+          type: string
+          description: IANA timezone used for time bucket grouping
+        series:
+          type: array
+          items:
+            $ref: "#/components/schemas/AnalyticsInstanceEntry"
+      required:
+        - from
+        - to
+        - asOf
+        - timezone
+        - series
+    AnalyticsInstanceEntry:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          description: RFC3339 timestamp for the start of the minute bucket in the requested timezone, including the local offset
+        instances:
+          type: array
+          items:
+            $ref: "#/components/schemas/AnalyticsInstance"
+      required:
+        - timestamp
+        - instances

@@ -1,0 +1,67 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.limrun.com/docs/reference/sdk
+notes: >-
+  Limrun's REST SDKs are generated from the Limrun OpenAPI spec by Stainless. The three server SDKs
+  are not equivalent in capability: TypeScript is complete, Python and Go cover the control plane
+  plus subsets of device control. A java-sdk repository exists in the GitHub org but no Maven Central
+  artifact was found on 2026-07-19, so it is recorded as unpublished rather than as a package.
+packages:
+- language: typescript
+  registry: npm
+  name: '@limrun/api'
+  url: https://www.npmjs.com/package/@limrun/api
+  install: npm install @limrun/api
+  version: 0.43.0
+  repository: https://github.com/limrun-inc/typescript-sdk
+  official: true
+  role: rest-sdk
+- language: typescript
+  registry: npm
+  name: '@limrun/ui'
+  url: https://www.npmjs.com/package/@limrun/ui
+  install: npm install @limrun/ui
+  version: 0.13.9
+  official: true
+  role: ui-components
+  description: React components (including <RemoteControl />) for embedding a live Limrun instance in a web app.
+- language: javascript
+  registry: npm
+  name: lim
+  url: https://www.npmjs.com/package/lim
+  install: npm install --global lim
+  version: 0.19.5
+  repository: https://github.com/limrun-inc/typescript-sdk
+  official: true
+  role: cli
+  description: The `lim` CLI, published from the typescript-sdk monorepo at packages/cli.
+- language: python
+  registry: pypi
+  name: limrun_api
+  url: https://pypi.org/project/limrun-api/
+  install: pip install limrun_api
+  version: 0.10.0
+  repository: https://github.com/limrun-inc/python-sdk
+  official: true
+  role: rest-sdk
+- language: go
+  registry: go-modules
+  name: github.com/limrun-inc/go-sdk
+  url: https://pkg.go.dev/github.com/limrun-inc/go-sdk
+  install: go get -u github.com/limrun-inc/go-sdk@latest
+  repository: https://github.com/limrun-inc/go-sdk
+  official: true
+  role: rest-sdk
+unpublished:
+- language: java
+  repository: https://github.com/limrun-inc/java-sdk
+  note: Repository present in the GitHub org; no Maven Central coordinates found on 2026-07-19.
+registries_checked:
+- npm
+- pypi
+- maven-central
+- pkg.go.dev
+- nuget
+- rubygems
+- packagist
+- crates.io

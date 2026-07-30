@@ -1,0 +1,67 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.limrun.com/docs/reference/sdk
+notes: >-
+  Limrun is in Early Access. It publishes a real status page and a dated changelog (via the SDK
+  release history) but no deprecation policy, no SLA, and no versioning-policy page. Absence is
+  recorded rather than inferred.
+versioning:
+  scheme: uri-path
+  current: v1
+  base_url: https://api.limrun.com
+  policy_url: null
+  policy_published: false
+  sdk_versioning: >-
+    The SDKs version independently of the API path (TypeScript 0.43.0, Python 0.10.0), released by
+    release-please from the Stainless generation pipeline.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: not documented
+  deprecation_header: not documented
+  deprecated_operations: []
+  note: >-
+    No operation in the harvested OpenAPI carries deprecated: true, and no deprecation or sunset
+    policy page was found on the docs or marketing site.
+sla:
+  url: null
+  uptime_target: null
+  published: false
+status_page:
+  url: https://status.limrun.com
+  provider_name: Limrun, Inc. Status
+  components:
+  - name: API
+    state_at_capture: Operational
+  history_from: '2026-04-21'
+  features:
+  - per-component uptime history
+  - maintenance notices
+  - previous incidents
+  - get-in-touch contact
+instance_lifecycle:
+  note: >-
+    Distinct from API lifecycle - this is the runtime state machine every iOS, Android, Xcode, and
+    Gradle instance moves through.
+  states:
+  - state: unknown
+    meaning: Default placeholder; should not be returned for live instances.
+  - state: creating
+    meaning: Provisioning. URLs in status are not yet populated.
+  - state: assigned
+    meaning: Hardware has been assigned; instance is booting.
+  - state: ready
+    meaning: Fully booted. All URLs populated. Safe to connect a control client.
+  - state: terminated
+    meaning: >-
+      Stopped by explicit delete, inactivity timeout, hard timeout, or error. status.errorMessage is
+      set on the error path.
+  transitions: creating -> assigned -> ready -> terminated; creating -> error -> terminated
+  termination_causes:
+  - explicit delete
+  - inactivity timeout
+  - hard timeout
+  - error
+maturity:
+  stage: early-access
+  evidence: '"Early Access" banner on docs.limrun.com'

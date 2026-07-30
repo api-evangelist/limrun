@@ -1,0 +1,108 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.limrun.com/docs/reference/sdk
+derived_from: openapi/limrun-openapi-original.yml
+summary: >-
+  Limrun follows a Kubernetes-shaped resource convention - every instance resource carries metadata
+  (id, labels) and spec blocks, and returns a status block once ready. The control plane is a small
+  CRUD surface over four resource families; everything interactive happens on per-instance data-plane
+  URLs returned in status.
+authentication:
+  style: bearer
+  see: authentication/limrun-authentication.yml
+idempotency:
+  supported: true
+  mechanism: query-parameter
+  header: none
+  create_param: reuseIfExists
+  create_semantics: >-
+    reuseIfExists=true makes create converge - if an instance with the same (region, labels) tuple
+    already exists it is returned instead of creating a new one. The docs recommend it "whenever you
+    want repeated calls (CLI re-runs, retries, the same PR's CI runs) to converge on the same
+    instance."
+  asset_semantics: >-
+    Assets are upserted rather than created. getOrCreate (GetOrNew in Go) is an upsert returning
+    signed upload and download URLs; getOrUpload additionally computes an MD5 and skips re-upload
+    when the stored object already matches. PUT /v1/assets is the upsert verb.
+  idempotency_key_header: not supported
+  retention: not documented
+  caveat: >-
+    Limrun does not implement an Idempotency-Key request header. Idempotency is expressed as
+    converging upserts - reuseIfExists on instance creates and MD5-deduped upsert on assets - so
+    replay safety depends on stable labels rather than a client-generated key.
+pagination:
+  style: cursor
+  request_params:
+  - limit
+  - labelSelector
+  - state
+  - namePrefixFilter
+  response: page object with items[] and hasNextPage()/getNextPage()
+  sdk_support: >-
+    All three SDKs return iterables - `for await` in TypeScript, plain iteration in Python,
+    ListAutoPaging in Go.
+filtering:
+  label_selector: comma-separated key=value list matched against metadata.labels
+  state_filter: filter listings by instance state
+  name_prefix_filter: assets only
+metadata:
+  field: metadata.labels
+  shape: 'free-form { [key: string]: string } map'
+  jobs:
+  - identify instances for reuseIfExists
+  - filter listings via labelSelector
+  - group instances for bulk operations
+  suggested_keys:
+  - tenant
+  - user
+  - session
+  - pr
+  - repo
+  - agent
+  - managed_by
+  caution: Avoid keys that may collide with metadata Limrun adds internally.
+async_semantics:
+  param: wait
+  behavior: >-
+    Without wait the create call returns immediately with state 'creating'. With wait=true the call
+    returns only once the instance reaches ready and the status URLs are populated.
+  state_machine: creating -> assigned -> ready -> terminated (error path sets status.errorMessage)
+  see: lifecycle/limrun-lifecycle.yml
+versioning:
+  scheme: uri-path
+  current: v1
+  see: lifecycle/limrun-lifecycle.yml
+error_envelope:
+  format: json
+  rfc9457: false
+  mapping: HTTP status maps to a typed error class in every SDK
+  see: errors/limrun-problem-types.yml
+retries:
+  client_side: true
+  default_max_retries: 2
+  backoff: exponential
+  retried_on:
+  - 408
+  - 409
+  - 429
+  - 5xx
+  - connection errors
+  configurable_via: maxRetries per-client option
+  default_timeout: 5 minutes
+rate_limiting:
+  signal: HTTP 429 (RateLimitError)
+  headers: not documented
+  published_limits: none found
+request_tracing:
+  request_id_header: not documented
+  logging: >-
+    The TypeScript SDK accepts logger and logLevel (settable via the LIMRUN_LOG env var). At debug it
+    logs full HTTP requests and responses - auth headers are redacted, request and response bodies
+    are not.
+regions:
+  field: spec.region
+  examples:
+  - eu-north1
+  - us-east1
+  scheduling: If region is omitted, Limrun schedules on spec.clues and current availability.
+  egress_ips: https://docs.limrun.com/docs/reference/egress-ip-addresses

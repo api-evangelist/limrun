@@ -1,0 +1,102 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Limrun API
+  version: 1.0.0
+extends: openapi/limrun-openapi-original.yml
+x-generated: '2026-07-19'
+x-method: generated
+x-source: >-
+  Enhancements derived from https://docs.limrun.com/docs/reference/sdk and live probes. The harvested
+  spec declares no servers, no securitySchemes, and no tags, and returns only 200 plus a default
+  response per operation. This overlay records what the provider documents in prose but omits from
+  the machine-readable contract. The original spec is never mutated.
+actions:
+- target: $.info
+  update:
+    description: >-
+      The Limrun REST control plane. Create and manage cloud iOS simulators, Android emulators, Xcode
+      build sandboxes, and Gradle build sandboxes; manage Asset Storage binaries; read persisted
+      build logs; and pull organization runtime analytics.
+    contact:
+      name: Limrun
+      url: https://lim.run
+      email: contact@limrun.com
+    x-apievangelist-enriched: '2026-07-19'
+    x-logo:
+      url: https://lim.run/logo-inner-filled-no-border.svg
+- target: $
+  update:
+    servers:
+    - url: https://api.limrun.com
+      description: Production control plane (documented at docs.limrun.com/docs/reference/sdk; absent from the harvested spec).
+- target: $.components
+  update:
+    securitySchemes:
+      OrgAPIKey:
+        type: http
+        scheme: bearer
+        description: >-
+          Org API key with the lim_ prefix, issued at console.limrun.com and read from LIM_API_KEY by
+          default. Authenticates the entire control plane. Documented in prose; absent from the
+          harvested spec.
+- target: $
+  update:
+    security:
+    - OrgAPIKey: []
+    tags:
+    - name: iOS Instances
+      description: Cloud iOS simulators running on real Macs.
+    - name: Android Instances
+      description: Accelerated Android emulators with an ADB tunnel.
+    - name: Xcode Instances
+      description: Remote Xcode build sandboxes and Bazel remote build execution.
+    - name: Gradle Instances
+      description: Gradle build sandboxes.
+    - name: Assets
+      description: Asset Storage for build artifacts.
+    - name: Analytics
+      description: Runtime and billing analytics by platform and region.
+    - name: Downloads
+      description: Runtime download URL resolution.
+- target: $.paths['/v1/ios_instances']
+  update:
+    x-apievangelist-tags:
+    - iOS Instances
+- target: $.paths['/v1/android_instances']
+  update:
+    x-apievangelist-tags:
+    - Android Instances
+- target: $.paths['/v1/xcode_instances']
+  update:
+    x-apievangelist-tags:
+    - Xcode Instances
+- target: $.paths['/v1/gradle_instances']
+  update:
+    x-apievangelist-tags:
+    - Gradle Instances
+- target: $.paths['/v1/assets']
+  update:
+    x-apievangelist-tags:
+    - Assets
+- target: $.paths['/v1/analytics']
+  update:
+    x-apievangelist-tags:
+    - Analytics
+- target: $.components.schemas.APIError
+  update:
+    x-apievangelist-error-catalog: errors/limrun-problem-types.yml
+    x-apievangelist-note: >-
+      The spec exposes only a generic default response. The full status-to-error-class catalog (400,
+      401, 403, 404, 409, 422, 429, 5xx) is documented in the SDK reference and captured in
+      errors/limrun-problem-types.yml.
+- target: $.info
+  update:
+    x-apievangelist-conventions: conventions/limrun-conventions.yml
+    x-apievangelist-idempotency:
+      supported: true
+      mechanism: reuseIfExists query parameter on creates; MD5-deduped upsert on assets
+      header: none
+    x-apievangelist-mcp: mcp/limrun-mcp.yml
+    x-apievangelist-agent-skills: skills/_index.yml
+    x-apievangelist-data-model: data-model/limrun-data-model.yml
+    x-apievangelist-status-page: https://status.limrun.com

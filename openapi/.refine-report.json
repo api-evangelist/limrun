@@ -1,0 +1,26 @@
+{
+  "provider": "limrun",
+  "sources": [
+    "limrun-analytics-api-openapi.yml",
+    "limrun-android-instances-api-openapi.yml",
+    "limrun-assets-api-openapi.yml",
+    "limrun-downloads-api-openapi.yml",
+    "limrun-gradle-instances-api-openapi.yml",
+    "limrun-ios-instances-api-openapi.yml",
+    "limrun-xcode-instances-api-openapi.yml"
+  ],
+  "outputs": [
+    "limrun-analytics-api-openapi.yml",
+    "limrun-android-instances-api-openapi.yml",
+    "limrun-assets-api-openapi.yml",
+    "limrun-downloads-api-openapi.yml",
+    "limrun-gradle-instances-api-openapi.yml",
+    "limrun-ios-instances-api-openapi.yml",
+    "limrun-xcode-instances-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

@@ -1,0 +1,77 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.limrun.com/docs/reference/sdk
+derived_from: openapi/limrun-openapi-original.yml
+format: json
+rfc9457: false
+notes: >-
+  The harvested OpenAPI declares only 200 and a `default` response per operation, so the status-code
+  catalog cannot be derived from the spec. It is taken instead from the SDK reference error table,
+  which enumerates the HTTP statuses and the typed error class each maps to in every SDK. Limrun
+  returns plain JSON errors, not application/problem+json, so there are no RFC 9457 `type` URIs.
+envelope:
+  media_type: application/json
+  transport: HTTP status code
+  sdk_mapping: Each status maps to a typed error class shared across TypeScript, Python, and Go.
+problems:
+- status: 400
+  name: BadRequestError
+  title: Bad request
+  detail: Malformed input or invalid combination of parameters.
+- status: 401
+  name: AuthenticationError
+  title: Authentication failed
+  detail: Missing or invalid API key.
+  remediation: Check the lim_ org API key, or the per-instance token if calling a data-plane URL.
+- status: 403
+  name: PermissionDeniedError
+  title: Permission denied
+  detail: API key lacks the necessary permission.
+- status: 404
+  name: NotFoundError
+  title: Resource not found
+  detail: The instance, asset, or other resource does not exist.
+- status: 409
+  name: ConflictError
+  title: Conflicting state
+  detail: Conflicting state, for example an instance that has already been terminated.
+  retryable: true
+- status: 422
+  name: UnprocessableEntityError
+  title: Validation error
+  detail: Request shape is valid but semantically rejected.
+- status: 429
+  name: RateLimitError
+  title: Rate limit exceeded
+  detail: Rate limit hit.
+  remediation: Retry with backoff.
+  retryable: true
+- status: 5xx
+  name: InternalServerError
+  title: Server error
+  detail: Server-side issue.
+  remediation: SDKs auto-retry by default.
+  retryable: true
+transport_errors:
+- name: APIConnectionError
+  detail: Network failure before a response was received.
+  retryable: true
+- name: APIConnectionTimeoutError
+  detail: Request timed out.
+  retryable: true
+- name: APIUserAbortError
+  detail: The request was aborted by the caller.
+  retryable: false
+instance_errors:
+  field: instance.status.errorMessage
+  detail: >-
+    Set when an instance terminated because of an error rather than an explicit delete, an inactivity
+    timeout, or a hard timeout.
+retry_policy:
+  auto_retried_statuses:
+  - 408
+  - 409
+  - 429
+  - 5xx
+  default_max_retries: 2
+  backoff: exponential

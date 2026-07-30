@@ -1,0 +1,77 @@
+generated: '2026-07-19'
+method: searched
+source: live probes of Limrun hosts, 2026-07-19
+notes: >-
+  console.limrun.com is a single-page app whose server returns HTTP 200 with the SPA HTML shell for
+  every unmatched path, including all five .well-known probes. Those are recorded as spa-catch-all
+  rather than as documents, since no well-known content is served. The one genuine document across
+  the estate is the RFC 8414 authorization-server metadata on api.limrun.com.
+hosts:
+- host: https://api.limrun.com
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: limrun-oauth-authorization-server.json
+    standard: RFC 8414
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+- host: https://lim.run
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://docs.limrun.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://console.limrun.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    result: spa-catch-all
+  - path: /.well-known/openid-configuration
+    status: 200
+    result: spa-catch-all
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    result: spa-catch-all
+  - path: /.well-known/api-catalog
+    status: 200
+    result: spa-catch-all
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    result: spa-catch-all
+other_discovery:
+- path: /llms.txt
+  host: https://docs.limrun.com
+  status: 200
+  file: ../llms/limrun-llms.txt
+- path: /llms-full.txt
+  host: https://docs.limrun.com
+  status: 200
+  note: Not committed - see .gitignore (*-llms-full.txt).
+security_txt: none

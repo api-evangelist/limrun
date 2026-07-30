@@ -1,0 +1,215 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/limrun-openapi-original.yml
+docs: https://docs.limrun.com/docs/reference/sdk
+summary: >-
+  Limrun's data model is Kubernetes-shaped. Four instance families (iOS, Android, Xcode, Gradle) share
+  an identical metadata / spec / status envelope and an identical five-verb CRUD surface. Assets are a
+  separate, instance-independent binary store that instances reference at boot. Analytics is a
+  read-only reporting projection over terminated and running instances. There are no foreign-key
+  fields between instance families - the graph is composition (an instance embeds its own spec and
+  status) plus reference-by-value from spec.initialAssets into the Asset store.
+entities:
+- name: IOSInstance
+  schema: IOSInstance
+  description: A cloud iOS simulator running on a real Mac, optionally paired with an Xcode build sandbox.
+  id_field: metadata.id
+  composition:
+  - metadata
+  - spec
+  - status
+  state_enum: IOSInstanceState
+  operations:
+  - createIOSInstance
+  - listIOSInstances
+  - getIOSInstance
+  - deleteIOSInstance
+  status_fields:
+  - token
+  - apiUrl
+  - signedStreamUrl
+  - endpointWebSocketUrl
+  - mcpUrl
+  - targetHttpPortUrlPrefix
+  - sandbox.xcode.url
+- name: AndroidInstance
+  schema: AndroidInstance
+  description: A booted Android emulator with an ADB tunnel.
+  id_field: metadata.id
+  state_enum: AndroidInstanceState
+  operations:
+  - createAndroidInstanceV1
+  - listAndroidInstancesV1
+  - getAndroidInstanceV1
+  - deleteAndroidInstanceV1
+  status_fields:
+  - token
+  - apiUrl
+  - signedStreamUrl
+  - endpointWebSocketUrl
+  - mcpUrl
+  - adbWebSocketUrl
+  - sandbox.playwrightAndroid.url
+- name: XcodeInstance
+  schema: XcodeInstance
+  description: A remote Mac running xcodebuild, or a Bazel remote build execution stack.
+  id_field: metadata.id
+  state_enum: XcodeInstanceState
+  operations:
+  - createXcodeInstance
+  - listXcodeInstances
+  - getXcodeInstance
+  - deleteXcodeInstance
+- name: GradleInstance
+  schema: GradleInstance
+  description: A Gradle build sandbox for Android builds. Added in the 2026-07-17 API update.
+  id_field: metadata.id
+  state_enum: GradleInstanceState
+  operations:
+  - createGradleInstance
+  - listGradleInstances
+  - getGradleInstance
+  - deleteGradleInstance
+- name: Asset
+  schema: Asset
+  description: >-
+    A stored binary build artifact - .apk for Android, zipped or tarballed .app for iOS simulator
+    installs. Upserted rather than created; MD5 enables dedup.
+  id_field: id
+  fields:
+  - id
+  - name
+  - kind
+  - displayName
+  - platform
+  - os
+  - md5
+  - expiresAt
+  - signedUploadUrl
+  - signedDownloadUrl
+  enums:
+  - AssetKind
+  - AssetPlatform
+  operations:
+  - putAsset
+  - listAssets
+  - getAsset
+  - deleteAsset
+- name: XcodeBuildLog
+  schema: XcodeBuildLog
+  description: A persisted xcodebuild record for an Xcode instance.
+  id_field: id
+  fields:
+  - id
+  - status
+  - exitCode
+  - startedAt
+  - finishedAt
+  - buildDurationMs
+  - error
+  - downloadUrl
+  operations:
+  - listXcodeInstanceBuildLogs
+- name: BazelBuildLog
+  schema: BazelBuildLog
+  description: A persisted Bazel remote-build-execution record for an Xcode instance.
+  id_field: id
+  fields:
+  - id
+  - status
+  - pattern
+  - startedAt
+  - durationMs
+  - error
+  - downloadUrl
+  operations:
+  - listBazelInstanceBuildLogs
+- name: AnalyticsInstance
+  schema: AnalyticsInstance
+  description: Per-instance runtime and billing projection.
+  id_field: instanceTid
+  fields:
+  - instanceTid
+  - platform
+  - region
+  - runtimeMinutes
+  - billedMinutes
+  - cost
+  - labels
+  - billedBreakdown
+  - costBreakdown
+  operations:
+  - getAnalytics
+  - getAnalyticsInstances
+  - getPrivateAnalytics
+- name: APIError
+  schema: APIError
+  description: The shared error envelope returned on the default response of every operation.
+  fields:
+  - message
+  - reason
+relationships:
+- from: IOSInstance
+  to: XcodeInstance
+  type: has_one
+  via: spec.sandbox.xcode.enabled -> status.sandbox.xcode.url
+  cardinality: optional
+  note: >-
+    An iOS simulator and an Xcode build sandbox can be created as a paired instance in one call; a
+    successful build auto-installs on the attached simulator.
+- from: AndroidInstance
+  to: PlaywrightSandbox
+  type: has_one
+  via: spec.sandbox.playwrightAndroid.enabled -> status.sandbox.playwrightAndroid.url
+  cardinality: optional
+- from: XcodeInstance
+  to: XcodeBuildLog
+  type: has_many
+  via: GET /v1/xcode_instances/{id}/build_logs
+- from: XcodeInstance
+  to: BazelBuildLog
+  type: has_many
+  via: GET /v1/xcode_instances/{id}/bazel_build_logs
+- from: IOSInstance
+  to: Asset
+  type: has_many
+  via: spec.initialAssets
+  note: Assets pre-installed at instance boot.
+- from: AndroidInstance
+  to: Asset
+  type: has_many
+  via: spec.initialAssets
+- from: AnalyticsInstance
+  to: IOSInstance
+  type: belongs_to
+  via: instanceTid
+  note: Also covers Android, Xcode, and Gradle instances via the platform discriminator.
+shared_envelope:
+  metadata:
+    fields:
+    - id
+    - labels
+    labels_shape: 'map[string]string, free-form'
+  spec:
+    common_fields:
+    - region
+    - clues
+    - sandbox
+    - initialAssets
+  status:
+    common_fields:
+    - state
+    - token
+    - apiUrl
+    - errorMessage
+  state_values:
+  - unknown
+  - creating
+  - assigned
+  - ready
+  - terminated
+  termination_reason_enum: TerminationReason
+id_prefixes:
+  published: false
+  note: The provider does not document id prefixes or an id format.
+render: null

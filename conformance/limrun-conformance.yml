@@ -1,0 +1,83 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/limrun-openapi-original.yml
+docs: https://docs.limrun.com/docs/reference/sdk
+notes: >-
+  Cross-cutting standards assessment. Derived from the harvested OpenAPI plus the provider's SDK
+  reference and the live .well-known document on api.limrun.com. No compliance certifications
+  (SOC 2, ISO 27001, PCI DSS, HIPAA, FedRAMP) are published anywhere on Limrun's surface as of
+  2026-07-19 - there is no trust center, no compliance page, and no security page - so no Compliance
+  pointer is emitted.
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: 'openapi: 3.0.0 spec published via Stainless at a public storage URL; 26 operations, 35 schemas.'
+- id: oauth2
+  conforms: true
+  scope: mcp-only
+  evidence: >-
+    api.limrun.com/.well-known/oauth-authorization-server advertises authorization_code with a single
+    `mcp` scope. The main REST API uses a bearer API key, not OAuth.
+- id: rfc8414-authorization-server-metadata
+  conforms: true
+  evidence: https://api.limrun.com/.well-known/oauth-authorization-server returns application/json metadata.
+- id: rfc7591-dynamic-client-registration
+  conforms: true
+  evidence: registration_endpoint https://api.limrun.com/authn/oauth/register advertised in the metadata.
+- id: pkce-rfc7636
+  conforms: true
+  evidence: 'code_challenge_methods_supported: [S256]'
+- id: oidc
+  conforms: true
+  scope: sso-only
+  evidence: >-
+    OIDC single sign-on for organizations, documented with an Okta Integration Network guide. No
+    /.well-known/openid-configuration is served on any Limrun host.
+- id: rfc6750-bearer-token
+  conforms: true
+  evidence: 'Authorization: Bearer for both the org API key and the per-instance token.'
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors are plain JSON keyed on HTTP status; no application/problem+json media type in the spec or docs.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: No /.well-known/security.txt on lim.run, docs.limrun.com, or api.limrun.com.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No deprecation or sunset policy published.
+- id: mcp
+  conforms: true
+  evidence: >-
+    Per-instance Model Context Protocol servers over HTTP transport, five documented tools, with
+    wiring guides for Claude Code, Claude Desktop, Cursor, and Codex.
+- id: agent-skills
+  conforms: true
+  evidence: >-
+    Five first-party Agent Skills published at github.com/limrun-inc/skills with a catalog.json
+    manifest and a CI validator.
+- id: llms-txt
+  conforms: true
+  evidence: https://docs.limrun.com/llms.txt and /llms-full.txt both served.
+- id: idempotency
+  conforms: partial
+  evidence: >-
+    Converging upserts (reuseIfExists on creates, MD5-deduped getOrUpload on assets) but no
+    Idempotency-Key header. See conventions/limrun-conventions.yml.
+- id: pagination
+  conforms: true
+  evidence: Cursor pagination with limit plus auto-paging iterators in all three SDKs.
+- id: asyncapi
+  conforms: false
+  evidence: No AsyncAPI document and no webhook or event surface published.
+- id: grpc
+  conforms: false
+  evidence: No .proto definitions found in the GitHub org or on buf.build for the Limrun API.
+compliance_program:
+  published: false
+  certifications: []
+  trust_center: null
+  checked:
+  - https://trust.limrun.com (no DNS)
+  - https://lim.run/security (404)
+  - https://lim.run/terms (404)
+  - https://lim.run/privacy (404)

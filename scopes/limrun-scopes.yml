@@ -1,0 +1,30 @@
+generated: '2026-07-19'
+method: searched
+source: https://api.limrun.com/.well-known/oauth-authorization-server
+docs: https://docs.limrun.com/docs/agents/mcp
+notes: >-
+  Limrun's primary API authentication is a bearer org API key, not OAuth, so there is no
+  general-purpose scope surface. The one OAuth surface is the authorization server advertised at
+  api.limrun.com for MCP clients, which publishes a single supported scope. Captured from the live
+  RFC 8414 document; the provider does not publish a prose scopes reference page.
+schemes:
+- name: MCPOAuth
+  source: https://api.limrun.com/.well-known/oauth-authorization-server
+  issuer: https://api.limrun.com
+  dynamic_client_registration: true
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://api.limrun.com/authn/oauth/authorize
+    tokenUrl: https://api.limrun.com/authn/oauth/token
+    code_challenge_methods:
+    - S256
+scopes:
+- scope: mcp
+  description: >-
+    Access to Limrun's Model Context Protocol surface. Advertised as the sole entry of
+    scopes_supported by the authorization-server metadata; the provider publishes no further
+    description of what the scope grants.
+  flows:
+  - authorizationCode
+  sources:
+  - https://api.limrun.com/.well-known/oauth-authorization-server

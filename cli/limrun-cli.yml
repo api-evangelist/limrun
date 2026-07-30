@@ -1,0 +1,130 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.limrun.com/docs/agents/cli
+docs:
+- https://docs.limrun.com/docs/agents/cli
+- https://docs.limrun.com/docs/reference/sdk
+name: lim
+summary: >-
+  The `lim` CLI is Limrun's feature-complete client and the recommended surface for cloud coding
+  agents and CI. The docs state plainly that the CLI reaches every operation while the SDKs catch up
+  later, so it is the canonical fallback for anything a language SDK does not cover - notably Xcode
+  builds from Python and Go, and every iOS device-control action.
+repository: https://github.com/limrun-inc/typescript-sdk
+repository_path: packages/cli
+standalone_repository: https://github.com/limrun-inc/lim
+version: 0.19.5
+install:
+- method: npm
+  command: npm install --global lim
+- method: pnpm
+  command: pnpm add --global lim
+- method: bun
+  command: bun add --global lim
+authentication:
+  env_var: LIM_API_KEY
+  interactive: lim login
+  note: Accepts the org API key (prefix lim_) from the environment or a config file.
+command_groups:
+- group: auth
+  commands:
+  - name: lim login
+    description: Authenticate the CLI and store the org API key.
+- group: ios
+  description: iOS simulator instance lifecycle and device control.
+  commands:
+  - name: lim ios create
+    description: Create an iOS simulator instance. Flags include --reuse-if-exists, --xcode, --model, --region, --label.
+  - name: lim ios list
+    description: List iOS instances. Supports --label-selector and --state.
+  - name: lim ios get
+    description: Get an iOS instance, including --json for status URLs and tokens.
+  - name: lim ios delete
+    description: Delete an instance, or the last-created one when no id is given.
+  - name: lim ios screenshot
+    description: Capture the current simulator screen.
+  - name: lim ios element-tree
+    description: Read the accessibility element tree.
+  - name: lim ios tap
+    description: Tap at coordinates.
+  - name: lim ios tap-element
+    description: Tap a resolved accessibility element.
+  - name: lim ios type
+    description: Type text into the focused field.
+  - name: lim ios press-key
+    description: Send a key press.
+  - name: lim ios scroll
+    description: Scroll the current view.
+  - name: lim ios perform
+    description: Run several actions in one shot as a batched action chain.
+  - name: lim ios open-url
+    description: Open a URL or deep link, including custom schemes such as exp://.
+  - name: lim ios launch-app
+    description: Launch an installed app by bundle ID.
+  - name: lim ios terminate-app
+    description: Terminate a running app.
+  - name: lim ios install-app
+    description: Install an app bundle onto the simulator.
+  - name: lim ios list-apps
+    description: List installed apps.
+  - name: lim ios app-log
+    description: Stream or fetch app stdout/stderr logs.
+  - name: lim ios record
+    description: Record video of the simulator session.
+  - name: lim ios reverse
+    description: Open a reverse tunnel from the simulator to a local port.
+  - name: lim ios sync
+    description: Sync local sources to the instance.
+- group: android
+  description: Android emulator instance lifecycle, mirroring the iOS command shape, plus the ADB tunnel.
+  commands:
+  - name: lim android
+    description: Android instance subcommands (create, list, get, delete) with the same shape as lim ios.
+- group: xcode
+  description: Remote Xcode build sandboxes and Bazel remote build execution.
+  commands:
+  - name: lim xcode create
+    description: Create an Xcode build sandbox.
+  - name: lim xcode get
+    description: Get an Xcode instance.
+  - name: lim xcode delete
+    description: Delete an Xcode instance.
+  - name: lim xcode build
+    description: Sync sources, run xcodebuild remotely, stream logs back, and install on an attached simulator.
+  - name: lim xcode rbe
+    description: Bring up a remote build execution stack for Bazel and tunnel it to a local port.
+  - name: lim xcode attach-simulator
+    description: Attach a simulator instance to an Xcode sandbox so builds auto-install.
+- group: asset
+  description: Asset Storage for build artifacts (.apk, zipped/tarballed .app).
+  commands:
+  - name: lim asset push
+    description: Upload a build artifact, optionally with --name.
+  - name: lim asset list
+    description: List assets, with --name and --download-url.
+  - name: lim asset pull
+    description: Download an asset by id or name to --output.
+  - name: lim asset delete
+    description: Delete an asset.
+- group: skills
+  commands:
+  - name: lim skills install
+    description: Install Limrun's Agent Skills into a coding agent's environment.
+- group: session
+  commands:
+  - name: lim session start
+    description: Hold a persistent WebSocket instead of a fresh connection per command.
+key_flows:
+- name: Agent build-and-verify loop
+  steps:
+  - lim ios create --reuse-if-exists --xcode
+  - lim xcode build
+  - lim ios element-tree
+  - lim ios perform
+  - lim ios screenshot
+- name: Share a preview link
+  description: Surface the instance's signed stream URL so a human reviewer can open the live simulator in a browser.
+- name: Bazel remote build execution
+  steps:
+  - lim xcode rbe
+  - bazel build --config=limrun

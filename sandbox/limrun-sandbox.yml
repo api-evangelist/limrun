@@ -1,0 +1,72 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.limrun.com/docs/quickstart
+summary: >-
+  Limrun has no test-vs-live key separation and publishes no magic test values, because the product
+  itself is the sandbox - every instance is an ephemeral cloud simulator, emulator, or build sandbox
+  that is created on demand and torn down. What this artifact records is the interactive console and
+  the free-tier entry path that serve the role a sandbox environment plays for other providers, plus
+  the in-product test surfaces (StoreKit local testing, Playwright/Appium sandboxes) the docs
+  publish. No credentials or test values are invented here.
+test_live_separation:
+  supported: false
+  key_prefixes:
+  - prefix: lim_
+    mode: single
+    note: One org API key prefix; there is no separate test key.
+  note: >-
+    Isolation is per-instance and ephemeral rather than per-environment. Instances terminate on
+    delete, inactivity timeout, or hard timeout.
+console:
+  url: https://console.limrun.com
+  interactive: true
+  capabilities:
+  - create and watch instances
+  - live simulator streaming in the browser
+  - API key management
+  - Analytics tab for runtime minutes by platform and region
+  - copy-paste MCP connect snippets per agent
+free_access:
+  offer: Get your free API key
+  stage: Early Access
+  source: https://docs.limrun.com/docs
+  signup: https://console.limrun.com
+quickstart:
+  url: https://docs.limrun.com/docs/quickstart
+  claim: Remote iOS simulator and Xcode build running from the terminal in 3 minutes.
+in_product_test_surfaces:
+- name: StoreKit local test environment
+  description: >-
+    Test in-app purchases on a remote iOS simulator using StoreKit's local test environment. Register
+    a .storekit config, or let Limrun snapshot one from App Store Connect sandbox products.
+  docs: https://docs.limrun.com/docs/ios/in-app-purchases
+  mcp_actions:
+  - discoverStoreKitConfig
+  - clearStoreKitConfig
+- name: Playwright Android sandbox
+  description: Chrome on a Limrun Android emulator with a CDP endpoint, enabled via spec.sandbox.playwrightAndroid.enabled.
+  docs: https://docs.limrun.com/docs/testing/playwright
+- name: Appium
+  description: >-
+    Drive Limrun iOS simulators (via a fork of the XCUITest driver) and Android emulators (upstream
+    Appium over the ADB tunnel).
+  docs: https://docs.limrun.com/docs/testing/appium
+- name: Detox
+  description: Detox runtime on Limrun iOS simulators over reverse tunnels.
+  skill: skills/limrun-detox-testing.md
+sample_apps:
+  note: Limrun publishes runnable sample apps in its GitHub org for testing the platform end to end.
+  repositories:
+  - https://github.com/limrun-inc/sample-native-app
+  - https://github.com/limrun-inc/sample-flutter-app
+  - https://github.com/limrun-inc/sample-expo54-app
+  - https://github.com/limrun-inc/sample-expo55-app
+  - https://github.com/limrun-inc/sample-expo56-app
+  - https://github.com/limrun-inc/sample-replit-expo54-app
+  - https://github.com/limrun-inc/sample-kotlin-minapi-33
+  - https://github.com/limrun-inc/sample-kotlin-multiplatform-app
+  - https://github.com/limrun-inc/sample-native-bazel-app
+  - https://github.com/limrun-inc/sample-xcodegen-app
+test_values:
+  published: false
+  note: No test cards, test identifiers, or fixture values apply to this product category.

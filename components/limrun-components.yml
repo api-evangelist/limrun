@@ -1,0 +1,52 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.limrun.com/docs/platform/embed-simulator
+summary: >-
+  Limrun ships a React component library, @limrun/ui, for embedding a live cloud device inside a web
+  application. The security model is the point of the design - the backend holds the org API key and
+  hands the browser only a per-instance WebSocket URL and per-instance token, so no org credential
+  ever reaches the client.
+loader:
+  package: '@limrun/ui'
+  registry: npm
+  url: https://www.npmjs.com/package/@limrun/ui
+  version: 0.13.9
+  install: npm install @limrun/ui
+  framework: react
+  official: true
+families:
+- family: Device embedding
+  components:
+  - name: RemoteControl
+    usage: <RemoteControl />
+    description: >-
+      Renders a live, interactive iOS, iPadOS, watchOS, or Android device inside a web app. Takes the
+      instance's endpointWebSocketUrl plus status.token.
+    platforms:
+    - iOS
+    - iPadOS
+    - watchOS
+    - Android
+    props_documented:
+    - endpointWebSocketUrl
+    - token
+    docs: https://docs.limrun.com/docs/platform/embed-simulator
+hosted_surfaces:
+- name: Signed stream URL
+  field: instance.status.signedStreamUrl
+  description: >-
+    A browser-openable watch URL with the per-instance token embedded. Anyone with the link can open
+    the running simulator without an interactive auth flow - used to share a live device in a Slack
+    message or PR comment.
+  requires_sdk: false
+- name: Console
+  url: https://console.limrun.com
+  description: >-
+    Limrun's hosted web console - create and watch instances, manage API keys, view the Analytics
+    tab, and copy per-agent MCP connect snippets.
+authentication_model:
+  backend_holds: org API key (lim_)
+  browser_receives:
+  - endpointWebSocketUrl
+  - status.token
+  docs: https://docs.limrun.com/docs/platform/embed-simulator#authentication
