@@ -149,6 +149,8 @@ apis:
   - type: APIReference
     url: https://docs.limrun.com/docs/reference/sdk
 common:
+- type: Overlay
+  url: overlays/limrun-api-overlay.yaml
 - type: Website
   url: https://lim.run
 - type: DeveloperPortal
