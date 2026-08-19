@@ -1,0 +1,159 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Limrun Analytics API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get analytics across all organizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/analytics/private",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start of the time range (inclusive, RFC3339)"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End of the time range (exclusive, RFC3339)"
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query",
+                "description": "Optional region filter"
+              },
+              {
+                "name": "bucket",
+                "value": "",
+                "type": "query",
+                "description": "Time bucket granularity for the analytics series"
+              },
+              {
+                "name": "timezone",
+                "value": "",
+                "type": "query",
+                "description": "Optional IANA timezone used for time bucket grouping. Defaults to America/Los_Angeles when omitted."
+              },
+              {
+                "name": "labels",
+                "value": "",
+                "type": "query",
+                "description": "Label selector to filter instances (e.g., \"env=prod,team=backend\")"
+              }
+            ]
+          },
+          "docs": "Get analytics across all organizations"
+        },
+        {
+          "info": {
+            "name": "Get analytics for the authenticated organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/analytics",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start of the time range (inclusive, RFC3339)"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End of the time range (exclusive, RFC3339)"
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query",
+                "description": "Optional region filter"
+              },
+              {
+                "name": "bucket",
+                "value": "",
+                "type": "query",
+                "description": "Time bucket granularity for the analytics series"
+              },
+              {
+                "name": "timezone",
+                "value": "",
+                "type": "query",
+                "description": "Optional IANA timezone used for time bucket grouping. Defaults to America/Los_Angeles when omitted."
+              },
+              {
+                "name": "labels",
+                "value": "",
+                "type": "query",
+                "description": "Label selector to filter instances (e.g., \"env=prod,team=backend\")"
+              }
+            ]
+          },
+          "docs": "Get analytics for the authenticated organization"
+        },
+        {
+          "info": {
+            "name": "Get per-instance analytics for the authenticated organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/analytics/instances",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start of the time range (inclusive, RFC3339)"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End of the time range (exclusive, RFC3339)"
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query",
+                "description": "Optional region filter"
+              },
+              {
+                "name": "timezone",
+                "value": "",
+                "type": "query",
+                "description": "Optional IANA timezone used for minute bucket grouping. Defaults to America/Los_Angeles when omitted."
+              },
+              {
+                "name": "labels",
+                "value": "",
+                "type": "query",
+                "description": "Label selector to filter instances (e.g., \"env=prod,team=backend\")"
+              }
+            ]
+          },
+          "docs": "Returns per-instance analytics grouped by minute bucket for detailed chart views."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

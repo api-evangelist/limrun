@@ -1,0 +1,132 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Limrun Analytics Android Instances API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Android Instances",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Android instances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/android_instances",
+            "params": [
+              {
+                "name": "region",
+                "value": "",
+                "type": "query",
+                "description": "Region where the instance is scheduled on."
+              },
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "State filter to apply to Android instances to return. Each comma-separated state will be used as part of\nan OR clause, e.g. \"assigned,ready\" will return all instances that are either assigned or ready.\n\nValid states: creating, assigned, ready, terminated, unknown\n"
+              },
+              {
+                "name": "labelSelector",
+                "value": "",
+                "type": "query",
+                "description": "Labels filter to apply to Android instances to return.\nExpects a comma-separated list of key=value pairs (e.g., env=prod,region=us-west).\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of instances to be returned. The default is 50.\n"
+              },
+              {
+                "name": "startingAfter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "endingBefore",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List Android instances"
+        },
+        {
+          "info": {
+            "name": "Create an Android instance",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/android_instances",
+            "params": [
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "Return after the instance is ready to connect."
+              },
+              {
+                "name": "reuseIfExists",
+                "value": "",
+                "type": "query",
+                "description": "If there is another instance with given labels and region, return that one instead of creating\na new instance.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an Android instance"
+        },
+        {
+          "info": {
+            "name": "Get Android instance with given ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/android_instances/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Android instance ID, e.g. android_someid"
+              }
+            ]
+          },
+          "docs": "Get Android instance with given ID"
+        },
+        {
+          "info": {
+            "name": "Delete Android instance with given name",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/android_instances/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Android instance ID, e.g. android_someid"
+              }
+            ]
+          },
+          "docs": "Delete Android instance with given name"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

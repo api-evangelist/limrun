@@ -1,0 +1,645 @@
+{
+  "item": [
+    {
+      "id": "83a14bbb-ade3-4f79-b030-b72806cda3a9",
+      "name": "Ios Instances",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "14d37927-b2d4-4fee-9378-7ceed010717c",
+          "name": "List iOS instances",
+          "request": {
+            "name": "List iOS instances",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "ios_instances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "region",
+                  "value": "<string>",
+                  "description": "Region where the instance is scheduled on."
+                },
+                {
+                  "disabled": false,
+                  "key": "state",
+                  "value": "<string>",
+                  "description": "State filter to apply to Android instances to return. Each comma-separated state will be used as part of\nan OR clause, e.g. \"assigned,ready\" will return all instances that are either assigned or ready.\n\nValid states: creating, assigned, ready, terminated, unknown\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "labelSelector",
+                  "value": "<string>",
+                  "description": "Labels filter to apply to instances to return.\nExpects a comma-separated list of key=value pairs (e.g., env=prod,region=us-west).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "Maximum number of items to be returned. The default is 50.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "startingAfter",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "endingBefore",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7ac299d6-3445-4fd0-8d7b-2a4e90c5d425",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "ios_instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "assigned,ready"
+                    },
+                    {
+                      "key": "labelSelector",
+                      "value": "env=prod,version=1.2"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "startingAfter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endingBefore",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"metadata\": {\n      \"id\": \"string\",\n      \"organizationId\": \"string\",\n      \"createdAt\": \"1952-03-06T04:53:42.691Z\",\n      \"displayName\": \"string\",\n      \"terminatedAt\": \"1963-02-04T18:52:32.026Z\",\n      \"labels\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      }\n    },\n    \"spec\": {\n      \"region\": \"string\",\n      \"inactivityTimeout\": \"3m\",\n      \"hardTimeout\": \"0\"\n    },\n    \"status\": {\n      \"state\": \"assigned\",\n      \"token\": \"string\",\n      \"apiUrl\": \"string\",\n      \"endpointWebSocketUrl\": \"string\",\n      \"signedStreamUrl\": \"string\",\n      \"targetHttpPortUrlPrefix\": \"string\",\n      \"mcpUrl\": \"string\",\n      \"sandbox\": {\n        \"xcode\": {\n          \"url\": \"string\"\n        }\n      },\n      \"errorMessage\": \"string\",\n      \"terminationReason\": \"InactivityTimeout\"\n    }\n  },\n  {\n    \"metadata\": {\n      \"id\": \"string\",\n      \"organizationId\": \"string\",\n      \"createdAt\": \"1970-08-30T13:41:00.501Z\",\n      \"displayName\": \"string\",\n      \"terminatedAt\": \"2025-08-24T16:28:23.605Z\",\n      \"labels\": {\n        \"key_0\": \"string\"\n      }\n    },\n    \"spec\": {\n      \"region\": \"string\",\n      \"inactivityTimeout\": \"3m\",\n      \"hardTimeout\": \"0\"\n    },\n    \"status\": {\n      \"state\": \"unknown\",\n      \"token\": \"string\",\n      \"apiUrl\": \"string\",\n      \"endpointWebSocketUrl\": \"string\",\n      \"signedStreamUrl\": \"string\",\n      \"targetHttpPortUrlPrefix\": \"string\",\n      \"mcpUrl\": \"string\",\n      \"sandbox\": {\n        \"xcode\": {\n          \"url\": \"string\"\n        }\n      },\n      \"errorMessage\": \"string\",\n      \"terminationReason\": \"InactivityTimeout\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4252fa41-362c-41ee-b7f7-10ff9f6bd4a3",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "ios_instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "assigned,ready"
+                    },
+                    {
+                      "key": "labelSelector",
+                      "value": "env=prod,version=1.2"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "startingAfter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endingBefore",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "add21ea1-ec6e-49be-91a0-57feca7e6e3f",
+          "name": "Create an iOS instance",
+          "request": {
+            "name": "Create an iOS instance",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "ios_instances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "wait",
+                  "value": "<boolean>",
+                  "description": "Return after the instance is ready to connect."
+                },
+                {
+                  "disabled": false,
+                  "key": "reuseIfExists",
+                  "value": "<boolean>",
+                  "description": "If there is another instance with given labels and region, return that one instead of creating\na new instance.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"metadata\": {\n    \"displayName\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"sandbox\": {\n      \"xcode\": {\n        \"enabled\": \"<boolean>\"\n      }\n    },\n    \"clues\": [\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      },\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      }\n    ],\n    \"model\": \"iphone\",\n    \"region\": \"<string>\",\n    \"inactivityTimeout\": \"3m\",\n    \"hardTimeout\": \"0\",\n    \"forceBundleId\": \"<string>\",\n    \"initialAssets\": [\n      {\n        \"kind\": \"App\",\n        \"source\": \"URL\",\n        \"url\": \"<string>\",\n        \"assetName\": \"<string>\",\n        \"assetId\": \"<string>\",\n        \"encryptionKey\": \"<string>\",\n        \"launchMode\": \"<string>\"\n      },\n      {\n        \"kind\": \"App\",\n        \"source\": \"URL\",\n        \"url\": \"<string>\",\n        \"assetName\": \"<string>\",\n        \"assetId\": \"<string>\",\n        \"encryptionKey\": \"<string>\",\n        \"launchMode\": \"<string>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5b00249a-53c5-4472-b0a3-9bed80585046",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "ios_instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wait",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "reuseIfExists",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"displayName\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"sandbox\": {\n      \"xcode\": {\n        \"enabled\": \"<boolean>\"\n      }\n    },\n    \"clues\": [\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      },\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      }\n    ],\n    \"model\": \"iphone\",\n    \"region\": \"<string>\",\n    \"inactivityTimeout\": \"3m\",\n    \"hardTimeout\": \"0\",\n    \"forceBundleId\": \"<string>\",\n    \"initialAssets\": [\n      {\n        \"kind\": \"App\",\n        \"source\": \"URL\",\n        \"url\": \"<string>\",\n        \"assetName\": \"<string>\",\n        \"assetId\": \"<string>\",\n        \"encryptionKey\": \"<string>\",\n        \"launchMode\": \"<string>\"\n      },\n      {\n        \"kind\": \"App\",\n        \"source\": \"URL\",\n        \"url\": \"<string>\",\n        \"assetName\": \"<string>\",\n        \"assetId\": \"<string>\",\n        \"encryptionKey\": \"<string>\",\n        \"launchMode\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metadata\": {\n    \"id\": \"string\",\n    \"organizationId\": \"string\",\n    \"createdAt\": \"1974-12-17T12:48:07.326Z\",\n    \"displayName\": \"string\",\n    \"terminatedAt\": \"1953-07-21T05:32:44.666Z\",\n    \"labels\": {\n      \"key_0\": \"string\"\n    }\n  },\n  \"spec\": {\n    \"region\": \"string\",\n    \"inactivityTimeout\": \"3m\",\n    \"hardTimeout\": \"0\"\n  },\n  \"status\": {\n    \"state\": \"creating\",\n    \"token\": \"string\",\n    \"apiUrl\": \"string\",\n    \"endpointWebSocketUrl\": \"string\",\n    \"signedStreamUrl\": \"string\",\n    \"targetHttpPortUrlPrefix\": \"string\",\n    \"mcpUrl\": \"string\",\n    \"sandbox\": {\n      \"xcode\": {\n        \"url\": \"string\"\n      }\n    },\n    \"errorMessage\": \"string\",\n    \"terminationReason\": \"InactivityTimeout\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eeb9c3bf-a84b-4908-81d2-870429ef5934",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "ios_instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wait",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "reuseIfExists",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"displayName\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"sandbox\": {\n      \"xcode\": {\n        \"enabled\": \"<boolean>\"\n      }\n    },\n    \"clues\": [\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      },\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      }\n    ],\n    \"model\": \"iphone\",\n    \"region\": \"<string>\",\n    \"inactivityTimeout\": \"3m\",\n    \"hardTimeout\": \"0\",\n    \"forceBundleId\": \"<string>\",\n    \"initialAssets\": [\n      {\n        \"kind\": \"App\",\n        \"source\": \"URL\",\n        \"url\": \"<string>\",\n        \"assetName\": \"<string>\",\n        \"assetId\": \"<string>\",\n        \"encryptionKey\": \"<string>\",\n        \"launchMode\": \"<string>\"\n      },\n      {\n        \"kind\": \"App\",\n        \"source\": \"URL\",\n        \"url\": \"<string>\",\n        \"assetName\": \"<string>\",\n        \"assetId\": \"<string>\",\n        \"encryptionKey\": \"<string>\",\n        \"launchMode\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e065133d-7e78-428c-92a1-a8ad774f2ce5",
+          "name": "Get iOS instance with given ID",
+          "request": {
+            "name": "Get iOS instance with given ID",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "ios_instances",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) iOS instance ID, e.g. ios_someid"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dfb0fe67-8c0f-4c65-ac13-68c5b12c4364",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "ios_instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) iOS instance ID, e.g. ios_someid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metadata\": {\n    \"id\": \"string\",\n    \"organizationId\": \"string\",\n    \"createdAt\": \"1974-12-17T12:48:07.326Z\",\n    \"displayName\": \"string\",\n    \"terminatedAt\": \"1953-07-21T05:32:44.666Z\",\n    \"labels\": {\n      \"key_0\": \"string\"\n    }\n  },\n  \"spec\": {\n    \"region\": \"string\",\n    \"inactivityTimeout\": \"3m\",\n    \"hardTimeout\": \"0\"\n  },\n  \"status\": {\n    \"state\": \"creating\",\n    \"token\": \"string\",\n    \"apiUrl\": \"string\",\n    \"endpointWebSocketUrl\": \"string\",\n    \"signedStreamUrl\": \"string\",\n    \"targetHttpPortUrlPrefix\": \"string\",\n    \"mcpUrl\": \"string\",\n    \"sandbox\": {\n      \"xcode\": {\n        \"url\": \"string\"\n      }\n    },\n    \"errorMessage\": \"string\",\n    \"terminationReason\": \"InactivityTimeout\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "34a1fec0-7aea-48ae-9754-3070f08d4e8f",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "ios_instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) iOS instance ID, e.g. ios_someid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ceb415b9-bd43-47f1-8791-917cb8c68dc4",
+          "name": "Delete iOS instance with given name",
+          "request": {
+            "name": "Delete iOS instance with given name",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "ios_instances",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) iOS instance ID, e.g. ios_someid"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2c3c5007-7e7e-434a-b827-212ce05702be",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "ios_instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) iOS instance ID, e.g. ios_someid"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7ef3e15f-22e6-431c-822c-c805e6cff770",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "ios_instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) iOS instance ID, e.g. ios_someid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b1fb9cfe-002d-4dd8-a0fb-9e2620501584",
+    "name": "Limrun Analytics Ios Instances API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

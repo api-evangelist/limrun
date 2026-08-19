@@ -1,0 +1,907 @@
+{
+  "item": [
+    {
+      "id": "401173b2-9f76-4f82-adf4-e33ad143336e",
+      "name": "Xcode Instances",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "537d84a0-6cf6-4ead-9f66-6a02e6d6f572",
+          "name": "List Xcode instances",
+          "request": {
+            "name": "List Xcode instances",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "xcode_instances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "state",
+                  "value": "<string>",
+                  "description": "State filter to apply to Xcode instances to return. Each comma-separated state will be used as part of\nan OR clause, e.g. \"assigned,ready\" will return all instances that are either assigned or ready.\n\nValid states: creating, assigned, ready, terminated, unknown\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "labelSelector",
+                  "value": "<string>",
+                  "description": "Labels filter to apply to instances to return.\nExpects a comma-separated list of key=value pairs (e.g., env=prod,region=us-west).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "Maximum number of items to be returned. The default is 50.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "startingAfter",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "endingBefore",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3ba7a4c6-7094-4f84-9558-27d9ccfc3c50",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "xcode_instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "state",
+                      "value": "assigned,ready"
+                    },
+                    {
+                      "key": "labelSelector",
+                      "value": "env=prod,version=1.2"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "startingAfter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endingBefore",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"metadata\": {\n      \"id\": \"string\",\n      \"organizationId\": \"string\",\n      \"createdAt\": \"1963-01-21T17:07:56.353Z\",\n      \"displayName\": \"string\",\n      \"terminatedAt\": \"1955-08-17T14:23:43.559Z\",\n      \"labels\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\"\n      }\n    },\n    \"spec\": {\n      \"region\": \"string\",\n      \"inactivityTimeout\": \"5m\",\n      \"hardTimeout\": \"0\"\n    },\n    \"status\": {\n      \"state\": \"ready\",\n      \"token\": \"string\",\n      \"apiUrl\": \"string\",\n      \"errorMessage\": \"string\",\n      \"terminationReason\": \"InactivityTimeout\"\n    }\n  },\n  {\n    \"metadata\": {\n      \"id\": \"string\",\n      \"organizationId\": \"string\",\n      \"createdAt\": \"1967-07-05T11:38:37.369Z\",\n      \"displayName\": \"string\",\n      \"terminatedAt\": \"2020-02-28T10:01:45.960Z\",\n      \"labels\": {\n        \"key_0\": \"string\"\n      }\n    },\n    \"spec\": {\n      \"region\": \"string\",\n      \"inactivityTimeout\": \"5m\",\n      \"hardTimeout\": \"0\"\n    },\n    \"status\": {\n      \"state\": \"terminated\",\n      \"token\": \"string\",\n      \"apiUrl\": \"string\",\n      \"errorMessage\": \"string\",\n      \"terminationReason\": \"InactivityTimeout\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7f90c924-a701-4df0-a190-f6878c209ca4",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "xcode_instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "state",
+                      "value": "assigned,ready"
+                    },
+                    {
+                      "key": "labelSelector",
+                      "value": "env=prod,version=1.2"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "startingAfter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endingBefore",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "02f2a748-b05e-4e4b-8a7e-351da40f141c",
+          "name": "Create an Xcode instance",
+          "request": {
+            "name": "Create an Xcode instance",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "xcode_instances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "wait",
+                  "value": "<boolean>",
+                  "description": "Return after the instance is ready to connect."
+                },
+                {
+                  "disabled": false,
+                  "key": "reuseIfExists",
+                  "value": "<boolean>",
+                  "description": "If there is another instance with given labels and region, return that one instead of creating\na new instance.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"metadata\": {\n    \"displayName\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"clues\": [\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      },\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      }\n    ],\n    \"region\": \"<string>\",\n    \"inactivityTimeout\": \"5m\",\n    \"hardTimeout\": \"0\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e73a5f53-a2ce-4571-8da2-161ef0392e43",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "xcode_instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wait",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "reuseIfExists",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"displayName\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"clues\": [\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      },\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      }\n    ],\n    \"region\": \"<string>\",\n    \"inactivityTimeout\": \"5m\",\n    \"hardTimeout\": \"0\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metadata\": {\n    \"id\": \"string\",\n    \"organizationId\": \"string\",\n    \"createdAt\": \"2000-12-28T14:15:02.899Z\",\n    \"displayName\": \"string\",\n    \"terminatedAt\": \"2014-02-04T20:06:16.564Z\",\n    \"labels\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    }\n  },\n  \"spec\": {\n    \"region\": \"string\",\n    \"inactivityTimeout\": \"5m\",\n    \"hardTimeout\": \"0\"\n  },\n  \"status\": {\n    \"state\": \"terminated\",\n    \"token\": \"string\",\n    \"apiUrl\": \"string\",\n    \"errorMessage\": \"string\",\n    \"terminationReason\": \"InactivityTimeout\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "241e9b12-d8b0-4a4a-8228-81cffee8dddf",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "xcode_instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wait",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "reuseIfExists",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"displayName\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"clues\": [\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      },\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      }\n    ],\n    \"region\": \"<string>\",\n    \"inactivityTimeout\": \"5m\",\n    \"hardTimeout\": \"0\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3ce7d24f-1475-4bb3-8801-e0c7901e5ea5",
+          "name": "Get Xcode instance with given ID",
+          "request": {
+            "name": "Get Xcode instance with given ID",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "xcode_instances",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Xcode instance ID, e.g. sandbox_someid"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "14c3347a-a202-4f88-b4d6-67ed232685ca",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "xcode_instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Xcode instance ID, e.g. sandbox_someid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metadata\": {\n    \"id\": \"string\",\n    \"organizationId\": \"string\",\n    \"createdAt\": \"2000-12-28T14:15:02.899Z\",\n    \"displayName\": \"string\",\n    \"terminatedAt\": \"2014-02-04T20:06:16.564Z\",\n    \"labels\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    }\n  },\n  \"spec\": {\n    \"region\": \"string\",\n    \"inactivityTimeout\": \"5m\",\n    \"hardTimeout\": \"0\"\n  },\n  \"status\": {\n    \"state\": \"terminated\",\n    \"token\": \"string\",\n    \"apiUrl\": \"string\",\n    \"errorMessage\": \"string\",\n    \"terminationReason\": \"InactivityTimeout\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d961ba31-ae0f-4b82-b2a3-5aea1bbc5b27",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "xcode_instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Xcode instance ID, e.g. sandbox_someid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3ce5435c-e8d6-41e5-b7f4-5a2ae239c842",
+          "name": "Delete Xcode instance with given name",
+          "request": {
+            "name": "Delete Xcode instance with given name",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "xcode_instances",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Xcode instance ID, e.g. sandbox_someid"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f352074c-f501-4751-8b8c-d01861122315",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "xcode_instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Xcode instance ID, e.g. sandbox_someid"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5e1cf515-4654-4db2-9934-7d2271b40043",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "xcode_instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Xcode instance ID, e.g. sandbox_someid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "86015114-7a4c-400e-94d8-08f526d35182",
+          "name": "List persisted build logs for an Xcode instance.",
+          "request": {
+            "name": "List persisted build logs for an Xcode instance.",
+            "description": {
+              "content": "Returns metadata and a short-lived presigned download URL for each\nbuild that ran on the given Xcode instance. Builds are returned in\nchronological order. Logs persist after the instance is terminated,\nsubject to the configured retention window.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "xcode_instances",
+                ":id",
+                "build_logs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Xcode instance ID, e.g. sandbox_someid"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d46f4caa-f78d-4230-a9e3-ee700f857389",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "xcode_instances",
+                    ":id",
+                    "build_logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Xcode instance ID, e.g. sandbox_someid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"status\": \"string\",\n    \"downloadUrl\": \"string\",\n    \"exitCode\": 9398,\n    \"startedAt\": \"2024-05-31T09:05:11.921Z\",\n    \"finishedAt\": \"1982-06-24T04:26:02.041Z\",\n    \"buildDurationMs\": 4447,\n    \"error\": \"string\"\n  },\n  {\n    \"id\": \"string\",\n    \"status\": \"string\",\n    \"downloadUrl\": \"string\",\n    \"exitCode\": 7246,\n    \"startedAt\": \"1969-02-17T05:48:32.146Z\",\n    \"finishedAt\": \"2016-07-23T01:27:39.045Z\",\n    \"buildDurationMs\": 4497,\n    \"error\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "03bd27b6-8a03-47a4-9bf0-888a7ddb711b",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "xcode_instances",
+                    ":id",
+                    "build_logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Xcode instance ID, e.g. sandbox_someid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b6f4bcec-a485-4303-a7b1-10aadc116157",
+          "name": "List persisted Bazel build records for an Xcode instance.",
+          "request": {
+            "name": "List persisted Bazel build records for an Xcode instance.",
+            "description": {
+              "content": "Returns a summary and a short-lived presigned download URL for each\nBazel build (RBE invocation) that ran on the given Xcode instance.\nBuilds are returned in chronological order. Records persist after the\ninstance is terminated, subject to the configured retention window.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "xcode_instances",
+                ":id",
+                "bazel_build_logs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Xcode instance ID, e.g. sandbox_someid"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "24fa18a5-b9b1-4351-8058-3cd963a9f0ad",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "xcode_instances",
+                    ":id",
+                    "bazel_build_logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Xcode instance ID, e.g. sandbox_someid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"status\": \"string\",\n    \"downloadUrl\": \"string\",\n    \"pattern\": [\n      \"string\",\n      \"string\"\n    ],\n    \"startedAt\": \"1996-07-02T11:07:46.471Z\",\n    \"durationMs\": 6168,\n    \"error\": \"string\"\n  },\n  {\n    \"id\": \"string\",\n    \"status\": \"string\",\n    \"downloadUrl\": \"string\",\n    \"pattern\": [\n      \"string\",\n      \"string\"\n    ],\n    \"startedAt\": \"1975-11-21T20:11:21.074Z\",\n    \"durationMs\": 2433,\n    \"error\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6bf1befc-04f8-4946-b1f9-8dbf4e55cdde",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "xcode_instances",
+                    ":id",
+                    "bazel_build_logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Xcode instance ID, e.g. sandbox_someid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "179af794-6179-4553-80dc-9c9a487668f3",
+    "name": "Limrun Analytics Xcode Instances API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

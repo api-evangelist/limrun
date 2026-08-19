@@ -1,0 +1,132 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Limrun Analytics Ios Instances API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Ios Instances",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List iOS instances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/ios_instances",
+            "params": [
+              {
+                "name": "region",
+                "value": "",
+                "type": "query",
+                "description": "Region where the instance is scheduled on."
+              },
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "State filter to apply to Android instances to return. Each comma-separated state will be used as part of\nan OR clause, e.g. \"assigned,ready\" will return all instances that are either assigned or ready.\n\nValid states: creating, assigned, ready, terminated, unknown\n"
+              },
+              {
+                "name": "labelSelector",
+                "value": "",
+                "type": "query",
+                "description": "Labels filter to apply to instances to return.\nExpects a comma-separated list of key=value pairs (e.g., env=prod,region=us-west).\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to be returned. The default is 50.\n"
+              },
+              {
+                "name": "startingAfter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "endingBefore",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List iOS instances"
+        },
+        {
+          "info": {
+            "name": "Create an iOS instance",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/ios_instances",
+            "params": [
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "Return after the instance is ready to connect."
+              },
+              {
+                "name": "reuseIfExists",
+                "value": "",
+                "type": "query",
+                "description": "If there is another instance with given labels and region, return that one instead of creating\na new instance.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an iOS instance"
+        },
+        {
+          "info": {
+            "name": "Get iOS instance with given ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/ios_instances/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "iOS instance ID, e.g. ios_someid"
+              }
+            ]
+          },
+          "docs": "Get iOS instance with given ID"
+        },
+        {
+          "info": {
+            "name": "Delete iOS instance with given name",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/ios_instances/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "iOS instance ID, e.g. ios_someid"
+              }
+            ]
+          },
+          "docs": "Delete iOS instance with given name"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

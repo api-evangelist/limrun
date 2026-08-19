@@ -2,36 +2,32 @@ generated: '2026-07-19'
 method: searched
 status: published
 source: https://docs.limrun.com/docs/agents/mcp
-summary: >-
-  Limrun ships a per-instance MCP server rather than one shared endpoint. Every iOS and Android
-  instance exposes its own Model Context Protocol HTTP endpoint at status.mcpUrl once the instance
-  reaches the ready state. The tool surface is device control only; builds, app installs, and asset
-  uploads stay on the CLI and SDK because MCP tools have no access to the client filesystem.
+summary: Limrun ships a per-instance MCP server rather than one shared endpoint. Every iOS and Android
+  instance exposes its own Model Context Protocol HTTP endpoint at status.mcpUrl once the instance reaches
+  the ready state. The tool surface is device control only; builds, app installs, and asset uploads stay
+  on the CLI and SDK because MCP tools have no access to the client filesystem.
 server:
   name: limrun-instance
   transport: http
   url_field: instance.status.mcpUrl
   scope: per-instance
-  discovery: >-
-    Create an instance with wait=true, then read status.mcpUrl and status.token from the response
+  discovery: Create an instance with wait=true, then read status.mcpUrl and status.token from the response
     (or `lim ios get --json | jq -r '.status.mcpUrl, .status.token'`).
 authentication:
   scheme: bearer
   header: 'Authorization: Bearer <status.token>'
   credential: per-instance token
-  notes: >-
-    The docs' MCP page specifies the per-instance status.token as the MCP bearer credential and warns
+  notes: The docs' MCP page specifies the per-instance status.token as the MCP bearer credential and warns
     against using the org API key here. The SDK reference credentials table instead lists the org API
-    key for MCP on status.mcpUrl. The two provider pages disagree; both statements are recorded
-    verbatim rather than resolved.
+    key for MCP on status.mcpUrl. The two provider pages disagree; both statements are recorded verbatim
+    rather than resolved.
   oauth:
     well_known: https://api.limrun.com/.well-known/oauth-authorization-server
     scopes_supported:
     - mcp
-    note: >-
-      api.limrun.com publishes an RFC 8414 authorization-server document advertising an `mcp` scope,
-      authorization-code + PKCE (S256), and dynamic client registration - the standard MCP OAuth
-      discovery path.
+    note: api.limrun.com publishes an RFC 8414 authorization-server document advertising an `mcp` scope,
+      authorization-code + PKCE (S256), and dynamic client registration - the standard MCP OAuth discovery
+      path.
 clients_documented:
 - Claude Code
 - Claude Desktop
@@ -42,13 +38,13 @@ tools:
 - name: ios-screenshot-and-element-tree
   description: Returns the current screenshot and the accessibility element tree in one call.
 - name: ios-use
-  description: >-
-    Performs a batch of actions in order. Action kinds - tap, tapElement, setElementValue,
-    incrementElement, decrementElement, type, pressKey, scroll, wait, toggleKeyboard, openUrl,
-    setOrientation, touchDown, touchMove, touchUp, keyDown, keyUp, buttonDown, buttonUp, deviceInfo,
-    startRecording, stopRecording, discoverStoreKitConfig, clearStoreKitConfig, softReset.
+  description: Performs a batch of actions in order. Action kinds - tap, tapElement, setElementValue,
+    incrementElement, decrementElement, type, pressKey, scroll, wait, toggleKeyboard, openUrl, setOrientation,
+    touchDown, touchMove, touchUp, keyDown, keyUp, buttonDown, buttonUp, deviceInfo, startRecording, stopRecording,
+    discoverStoreKitConfig, clearStoreKitConfig, softReset.
 - name: ios-open-url
-  description: Opens a URL or deep link in the simulator, including custom schemes such as exp:// for Expo Go.
+  description: Opens a URL or deep link in the simulator, including custom schemes such as exp:// for
+    Expo Go.
 - name: ios-app
   description: Lists installed apps and launches or terminates them. Does not install apps.
 - name: ios-logs
@@ -57,3 +53,9 @@ not_exposed:
 - app installs
 - Xcode builds
 - asset uploads
+deployment:
+  mode: remote
+  verified: searched
+  tools: 5
+  checked: '2026-08-12'
+  source: catalog MCP census

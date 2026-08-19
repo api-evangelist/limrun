@@ -1,0 +1,661 @@
+{
+  "item": [
+    {
+      "id": "76a64c2b-21ab-4c72-b75d-cba7c3c5132e",
+      "name": "Assets",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e966fb27-196b-4213-9ef2-30d21f2c73ee",
+          "name": "Get the asset with given ID.",
+          "request": {
+            "name": "Get the asset with given ID.",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "assets",
+                ":assetId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "includeDownloadUrl",
+                  "value": "<boolean>",
+                  "description": "Toggles whether a download URL should be included in the response"
+                },
+                {
+                  "disabled": false,
+                  "key": "includeUploadUrl",
+                  "value": "<boolean>",
+                  "description": "Toggles whether an upload URL should be included in the response"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "assetId",
+                  "description": "(Required) Asset ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "731b73b5-9b3b-424d-99a9-5e94cb1b5ad4",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "assets",
+                    ":assetId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "includeDownloadUrl",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "includeUploadUrl",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "assetId",
+                      "description": "(Required) Asset ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"kind\": \"App\",\n  \"displayName\": \"string\",\n  \"platform\": \"ios\",\n  \"os\": \"ios\",\n  \"md5\": \"string\",\n  \"expiresAt\": \"1966-02-09T06:02:20.504Z\",\n  \"signedUploadUrl\": \"string\",\n  \"signedDownloadUrl\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ffa2c9ca-4eda-40ae-ac06-44322dfe563b",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "assets",
+                    ":assetId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "includeDownloadUrl",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "includeUploadUrl",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "assetId",
+                      "description": "(Required) Asset ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "865276ff-dc00-4cf4-8d47-942d96962faa",
+          "name": "Delete the asset with given ID.",
+          "request": {
+            "name": "Delete the asset with given ID.",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "assets",
+                ":assetId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "assetId",
+                  "description": "(Required) Asset ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "20cd93a4-178d-4622-9755-5d656b82f649",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "assets",
+                    ":assetId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "assetId",
+                      "description": "(Required) Asset ID"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "816991bb-ab15-4aee-b021-7875a34d2630",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "assets",
+                    ":assetId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "assetId",
+                      "description": "(Required) Asset ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "13ae9576-e7c7-4387-8d40-b8b63a72a130",
+          "name": "List organization's all assets with given filters. If none given, return all assets.",
+          "request": {
+            "name": "List organization's all assets with given filters. If none given, return all assets.",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "assets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "nameFilter",
+                  "value": "<string>",
+                  "description": "Case-sensitive exact match on the asset name.\nCannot be combined with namePrefixFilter.\nWhen combined with includeAppStore=true, a leading \"appstore/\" is stripped\nbefore querying App Store assets (whose stored names never carry the prefix).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "namePrefixFilter",
+                  "value": "<string>",
+                  "description": "Case-sensitive prefix match on the asset name.\nLIKE wildcards (\"%\", \"_\") in the value are treated as literal characters, not wildcards.\nEmpty string is rejected with 400; omit the parameter if no filtering is desired.\nCannot be combined with nameFilter.\nWhen combined with includeAppStore=true, a leading \"appstore/\" is stripped\nbefore querying App Store assets (whose stored names never carry the prefix);\na partial prefix like \"appstor\" will not match any App Store assets.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "includeAppStore",
+                  "value": "<boolean>",
+                  "description": "If true, also includes assets from Limrun App Store where you have access to.\nApp Store assets will be returned with a \"appstore/\" prefix in their names.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "includeDownloadUrl",
+                  "value": "<boolean>",
+                  "description": "Toggles whether a download URL should be included in the response"
+                },
+                {
+                  "disabled": false,
+                  "key": "includeUploadUrl",
+                  "value": "<boolean>",
+                  "description": "Toggles whether an upload URL should be included in the response"
+                },
+                {
+                  "disabled": false,
+                  "key": "kindFilter",
+                  "value": "App",
+                  "description": "Filters assets by kind."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "Maximum number of items to be returned. The default is 50.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c9406cb5-0346-4b97-a97d-c823eab4454e",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "nameFilter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "namePrefixFilter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeAppStore",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "includeDownloadUrl",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "includeUploadUrl",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "kindFilter",
+                      "value": "App"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"kind\": \"App\",\n    \"displayName\": \"string\",\n    \"platform\": \"xcode\",\n    \"os\": \"xcode\",\n    \"md5\": \"string\",\n    \"expiresAt\": \"2019-12-02T04:21:54.282Z\",\n    \"signedUploadUrl\": \"string\",\n    \"signedDownloadUrl\": \"string\"\n  },\n  {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"kind\": \"App\",\n    \"displayName\": \"string\",\n    \"platform\": \"xcode\",\n    \"os\": \"android\",\n    \"md5\": \"string\",\n    \"expiresAt\": \"2012-04-12T01:48:31.012Z\",\n    \"signedUploadUrl\": \"string\",\n    \"signedDownloadUrl\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7ae12ed2-a10c-426d-a7f0-41ff3a4bfd6d",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "nameFilter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "namePrefixFilter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeAppStore",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "includeDownloadUrl",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "includeUploadUrl",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "kindFilter",
+                      "value": "App"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "343ad63c-3460-4400-b3a1-7cf3465e0e93",
+          "name": "Creates an asset and returns upload and download URLs. If there is a corresponding file uploaded in the storage\nwith given name, its MD5 is returned so you can check if a re-upload is necessary. If no MD5 is returned, then\nthere is no corresponding file in the storage so downloading it directly or using it in instances will fail\nuntil you use the returned upload URL to submit the file.",
+          "request": {
+            "name": "Creates an asset and returns upload and download URLs. If there is a corresponding file uploaded in the storage\nwith given name, its MD5 is returned so you can check if a re-upload is necessary. If no MD5 is returned, then\nthere is no corresponding file in the storage so downloading it directly or using it in instances will fail\nuntil you use the returned upload URL to submit the file.",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "assets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"kind\": \"App\",\n  \"platform\": \"<string>\",\n  \"ttl\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b82f36f7-e25f-4f97-ba94-05c4534a1c57",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"kind\": \"App\",\n  \"platform\": \"<string>\",\n  \"ttl\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"kind\": \"App\",\n  \"signedUploadUrl\": \"string\",\n  \"signedDownloadUrl\": \"string\",\n  \"platform\": \"<string>\",\n  \"md5\": \"string\",\n  \"expiresAt\": \"1983-05-21T17:56:48.478Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9f6848d-ea0e-451d-96eb-12c190106cf7",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"kind\": \"App\",\n  \"platform\": \"<string>\",\n  \"ttl\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "2658d993-5225-460d-82e5-e0f656923c18",
+    "name": "Limrun Analytics Assets API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

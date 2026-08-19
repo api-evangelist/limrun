@@ -1,0 +1,645 @@
+{
+  "item": [
+    {
+      "id": "182548a6-9e11-41b5-8ac7-2ccc8a9fb608",
+      "name": "Android Instances",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "445efe7b-fdae-4bd4-abbb-8a5812b7453f",
+          "name": "List Android instances",
+          "request": {
+            "name": "List Android instances",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "android_instances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "region",
+                  "value": "<string>",
+                  "description": "Region where the instance is scheduled on."
+                },
+                {
+                  "disabled": false,
+                  "key": "state",
+                  "value": "<string>",
+                  "description": "State filter to apply to Android instances to return. Each comma-separated state will be used as part of\nan OR clause, e.g. \"assigned,ready\" will return all instances that are either assigned or ready.\n\nValid states: creating, assigned, ready, terminated, unknown\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "labelSelector",
+                  "value": "<string>",
+                  "description": "Labels filter to apply to Android instances to return.\nExpects a comma-separated list of key=value pairs (e.g., env=prod,region=us-west).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "Maximum number of instances to be returned. The default is 50.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "startingAfter",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "endingBefore",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "daf69624-53a5-416c-9052-abdc5bc69674",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "android_instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "assigned,ready"
+                    },
+                    {
+                      "key": "labelSelector",
+                      "value": "env=prod,version=1.2"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "startingAfter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endingBefore",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"metadata\": {\n      \"id\": \"string\",\n      \"organizationId\": \"string\",\n      \"createdAt\": \"2021-09-19T08:00:02.928Z\",\n      \"displayName\": \"string\",\n      \"terminatedAt\": \"1967-12-26T08:11:52.723Z\",\n      \"labels\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      }\n    },\n    \"spec\": {\n      \"region\": \"string\",\n      \"inactivityTimeout\": \"3m\",\n      \"hardTimeout\": \"0\"\n    },\n    \"status\": {\n      \"state\": \"ready\",\n      \"token\": \"string\",\n      \"apiUrl\": \"string\",\n      \"adbWebSocketUrl\": \"string\",\n      \"endpointWebSocketUrl\": \"string\",\n      \"signedStreamUrl\": \"string\",\n      \"mcpUrl\": \"string\",\n      \"targetHttpPortUrlPrefix\": \"string\",\n      \"sandbox\": {\n        \"playwrightAndroid\": {\n          \"url\": \"string\"\n        }\n      },\n      \"errorMessage\": \"string\",\n      \"terminationReason\": \"InactivityTimeout\"\n    }\n  },\n  {\n    \"metadata\": {\n      \"id\": \"string\",\n      \"organizationId\": \"string\",\n      \"createdAt\": \"2025-02-21T19:25:56.600Z\",\n      \"displayName\": \"string\",\n      \"terminatedAt\": \"1998-01-07T18:37:07.932Z\",\n      \"labels\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\"\n      }\n    },\n    \"spec\": {\n      \"region\": \"string\",\n      \"inactivityTimeout\": \"3m\",\n      \"hardTimeout\": \"0\"\n    },\n    \"status\": {\n      \"state\": \"unknown\",\n      \"token\": \"string\",\n      \"apiUrl\": \"string\",\n      \"adbWebSocketUrl\": \"string\",\n      \"endpointWebSocketUrl\": \"string\",\n      \"signedStreamUrl\": \"string\",\n      \"mcpUrl\": \"string\",\n      \"targetHttpPortUrlPrefix\": \"string\",\n      \"sandbox\": {\n        \"playwrightAndroid\": {\n          \"url\": \"string\"\n        }\n      },\n      \"errorMessage\": \"string\",\n      \"terminationReason\": \"InactivityTimeout\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e8e2c5d6-ea41-41f5-8ef7-4d9454e9f344",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "android_instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "assigned,ready"
+                    },
+                    {
+                      "key": "labelSelector",
+                      "value": "env=prod,version=1.2"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "startingAfter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endingBefore",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoRemainingMinutes\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4fa61e22-a60a-47d8-869c-fa37c1d724f0",
+          "name": "Create an Android instance",
+          "request": {
+            "name": "Create an Android instance",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "android_instances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "wait",
+                  "value": "<boolean>",
+                  "description": "Return after the instance is ready to connect."
+                },
+                {
+                  "disabled": false,
+                  "key": "reuseIfExists",
+                  "value": "<boolean>",
+                  "description": "If there is another instance with given labels and region, return that one instead of creating\na new instance.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"metadata\": {\n    \"displayName\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"clues\": [\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\",\n        \"osVersion\": \"<string>\"\n      },\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\",\n        \"osVersion\": \"<string>\"\n      }\n    ],\n    \"region\": \"<string>\",\n    \"inactivityTimeout\": \"3m\",\n    \"hardTimeout\": \"0\",\n    \"sandbox\": {\n      \"playwrightAndroid\": {\n        \"enabled\": \"<boolean>\",\n        \"version\": \"<string>\"\n      }\n    },\n    \"initialAssets\": [\n      {\n        \"kind\": \"App\",\n        \"configuration\": {\n          \"kind\": \"<string>\",\n          \"chromeFlag\": \"<string>\"\n        },\n        \"source\": \"URL\",\n        \"url\": \"<string>\",\n        \"assetName\": \"<string>\",\n        \"urls\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"assetNames\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"assetIds\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      {\n        \"kind\": \"App\",\n        \"configuration\": {\n          \"kind\": \"<string>\",\n          \"chromeFlag\": \"<string>\"\n        },\n        \"source\": \"URL\",\n        \"url\": \"<string>\",\n        \"assetName\": \"<string>\",\n        \"urls\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"assetNames\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"assetIds\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8ec30344-eb68-471f-903b-deae6c9667b2",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "android_instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wait",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "reuseIfExists",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"displayName\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\",\n      \"key_2\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"clues\": [\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\",\n        \"osVersion\": \"<string>\"\n      },\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\",\n        \"osVersion\": \"<string>\"\n      }\n    ],\n    \"region\": \"<string>\",\n    \"inactivityTimeout\": \"3m\",\n    \"hardTimeout\": \"0\",\n    \"sandbox\": {\n      \"playwrightAndroid\": {\n        \"enabled\": \"<boolean>\",\n        \"version\": \"<string>\"\n      }\n    },\n    \"initialAssets\": [\n      {\n        \"kind\": \"App\",\n        \"configuration\": {\n          \"kind\": \"<string>\",\n          \"chromeFlag\": \"<string>\"\n        },\n        \"source\": \"URL\",\n        \"url\": \"<string>\",\n        \"assetName\": \"<string>\",\n        \"urls\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"assetNames\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"assetIds\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      {\n        \"kind\": \"App\",\n        \"configuration\": {\n          \"kind\": \"<string>\",\n          \"chromeFlag\": \"<string>\"\n        },\n        \"source\": \"URL\",\n        \"url\": \"<string>\",\n        \"assetName\": \"<string>\",\n        \"urls\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"assetNames\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"assetIds\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metadata\": {\n    \"id\": \"string\",\n    \"organizationId\": \"string\",\n    \"createdAt\": \"2024-04-28T23:15:40.089Z\",\n    \"displayName\": \"string\",\n    \"terminatedAt\": \"1968-10-27T00:54:32.176Z\",\n    \"labels\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    }\n  },\n  \"spec\": {\n    \"region\": \"string\",\n    \"inactivityTimeout\": \"3m\",\n    \"hardTimeout\": \"0\"\n  },\n  \"status\": {\n    \"state\": \"ready\",\n    \"token\": \"string\",\n    \"apiUrl\": \"string\",\n    \"adbWebSocketUrl\": \"string\",\n    \"endpointWebSocketUrl\": \"string\",\n    \"signedStreamUrl\": \"string\",\n    \"mcpUrl\": \"string\",\n    \"targetHttpPortUrlPrefix\": \"string\",\n    \"sandbox\": {\n      \"playwrightAndroid\": {\n        \"url\": \"string\"\n      }\n    },\n    \"errorMessage\": \"string\",\n    \"terminationReason\": \"InactivityTimeout\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "733e4fd0-2c06-4b9b-ab99-2c020b422de4",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "android_instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wait",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "reuseIfExists",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"displayName\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\",\n      \"key_2\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"clues\": [\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\",\n        \"osVersion\": \"<string>\"\n      },\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\",\n        \"osVersion\": \"<string>\"\n      }\n    ],\n    \"region\": \"<string>\",\n    \"inactivityTimeout\": \"3m\",\n    \"hardTimeout\": \"0\",\n    \"sandbox\": {\n      \"playwrightAndroid\": {\n        \"enabled\": \"<boolean>\",\n        \"version\": \"<string>\"\n      }\n    },\n    \"initialAssets\": [\n      {\n        \"kind\": \"App\",\n        \"configuration\": {\n          \"kind\": \"<string>\",\n          \"chromeFlag\": \"<string>\"\n        },\n        \"source\": \"URL\",\n        \"url\": \"<string>\",\n        \"assetName\": \"<string>\",\n        \"urls\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"assetNames\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"assetIds\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      {\n        \"kind\": \"App\",\n        \"configuration\": {\n          \"kind\": \"<string>\",\n          \"chromeFlag\": \"<string>\"\n        },\n        \"source\": \"URL\",\n        \"url\": \"<string>\",\n        \"assetName\": \"<string>\",\n        \"urls\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"assetNames\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"assetIds\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoRemainingMinutes\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "34125a70-7dee-478f-a7e7-f3af173a62e3",
+          "name": "Get Android instance with given ID",
+          "request": {
+            "name": "Get Android instance with given ID",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "android_instances",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Android instance ID, e.g. android_someid"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c90e4ad2-51da-4847-9a38-87a21fd5be4b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "android_instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Android instance ID, e.g. android_someid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metadata\": {\n    \"id\": \"string\",\n    \"organizationId\": \"string\",\n    \"createdAt\": \"2024-04-28T23:15:40.089Z\",\n    \"displayName\": \"string\",\n    \"terminatedAt\": \"1968-10-27T00:54:32.176Z\",\n    \"labels\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    }\n  },\n  \"spec\": {\n    \"region\": \"string\",\n    \"inactivityTimeout\": \"3m\",\n    \"hardTimeout\": \"0\"\n  },\n  \"status\": {\n    \"state\": \"ready\",\n    \"token\": \"string\",\n    \"apiUrl\": \"string\",\n    \"adbWebSocketUrl\": \"string\",\n    \"endpointWebSocketUrl\": \"string\",\n    \"signedStreamUrl\": \"string\",\n    \"mcpUrl\": \"string\",\n    \"targetHttpPortUrlPrefix\": \"string\",\n    \"sandbox\": {\n      \"playwrightAndroid\": {\n        \"url\": \"string\"\n      }\n    },\n    \"errorMessage\": \"string\",\n    \"terminationReason\": \"InactivityTimeout\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9ea2d113-d6ad-4765-8906-f9e615a103da",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "android_instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Android instance ID, e.g. android_someid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoRemainingMinutes\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "26ebe701-f31b-40f8-87d2-47b0e13816f3",
+          "name": "Delete Android instance with given name",
+          "request": {
+            "name": "Delete Android instance with given name",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "android_instances",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Android instance ID, e.g. android_someid"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "03232b1d-8093-44fb-9b3d-882c8f77a342",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "android_instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Android instance ID, e.g. android_someid"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "13d8c63d-a641-416e-9e27-617692319798",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "android_instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Android instance ID, e.g. android_someid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoRemainingMinutes\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6cc26025-3967-4fa9-ade7-93f185c754a2",
+    "name": "Limrun Analytics Android Instances API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

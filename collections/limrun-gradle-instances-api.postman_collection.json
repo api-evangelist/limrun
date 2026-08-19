@@ -1,0 +1,631 @@
+{
+  "item": [
+    {
+      "id": "9417de64-cbee-41fe-a632-3a3ea6a817a3",
+      "name": "Gradle Instances",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5a882a74-4ad5-46ab-bd55-897e5919ebc2",
+          "name": "List Gradle instances",
+          "request": {
+            "name": "List Gradle instances",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "gradle_instances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "state",
+                  "value": "<string>",
+                  "description": "State filter to apply to Gradle instances to return. Each comma-separated state will be used as part of\nan OR clause, e.g. \"assigned,ready\" will return all instances that are either assigned or ready.\n\nValid states: creating, assigned, ready, terminated, unknown\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "labelSelector",
+                  "value": "<string>",
+                  "description": "Labels filter to apply to instances to return.\nExpects a comma-separated list of key=value pairs (e.g., env=prod,region=us-west).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "Maximum number of items to be returned. The default is 50.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "startingAfter",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "endingBefore",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "77a67a97-99c3-4772-a2bd-2e1a80676b75",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "gradle_instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "state",
+                      "value": "assigned,ready"
+                    },
+                    {
+                      "key": "labelSelector",
+                      "value": "env=prod,version=1.2"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "startingAfter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endingBefore",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"metadata\": {\n      \"id\": \"string\",\n      \"organizationId\": \"string\",\n      \"createdAt\": \"1947-07-24T06:20:08.990Z\",\n      \"displayName\": \"string\",\n      \"terminatedAt\": \"2018-12-26T14:51:36.734Z\",\n      \"labels\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      }\n    },\n    \"spec\": {\n      \"region\": \"string\",\n      \"inactivityTimeout\": \"5m\",\n      \"hardTimeout\": \"0\"\n    },\n    \"status\": {\n      \"state\": \"unknown\",\n      \"token\": \"string\",\n      \"apiUrl\": \"string\",\n      \"errorMessage\": \"string\",\n      \"terminationReason\": \"InactivityTimeout\"\n    }\n  },\n  {\n    \"metadata\": {\n      \"id\": \"string\",\n      \"organizationId\": \"string\",\n      \"createdAt\": \"2017-10-07T06:41:49.539Z\",\n      \"displayName\": \"string\",\n      \"terminatedAt\": \"1967-03-31T21:48:50.436Z\",\n      \"labels\": {\n        \"key_0\": \"string\"\n      }\n    },\n    \"spec\": {\n      \"region\": \"string\",\n      \"inactivityTimeout\": \"5m\",\n      \"hardTimeout\": \"0\"\n    },\n    \"status\": {\n      \"state\": \"creating\",\n      \"token\": \"string\",\n      \"apiUrl\": \"string\",\n      \"errorMessage\": \"string\",\n      \"terminationReason\": \"InactivityTimeout\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "11037a7d-c92c-45de-9007-c98080215eb3",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "gradle_instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "state",
+                      "value": "assigned,ready"
+                    },
+                    {
+                      "key": "labelSelector",
+                      "value": "env=prod,version=1.2"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "startingAfter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endingBefore",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"ConcurrencyLimitReached\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "695749db-7fa6-4452-aed3-7bff2e03cc8a",
+          "name": "Create a Gradle instance",
+          "request": {
+            "name": "Create a Gradle instance",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "gradle_instances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "wait",
+                  "value": "<boolean>",
+                  "description": "Return after the instance is ready to connect."
+                },
+                {
+                  "disabled": false,
+                  "key": "reuseIfExists",
+                  "value": "<boolean>",
+                  "description": "If there is another instance with given labels and region, return that one instead of creating\na new instance.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"metadata\": {\n    \"displayName\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"clues\": [\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      },\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      }\n    ],\n    \"region\": \"<string>\",\n    \"inactivityTimeout\": \"5m\",\n    \"hardTimeout\": \"0\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a890063d-2359-4d58-a644-16d50c5199dc",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "gradle_instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wait",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "reuseIfExists",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"displayName\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"clues\": [\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      },\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      }\n    ],\n    \"region\": \"<string>\",\n    \"inactivityTimeout\": \"5m\",\n    \"hardTimeout\": \"0\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metadata\": {\n    \"id\": \"string\",\n    \"organizationId\": \"string\",\n    \"createdAt\": \"1981-01-10T09:13:59.990Z\",\n    \"displayName\": \"string\",\n    \"terminatedAt\": \"2026-03-19T14:07:13.227Z\",\n    \"labels\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    }\n  },\n  \"spec\": {\n    \"region\": \"string\",\n    \"inactivityTimeout\": \"5m\",\n    \"hardTimeout\": \"0\"\n  },\n  \"status\": {\n    \"state\": \"assigned\",\n    \"token\": \"string\",\n    \"apiUrl\": \"string\",\n    \"errorMessage\": \"string\",\n    \"terminationReason\": \"InactivityTimeout\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ded47d97-287a-41b3-b781-030addab516b",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "gradle_instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wait",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "reuseIfExists",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"displayName\": \"<string>\",\n    \"labels\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    }\n  },\n  \"spec\": {\n    \"clues\": [\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      },\n      {\n        \"kind\": \"<string>\",\n        \"clientIp\": \"<string>\"\n      }\n    ],\n    \"region\": \"<string>\",\n    \"inactivityTimeout\": \"5m\",\n    \"hardTimeout\": \"0\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"ConcurrencyLimitReached\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2540daff-db39-4ece-84a4-47d24cf7d23e",
+          "name": "Get Gradle instance with given ID",
+          "request": {
+            "name": "Get Gradle instance with given ID",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "gradle_instances",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Gradle instance ID, e.g. gradle_someid"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "14e23770-94f6-49f3-94a1-9c5d79b2fc1f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "gradle_instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Gradle instance ID, e.g. gradle_someid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metadata\": {\n    \"id\": \"string\",\n    \"organizationId\": \"string\",\n    \"createdAt\": \"1981-01-10T09:13:59.990Z\",\n    \"displayName\": \"string\",\n    \"terminatedAt\": \"2026-03-19T14:07:13.227Z\",\n    \"labels\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    }\n  },\n  \"spec\": {\n    \"region\": \"string\",\n    \"inactivityTimeout\": \"5m\",\n    \"hardTimeout\": \"0\"\n  },\n  \"status\": {\n    \"state\": \"assigned\",\n    \"token\": \"string\",\n    \"apiUrl\": \"string\",\n    \"errorMessage\": \"string\",\n    \"terminationReason\": \"InactivityTimeout\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "594490d0-6229-4b89-8026-151680bba533",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "gradle_instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Gradle instance ID, e.g. gradle_someid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"ConcurrencyLimitReached\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bd3e7bb9-7288-4db0-9666-869576b8c299",
+          "name": "Delete Gradle instance with given name",
+          "request": {
+            "name": "Delete Gradle instance with given name",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "gradle_instances",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Gradle instance ID, e.g. gradle_someid"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "786aea99-9f9f-40fa-88cb-e0c3cbc5008f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "gradle_instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Gradle instance ID, e.g. gradle_someid"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d7284c50-1639-4b75-91cf-e940ace37c57",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "gradle_instances",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Gradle instance ID, e.g. gradle_someid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"ConcurrencyLimitReached\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "25723b9b-900f-44ab-bdd3-3d40d14d1c34",
+    "name": "Limrun Analytics Gradle Instances API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Limrun Analytics Xcode Instances API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Xcode Instances",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Xcode instances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/xcode_instances",
+            "params": [
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "State filter to apply to Xcode instances to return. Each comma-separated state will be used as part of\nan OR clause, e.g. \"assigned,ready\" will return all instances that are either assigned or ready.\n\nValid states: creating, assigned, ready, terminated, unknown\n"
+              },
+              {
+                "name": "labelSelector",
+                "value": "",
+                "type": "query",
+                "description": "Labels filter to apply to instances to return.\nExpects a comma-separated list of key=value pairs (e.g., env=prod,region=us-west).\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to be returned. The default is 50.\n"
+              },
+              {
+                "name": "startingAfter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "endingBefore",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List Xcode instances"
+        },
+        {
+          "info": {
+            "name": "Create an Xcode instance",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/xcode_instances",
+            "params": [
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "Return after the instance is ready to connect."
+              },
+              {
+                "name": "reuseIfExists",
+                "value": "",
+                "type": "query",
+                "description": "If there is another instance with given labels and region, return that one instead of creating\na new instance.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an Xcode instance"
+        },
+        {
+          "info": {
+            "name": "Get Xcode instance with given ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/xcode_instances/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Xcode instance ID, e.g. sandbox_someid"
+              }
+            ]
+          },
+          "docs": "Get Xcode instance with given ID"
+        },
+        {
+          "info": {
+            "name": "Delete Xcode instance with given name",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/xcode_instances/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Xcode instance ID, e.g. sandbox_someid"
+              }
+            ]
+          },
+          "docs": "Delete Xcode instance with given name"
+        },
+        {
+          "info": {
+            "name": "List persisted build logs for an Xcode instance.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/xcode_instances/:id/build_logs",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Xcode instance ID, e.g. sandbox_someid"
+              }
+            ]
+          },
+          "docs": "Returns metadata and a short-lived presigned download URL for each\nbuild that ran on the given Xcode instance. Builds are returned in\nchronological order. Logs persist after the instance is terminated,\nsubject to the configured retention window.\n"
+        },
+        {
+          "info": {
+            "name": "List persisted Bazel build records for an Xcode instance.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/xcode_instances/:id/bazel_build_logs",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Xcode instance ID, e.g. sandbox_someid"
+              }
+            ]
+          },
+          "docs": "Returns a summary and a short-lived presigned download URL for each\nBazel build (RBE invocation) that ran on the given Xcode instance.\nBuilds are returned in chronological order. Records persist after the\ninstance is terminated, subject to the configured retention window.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

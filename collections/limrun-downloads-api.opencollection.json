@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Limrun Analytics Downloads API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Downloads",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Resolve a runtime download URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/downloads/resolve",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Resolves a runtime limulator download URL into the internal download bundle shape.\nURLs that point at Limrun-owned asset-storage buckets may be upgraded to a\nheader-signed TAG request with the original URL as fallback, but only after\nthe original URL successfully authorizes a one-byte probe. Other URLs are\nreturned unchanged. Possession of the source URL is the authorization\ncapability for this endpoint.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

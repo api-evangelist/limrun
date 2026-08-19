@@ -1,0 +1,603 @@
+{
+  "item": [
+    {
+      "id": "0cde5a6c-658e-45c8-ae79-edb8b145095d",
+      "name": "Analytics",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ceee961a-016b-4b51-9a98-6a5d273441ca",
+          "name": "Get analytics across all organizations",
+          "request": {
+            "name": "Get analytics across all organizations",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "analytics",
+                "private"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<dateTime>",
+                  "description": "(Required) Start of the time range (inclusive, RFC3339)"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<dateTime>",
+                  "description": "(Required) End of the time range (exclusive, RFC3339)"
+                },
+                {
+                  "disabled": false,
+                  "key": "region",
+                  "value": "<string>",
+                  "description": "Optional region filter"
+                },
+                {
+                  "disabled": false,
+                  "key": "bucket",
+                  "value": "day",
+                  "description": "Time bucket granularity for the analytics series"
+                },
+                {
+                  "disabled": false,
+                  "key": "timezone",
+                  "value": "America/Los_Angeles",
+                  "description": "Optional IANA timezone used for time bucket grouping. Defaults to America/Los_Angeles when omitted."
+                },
+                {
+                  "disabled": false,
+                  "key": "labels",
+                  "value": "<string>",
+                  "description": "Label selector to filter instances (e.g., \"env=prod,team=backend\")"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ebfb5646-8607-46af-be28-1569d0cf4441",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "analytics",
+                    "private"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "bucket",
+                      "value": "day"
+                    },
+                    {
+                      "key": "timezone",
+                      "value": "America/Los_Angeles"
+                    },
+                    {
+                      "key": "labels",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"from\": \"2008-10-15T00:24:24.241Z\",\n  \"to\": \"1959-06-25T08:09:11.030Z\",\n  \"bucket\": \"day\",\n  \"timezone\": \"string\",\n  \"asOf\": \"1991-05-30T07:02:00.253Z\",\n  \"series\": [\n    {\n      \"timestamp\": \"string\",\n      \"android\": {\n        \"key_0\": {\n          \"runtimeMinutes\": 7374,\n          \"billedMinutes\": 7739,\n          \"avgDurationMinutes\": 9195.720280570913,\n          \"count\": 6160,\n          \"cost\": 7159.776258749556,\n          \"creditsBilledMinutes\": 8843,\n          \"onDemandBilledMinutes\": 6771,\n          \"creditsCost\": 2760.164134494143,\n          \"onDemandCost\": 2288.509513545529,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 9474\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 691.7519273042028\n          }\n        }\n      },\n      \"ios\": {\n        \"key_0\": {\n          \"runtimeMinutes\": 64,\n          \"billedMinutes\": 8891,\n          \"avgDurationMinutes\": 6873.28164241404,\n          \"count\": 5644,\n          \"cost\": 4936.358621282811,\n          \"creditsBilledMinutes\": 3403,\n          \"onDemandBilledMinutes\": 1990,\n          \"creditsCost\": 9944.035222312636,\n          \"onDemandCost\": 9391.710771704655,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 9921,\n            \"key_1\": 3776,\n            \"key_2\": 178\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 760.4277006834359,\n            \"key_1\": 4608.525804327433\n          }\n        },\n        \"key_1\": {\n          \"runtimeMinutes\": 2092,\n          \"billedMinutes\": 5065,\n          \"avgDurationMinutes\": 2898.0079681978245,\n          \"count\": 8383,\n          \"cost\": 5408.50570268637,\n          \"creditsBilledMinutes\": 514,\n          \"onDemandBilledMinutes\": 7905,\n          \"creditsCost\": 7969.29416127219,\n          \"onDemandCost\": 4714.077041618802,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 7777\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 9243.006812702019,\n            \"key_1\": 6622.10568458624,\n            \"key_2\": 2378.221499173606\n          }\n        }\n      },\n      \"xcode\": {\n        \"key_0\": {\n          \"runtimeMinutes\": 3767,\n          \"billedMinutes\": 9929,\n          \"avgDurationMinutes\": 1495.6376119552006,\n          \"count\": 1595,\n          \"cost\": 3647.0758738299214,\n          \"creditsBilledMinutes\": 2025,\n          \"onDemandBilledMinutes\": 7340,\n          \"creditsCost\": 303.7881539718712,\n          \"onDemandCost\": 543.8944286199054,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 7064\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 6369.722727480313\n          }\n        },\n        \"key_1\": {\n          \"runtimeMinutes\": 3104,\n          \"billedMinutes\": 1383,\n          \"avgDurationMinutes\": 7359.982234463263,\n          \"count\": 4439,\n          \"cost\": 138.68816119594896,\n          \"creditsBilledMinutes\": 4259,\n          \"onDemandBilledMinutes\": 9386,\n          \"creditsCost\": 6680.030811965811,\n          \"onDemandCost\": 1775.2324182210943,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 9092\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 2429.1114112711807\n          }\n        }\n      },\n      \"gradle\": {\n        \"key_0\": {\n          \"runtimeMinutes\": 4169,\n          \"billedMinutes\": 5502,\n          \"avgDurationMinutes\": 1785.1782487076307,\n          \"count\": 9851,\n          \"cost\": 5086.9589028260025,\n          \"creditsBilledMinutes\": 718,\n          \"onDemandBilledMinutes\": 4949,\n          \"creditsCost\": 2803.2166651108605,\n          \"onDemandCost\": 7973.475834843488,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 6196,\n            \"key_1\": 8358,\n            \"key_2\": 9932\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 8797.967218673874,\n            \"key_1\": 1452.118044606956\n          }\n        },\n        \"key_1\": {\n          \"runtimeMinutes\": 9693,\n          \"billedMinutes\": 769,\n          \"avgDurationMinutes\": 4243.185774969197,\n          \"count\": 915,\n          \"cost\": 58.53607740797129,\n          \"creditsBilledMinutes\": 4554,\n          \"onDemandBilledMinutes\": 1041,\n          \"creditsCost\": 8635.43240604313,\n          \"onDemandCost\": 9947.69133412923,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 9022\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 7175.965156844533\n          }\n        }\n      },\n      \"instances\": [\n        {\n          \"instanceTid\": \"string\",\n          \"platform\": \"xcode\",\n          \"runtimeMinutes\": 7569,\n          \"billedMinutes\": 327,\n          \"cost\": 6652.8278544039895,\n          \"region\": \"string\",\n          \"labels\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\",\n            \"key_2\": \"string\"\n          },\n          \"billedBreakdown\": {\n            \"creditsBilledMinutes\": 3106,\n            \"onDemandBilledMinutes\": 442,\n            \"subscriptionBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"costBreakdown\": {\n            \"creditsCost\": 5713.720656563519,\n            \"onDemandCost\": 5260.760764193595,\n            \"subscriptionCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        },\n        {\n          \"instanceTid\": \"string\",\n          \"platform\": \"android\",\n          \"runtimeMinutes\": 8770,\n          \"billedMinutes\": 1967,\n          \"cost\": 3512.5005872412817,\n          \"region\": \"string\",\n          \"labels\": {\n            \"key_0\": \"string\"\n          },\n          \"billedBreakdown\": {\n            \"creditsBilledMinutes\": 8812,\n            \"onDemandBilledMinutes\": 4140,\n            \"subscriptionBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"costBreakdown\": {\n            \"creditsCost\": 602.0816696947195,\n            \"onDemandCost\": 697.8193233133678,\n            \"subscriptionCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        }\n      ]\n    },\n    {\n      \"timestamp\": \"string\",\n      \"android\": {\n        \"key_0\": {\n          \"runtimeMinutes\": 6921,\n          \"billedMinutes\": 8587,\n          \"avgDurationMinutes\": 3849.335289942596,\n          \"count\": 855,\n          \"cost\": 5075.721575189735,\n          \"creditsBilledMinutes\": 5052,\n          \"onDemandBilledMinutes\": 9624,\n          \"creditsCost\": 3232.261824565771,\n          \"onDemandCost\": 9568.36266641821,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 7364\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 7023.210013040878,\n            \"key_1\": 1014.8386470808524,\n            \"key_2\": 9218.248857376591\n          }\n        },\n        \"key_1\": {\n          \"runtimeMinutes\": 6704,\n          \"billedMinutes\": 1139,\n          \"avgDurationMinutes\": 7941.243211698487,\n          \"count\": 4161,\n          \"cost\": 4507.743120036724,\n          \"creditsBilledMinutes\": 8023,\n          \"onDemandBilledMinutes\": 4730,\n          \"creditsCost\": 4859.756214193829,\n          \"onDemandCost\": 8931.608759213505,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 4880\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 3665.1073933944945\n          }\n        },\n        \"key_2\": {\n          \"runtimeMinutes\": 5899,\n          \"billedMinutes\": 4317,\n          \"avgDurationMinutes\": 6381.788050278716,\n          \"count\": 4768,\n          \"cost\": 3206.7415797717604,\n          \"creditsBilledMinutes\": 8233,\n          \"onDemandBilledMinutes\": 6830,\n          \"creditsCost\": 2361.441157279176,\n          \"onDemandCost\": 6234.685908739896,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 9587,\n            \"key_1\": 7633,\n            \"key_2\": 5451\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 5494.386759620013,\n            \"key_1\": 8783.430228662844\n          }\n        },\n        \"key_3\": {\n          \"runtimeMinutes\": 2486,\n          \"billedMinutes\": 6935,\n          \"avgDurationMinutes\": 1182.6589401774534,\n          \"count\": 8279,\n          \"cost\": 8063.12430988124,\n          \"creditsBilledMinutes\": 5459,\n          \"onDemandBilledMinutes\": 9238,\n          \"creditsCost\": 1024.9491176375925,\n          \"onDemandCost\": 3711.804097342708,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 2869,\n            \"key_1\": 2662\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 4504.771005137595,\n            \"key_1\": 1977.927552599853,\n            \"key_2\": 6079.4589440253285\n          }\n        }\n      },\n      \"ios\": {\n        \"key_0\": {\n          \"runtimeMinutes\": 7655,\n          \"billedMinutes\": 6269,\n          \"avgDurationMinutes\": 2021.3685850346708,\n          \"count\": 20,\n          \"cost\": 8022.32964995968,\n          \"creditsBilledMinutes\": 3054,\n          \"onDemandBilledMinutes\": 2245,\n          \"creditsCost\": 2410.099587076422,\n          \"onDemandCost\": 4902.1187317733375,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 4498\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 4026.8373316344487,\n            \"key_1\": 9644.585024884289\n          }\n        },\n        \"key_1\": {\n          \"runtimeMinutes\": 7155,\n          \"billedMinutes\": 9707,\n          \"avgDurationMinutes\": 8874.977551326749,\n          \"count\": 8951,\n          \"cost\": 3113.1339459045125,\n          \"creditsBilledMinutes\": 8306,\n          \"onDemandBilledMinutes\": 5509,\n          \"creditsCost\": 6245.395018097473,\n          \"onDemandCost\": 548.1353269643929,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 4649\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 1270.5531111910072\n          }\n        }\n      },\n      \"xcode\": {\n        \"key_0\": {\n          \"runtimeMinutes\": 6747,\n          \"billedMinutes\": 8163,\n          \"avgDurationMinutes\": 6814.0608988968725,\n          \"count\": 9129,\n          \"cost\": 3090.878607685351,\n          \"creditsBilledMinutes\": 9357,\n          \"onDemandBilledMinutes\": 7219,\n          \"creditsCost\": 6325.685656299689,\n          \"onDemandCost\": 2521.1327665163685,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 2019,\n            \"key_1\": 4082\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 4831.224194208964\n          }\n        },\n        \"key_1\": {\n          \"runtimeMinutes\": 4508,\n          \"billedMinutes\": 5598,\n          \"avgDurationMinutes\": 5546.093655520818,\n          \"count\": 4053,\n          \"cost\": 2234.8495825874925,\n          \"creditsBilledMinutes\": 8367,\n          \"onDemandBilledMinutes\": 2167,\n          \"creditsCost\": 5263.964076830192,\n          \"onDemandCost\": 2865.284369780582,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 9624,\n            \"key_1\": 5025\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 2842.3867702119555\n          }\n        },\n        \"key_2\": {\n          \"runtimeMinutes\": 8893,\n          \"billedMinutes\": 3658,\n          \"avgDurationMinutes\": 312.92159352624526,\n          \"count\": 3897,\n          \"cost\": 2560.9620876490803,\n          \"creditsBilledMinutes\": 3763,\n          \"onDemandBilledMinutes\": 8282,\n          \"creditsCost\": 5544.851107984149,\n          \"onDemandCost\": 8607.01957479013,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 716\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 9503.522879504255,\n            \"key_1\": 9868.251642770332,\n            \"key_2\": 8634.094242014153\n          }\n        }\n      },\n      \"gradle\": {\n        \"key_0\": {\n          \"runtimeMinutes\": 535,\n          \"billedMinutes\": 8659,\n          \"avgDurationMinutes\": 1781.8196958290944,\n          \"count\": 8975,\n          \"cost\": 534.8410172296925,\n          \"creditsBilledMinutes\": 4414,\n          \"onDemandBilledMinutes\": 6209,\n          \"creditsCost\": 7831.848557276671,\n          \"onDemandCost\": 5078.849808096427,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 8327,\n            \"key_1\": 6826\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 4921.408155263511\n          }\n        }\n      },\n      \"instances\": [\n        {\n          \"instanceTid\": \"string\",\n          \"platform\": \"ios\",\n          \"runtimeMinutes\": 7148,\n          \"billedMinutes\": 657,\n          \"cost\": 4776.788940064188,\n          \"region\": \"string\",\n          \"labels\": {\n            \"key_0\": \"string\"\n          },\n          \"billedBreakdown\": {\n            \"creditsBilledMinutes\": 8228,\n            \"onDemandBilledMinutes\": 6680,\n            \"subscriptionBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"costBreakdown\": {\n            \"creditsCost\": 2871.122420614464,\n            \"onDemandCost\": 4844.1652260268465,\n            \"subscriptionCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        },\n        {\n          \"instanceTid\": \"string\",\n          \"platform\": \"android\",\n          \"runtimeMinutes\": 5398,\n          \"billedMinutes\": 3774,\n          \"cost\": 3264.388514229021,\n          \"region\": \"string\",\n          \"labels\": {\n            \"key_0\": \"string\"\n          },\n          \"billedBreakdown\": {\n            \"creditsBilledMinutes\": 290,\n            \"onDemandBilledMinutes\": 9857,\n            \"subscriptionBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"costBreakdown\": {\n            \"creditsCost\": 5207.916001845454,\n            \"onDemandCost\": 9797.334057066357,\n            \"subscriptionCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        }\n      ]\n    }\n  ],\n  \"summary\": {\n    \"android\": {\n      \"key_0\": {\n        \"runtimeMinutes\": 2882,\n        \"billedMinutes\": 4292,\n        \"avgDurationMinutes\": 6993.054569535313,\n        \"count\": 9284,\n        \"cost\": 476.4136053900325,\n        \"creditsBilledMinutes\": 3390,\n        \"onDemandBilledMinutes\": 4719,\n        \"creditsCost\": 1914.3072472022893,\n        \"onDemandCost\": 2012.0604390836784,\n        \"subscriptionBilledMinutes\": {\n          \"key_0\": 638\n        },\n        \"subscriptionCost\": {\n          \"key_0\": 620.0932006697002,\n          \"key_1\": 5811.305433779589\n        }\n      }\n    },\n    \"ios\": {\n      \"key_0\": {\n        \"runtimeMinutes\": 9918,\n        \"billedMinutes\": 9034,\n        \"avgDurationMinutes\": 2410.091021834999,\n        \"count\": 7403,\n        \"cost\": 7960.57259113312,\n        \"creditsBilledMinutes\": 6831,\n        \"onDemandBilledMinutes\": 3050,\n        \"creditsCost\": 5230.667991106864,\n        \"onDemandCost\": 6369.730468523077,\n        \"subscriptionBilledMinutes\": {\n          \"key_0\": 2064\n        },\n        \"subscriptionCost\": {\n          \"key_0\": 9403.321424407875,\n          \"key_1\": 6305.323549750042\n        }\n      },\n      \"key_1\": {\n        \"runtimeMinutes\": 1446,\n        \"billedMinutes\": 427,\n        \"avgDurationMinutes\": 261.2151913287575,\n        \"count\": 2595,\n        \"cost\": 4944.1094624923335,\n        \"creditsBilledMinutes\": 6127,\n        \"onDemandBilledMinutes\": 5944,\n        \"creditsCost\": 9705.3259920303,\n        \"onDemandCost\": 2140.2629520826576,\n        \"subscriptionBilledMinutes\": {\n          \"key_0\": 5636,\n          \"key_1\": 4733\n        },\n        \"subscriptionCost\": {\n          \"key_0\": 8523.7605038318\n        }\n      }\n    },\n    \"xcode\": {\n      \"key_0\": {\n        \"runtimeMinutes\": 7864,\n        \"billedMinutes\": 1987,\n        \"avgDurationMinutes\": 1561.4759503220898,\n        \"count\": 3120,\n        \"cost\": 9214.632656510506,\n        \"creditsBilledMinutes\": 7504,\n        \"onDemandBilledMinutes\": 3699,\n        \"creditsCost\": 8173.459522538689,\n        \"onDemandCost\": 820.8109481802217,\n        \"subscriptionBilledMinutes\": {\n          \"key_0\": 9202,\n          \"key_1\": 9792\n        },\n        \"subscriptionCost\": {\n          \"key_0\": 3880.9814182973632\n        }\n      }\n    },\n    \"gradle\": {\n      \"key_0\": {\n        \"runtimeMinutes\": 5440,\n        \"billedMinutes\": 8088,\n        \"avgDurationMinutes\": 123.13121987610809,\n        \"count\": 4882,\n        \"cost\": 5841.192601423223,\n        \"creditsBilledMinutes\": 1883,\n        \"onDemandBilledMinutes\": 7791,\n        \"creditsCost\": 4729.3288695179,\n        \"onDemandCost\": 7186.672882196858,\n        \"subscriptionBilledMinutes\": {\n          \"key_0\": 2378\n        },\n        \"subscriptionCost\": {\n          \"key_0\": 5948.14433419708\n        }\n      },\n      \"key_1\": {\n        \"runtimeMinutes\": 7697,\n        \"billedMinutes\": 3415,\n        \"avgDurationMinutes\": 29.086468472933056,\n        \"count\": 3440,\n        \"cost\": 144.79466464975778,\n        \"creditsBilledMinutes\": 1847,\n        \"onDemandBilledMinutes\": 33,\n        \"creditsCost\": 8008.584311749714,\n        \"onDemandCost\": 4061.8890098785655,\n        \"subscriptionBilledMinutes\": {\n          \"key_0\": 8591\n        },\n        \"subscriptionCost\": {\n          \"key_0\": 1783.00116826696,\n          \"key_1\": 3313.216027267131\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6e6fc76d-4adb-4bc3-8267-adcd10fbaae9",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "analytics",
+                    "private"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "bucket",
+                      "value": "day"
+                    },
+                    {
+                      "key": "timezone",
+                      "value": "America/Los_Angeles"
+                    },
+                    {
+                      "key": "labels",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f74c1647-26dc-4cb6-9c67-17c157a0cf99",
+          "name": "Get analytics for the authenticated organization",
+          "request": {
+            "name": "Get analytics for the authenticated organization",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "analytics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<dateTime>",
+                  "description": "(Required) Start of the time range (inclusive, RFC3339)"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<dateTime>",
+                  "description": "(Required) End of the time range (exclusive, RFC3339)"
+                },
+                {
+                  "disabled": false,
+                  "key": "region",
+                  "value": "<string>",
+                  "description": "Optional region filter"
+                },
+                {
+                  "disabled": false,
+                  "key": "bucket",
+                  "value": "day",
+                  "description": "Time bucket granularity for the analytics series"
+                },
+                {
+                  "disabled": false,
+                  "key": "timezone",
+                  "value": "America/Los_Angeles",
+                  "description": "Optional IANA timezone used for time bucket grouping. Defaults to America/Los_Angeles when omitted."
+                },
+                {
+                  "disabled": false,
+                  "key": "labels",
+                  "value": "<string>",
+                  "description": "Label selector to filter instances (e.g., \"env=prod,team=backend\")"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6a14e753-91af-460e-9cc7-c034f620920a",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "analytics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "bucket",
+                      "value": "day"
+                    },
+                    {
+                      "key": "timezone",
+                      "value": "America/Los_Angeles"
+                    },
+                    {
+                      "key": "labels",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"from\": \"2018-03-19T08:44:58.178Z\",\n  \"to\": \"1980-06-24T20:54:56.909Z\",\n  \"bucket\": \"week\",\n  \"timezone\": \"string\",\n  \"asOf\": \"1986-10-02T20:40:19.565Z\",\n  \"series\": [\n    {\n      \"timestamp\": \"string\",\n      \"android\": {\n        \"key_0\": {\n          \"runtimeMinutes\": 3757,\n          \"billedMinutes\": 1911,\n          \"avgDurationMinutes\": 2022.0193124861962,\n          \"count\": 4465,\n          \"cost\": 809.0204319075856,\n          \"creditsBilledMinutes\": 5017,\n          \"onDemandBilledMinutes\": 9791,\n          \"creditsCost\": 6554.736350120871,\n          \"onDemandCost\": 55.77155802466205,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 1413\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 255.90443926450934,\n            \"key_1\": 2623.0083860877216,\n            \"key_2\": 2983.279216537137\n          }\n        }\n      },\n      \"ios\": {\n        \"key_0\": {\n          \"runtimeMinutes\": 1714,\n          \"billedMinutes\": 1188,\n          \"avgDurationMinutes\": 676.7886558464231,\n          \"count\": 3864,\n          \"cost\": 9273.815651188852,\n          \"creditsBilledMinutes\": 7233,\n          \"onDemandBilledMinutes\": 1207,\n          \"creditsCost\": 5099.017630840912,\n          \"onDemandCost\": 4928.931446581043,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 7287,\n            \"key_1\": 8064,\n            \"key_2\": 7722\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 1093.9641598566618,\n            \"key_1\": 1305.3233442531975\n          }\n        }\n      },\n      \"xcode\": {\n        \"key_0\": {\n          \"runtimeMinutes\": 8397,\n          \"billedMinutes\": 3944,\n          \"avgDurationMinutes\": 5830.885082974546,\n          \"count\": 4734,\n          \"cost\": 582.7193057589631,\n          \"creditsBilledMinutes\": 56,\n          \"onDemandBilledMinutes\": 7401,\n          \"creditsCost\": 1912.5232827112436,\n          \"onDemandCost\": 2874.7051283867754,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 6719\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 9068.352571985773,\n            \"key_1\": 440.56337931682623\n          }\n        },\n        \"key_1\": {\n          \"runtimeMinutes\": 7177,\n          \"billedMinutes\": 4283,\n          \"avgDurationMinutes\": 467.9796017161275,\n          \"count\": 5861,\n          \"cost\": 4606.212421918902,\n          \"creditsBilledMinutes\": 9748,\n          \"onDemandBilledMinutes\": 4610,\n          \"creditsCost\": 285.81690215920275,\n          \"onDemandCost\": 1597.8640167671688,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 185,\n            \"key_1\": 7092\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 9555.526794372381\n          }\n        },\n        \"key_2\": {\n          \"runtimeMinutes\": 8258,\n          \"billedMinutes\": 5705,\n          \"avgDurationMinutes\": 7567.101863428323,\n          \"count\": 8337,\n          \"cost\": 2630.718487245054,\n          \"creditsBilledMinutes\": 5510,\n          \"onDemandBilledMinutes\": 4063,\n          \"creditsCost\": 6026.942343568699,\n          \"onDemandCost\": 2303.602387418807,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 6350,\n            \"key_1\": 3708,\n            \"key_2\": 3055,\n            \"key_3\": 9364,\n            \"key_4\": 4064\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 1521.347552849217,\n            \"key_1\": 5955.097284532972,\n            \"key_2\": 9892.596546409879,\n            \"key_3\": 8555.717810745742\n          }\n        }\n      },\n      \"gradle\": {\n        \"key_0\": {\n          \"runtimeMinutes\": 9011,\n          \"billedMinutes\": 1574,\n          \"avgDurationMinutes\": 5117.350566065829,\n          \"count\": 9847,\n          \"cost\": 3883.11801919626,\n          \"creditsBilledMinutes\": 70,\n          \"onDemandBilledMinutes\": 5347,\n          \"creditsCost\": 9240.683951823496,\n          \"onDemandCost\": 2978.918734426219,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 6884,\n            \"key_1\": 904\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 4205.526444933063\n          }\n        },\n        \"key_1\": {\n          \"runtimeMinutes\": 6633,\n          \"billedMinutes\": 4818,\n          \"avgDurationMinutes\": 6273.085398053782,\n          \"count\": 5668,\n          \"cost\": 977.8621509853768,\n          \"creditsBilledMinutes\": 5520,\n          \"onDemandBilledMinutes\": 5994,\n          \"creditsCost\": 8611.120536370472,\n          \"onDemandCost\": 368.8446174191451,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 5649\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 893.1058304942841,\n            \"key_1\": 844.5734636711055,\n            \"key_2\": 9727.376667992468\n          }\n        }\n      },\n      \"instances\": [\n        {\n          \"instanceTid\": \"string\",\n          \"platform\": \"ios\",\n          \"runtimeMinutes\": 5767,\n          \"billedMinutes\": 4156,\n          \"cost\": 5116.923227705594,\n          \"region\": \"string\",\n          \"labels\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"billedBreakdown\": {\n            \"creditsBilledMinutes\": 8728,\n            \"onDemandBilledMinutes\": 7362,\n            \"subscriptionBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"costBreakdown\": {\n            \"creditsCost\": 5543.33470284103,\n            \"onDemandCost\": 7221.782188765526,\n            \"subscriptionCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        },\n        {\n          \"instanceTid\": \"string\",\n          \"platform\": \"gradle\",\n          \"runtimeMinutes\": 4429,\n          \"billedMinutes\": 8612,\n          \"cost\": 2279.7245921884855,\n          \"region\": \"string\",\n          \"labels\": {\n            \"key_0\": \"string\"\n          },\n          \"billedBreakdown\": {\n            \"creditsBilledMinutes\": 2812,\n            \"onDemandBilledMinutes\": 5121,\n            \"subscriptionBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"costBreakdown\": {\n            \"creditsCost\": 9712.052385470455,\n            \"onDemandCost\": 7728.675453351334,\n            \"subscriptionCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        }\n      ]\n    },\n    {\n      \"timestamp\": \"string\",\n      \"android\": {\n        \"key_0\": {\n          \"runtimeMinutes\": 8201,\n          \"billedMinutes\": 7052,\n          \"avgDurationMinutes\": 3066.721269912465,\n          \"count\": 3097,\n          \"cost\": 8897.955516903881,\n          \"creditsBilledMinutes\": 7374,\n          \"onDemandBilledMinutes\": 5653,\n          \"creditsCost\": 1230.3437888793367,\n          \"onDemandCost\": 2629.495355309209,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 443\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 7895.466611881524\n          }\n        }\n      },\n      \"ios\": {\n        \"key_0\": {\n          \"runtimeMinutes\": 4825,\n          \"billedMinutes\": 2353,\n          \"avgDurationMinutes\": 9921.353087842112,\n          \"count\": 268,\n          \"cost\": 4929.8258901338295,\n          \"creditsBilledMinutes\": 9175,\n          \"onDemandBilledMinutes\": 4951,\n          \"creditsCost\": 8916.885110628007,\n          \"onDemandCost\": 453.286350112867,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 4048,\n            \"key_1\": 5299,\n            \"key_2\": 905\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 8346.983957788278,\n            \"key_1\": 8806.621554216745\n          }\n        }\n      },\n      \"xcode\": {\n        \"key_0\": {\n          \"runtimeMinutes\": 2784,\n          \"billedMinutes\": 8999,\n          \"avgDurationMinutes\": 3008.4255215842713,\n          \"count\": 3504,\n          \"cost\": 8028.173896586069,\n          \"creditsBilledMinutes\": 8638,\n          \"onDemandBilledMinutes\": 215,\n          \"creditsCost\": 692.3544340003384,\n          \"onDemandCost\": 5788.906576383941,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 4712\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 7455.4961355726455,\n            \"key_1\": 4010.3650567609275\n          }\n        },\n        \"key_1\": {\n          \"runtimeMinutes\": 400,\n          \"billedMinutes\": 172,\n          \"avgDurationMinutes\": 1477.9444455599055,\n          \"count\": 2929,\n          \"cost\": 4260.355365710437,\n          \"creditsBilledMinutes\": 9591,\n          \"onDemandBilledMinutes\": 2311,\n          \"creditsCost\": 261.04175748384307,\n          \"onDemandCost\": 1951.4707545877895,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 8176,\n            \"key_1\": 1938,\n            \"key_2\": 1059,\n            \"key_3\": 6652\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 9303.767971179066\n          }\n        }\n      },\n      \"gradle\": {\n        \"key_0\": {\n          \"runtimeMinutes\": 6381,\n          \"billedMinutes\": 786,\n          \"avgDurationMinutes\": 5164.566695456056,\n          \"count\": 8197,\n          \"cost\": 8235.687064012707,\n          \"creditsBilledMinutes\": 3590,\n          \"onDemandBilledMinutes\": 8096,\n          \"creditsCost\": 1129.6414224421824,\n          \"onDemandCost\": 2647.404287642994,\n          \"subscriptionBilledMinutes\": {\n            \"key_0\": 7172\n          },\n          \"subscriptionCost\": {\n            \"key_0\": 4682.9989555324755,\n            \"key_1\": 2763.892185748549,\n            \"key_2\": 9515.740404248134,\n            \"key_3\": 9034.877028627123\n          }\n        }\n      },\n      \"instances\": [\n        {\n          \"instanceTid\": \"string\",\n          \"platform\": \"xcode\",\n          \"runtimeMinutes\": 4275,\n          \"billedMinutes\": 3265,\n          \"cost\": 5796.94690510871,\n          \"region\": \"string\",\n          \"labels\": {\n            \"key_0\": \"string\"\n          },\n          \"billedBreakdown\": {\n            \"creditsBilledMinutes\": 5813,\n            \"onDemandBilledMinutes\": 2608,\n            \"subscriptionBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"costBreakdown\": {\n            \"creditsCost\": 733.2744692274462,\n            \"onDemandCost\": 6350.787295489213,\n            \"subscriptionCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        },\n        {\n          \"instanceTid\": \"string\",\n          \"platform\": \"xcode\",\n          \"runtimeMinutes\": 8033,\n          \"billedMinutes\": 7422,\n          \"cost\": 6128.449825732847,\n          \"region\": \"string\",\n          \"labels\": {\n            \"key_0\": \"string\"\n          },\n          \"billedBreakdown\": {\n            \"creditsBilledMinutes\": 3422,\n            \"onDemandBilledMinutes\": 4893,\n            \"subscriptionBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"costBreakdown\": {\n            \"creditsCost\": 6848.970692655471,\n            \"onDemandCost\": 2548.597924359749,\n            \"subscriptionCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        }\n      ]\n    }\n  ],\n  \"summary\": {\n    \"android\": {\n      \"key_0\": {\n        \"runtimeMinutes\": 961,\n        \"billedMinutes\": 8606,\n        \"avgDurationMinutes\": 9614.550953642758,\n        \"count\": 7797,\n        \"cost\": 4216.088489249545,\n        \"creditsBilledMinutes\": 4065,\n        \"onDemandBilledMinutes\": 5804,\n        \"creditsCost\": 9297.488585399675,\n        \"onDemandCost\": 1033.3947485254603,\n        \"subscriptionBilledMinutes\": {\n          \"key_0\": 5382\n        },\n        \"subscriptionCost\": {\n          \"key_0\": 4785.603424858763,\n          \"key_1\": 251.545301748457\n        }\n      },\n      \"key_1\": {\n        \"runtimeMinutes\": 9505,\n        \"billedMinutes\": 6219,\n        \"avgDurationMinutes\": 8464.353122187244,\n        \"count\": 4965,\n        \"cost\": 9750.260085589882,\n        \"creditsBilledMinutes\": 3724,\n        \"onDemandBilledMinutes\": 2376,\n        \"creditsCost\": 5352.053553931295,\n        \"onDemandCost\": 4347.754945212942,\n        \"subscriptionBilledMinutes\": {\n          \"key_0\": 8791\n        },\n        \"subscriptionCost\": {\n          \"key_0\": 7846.303093759738\n        }\n      },\n      \"key_2\": {\n        \"runtimeMinutes\": 6854,\n        \"billedMinutes\": 187,\n        \"avgDurationMinutes\": 9077.624769921285,\n        \"count\": 7956,\n        \"cost\": 7701.853989155459,\n        \"creditsBilledMinutes\": 6053,\n        \"onDemandBilledMinutes\": 35,\n        \"creditsCost\": 4695.8946638663565,\n        \"onDemandCost\": 802.4912815170381,\n        \"subscriptionBilledMinutes\": {\n          \"key_0\": 8708\n        },\n        \"subscriptionCost\": {\n          \"key_0\": 6591.909139933902\n        }\n      },\n      \"key_3\": {\n        \"runtimeMinutes\": 1329,\n        \"billedMinutes\": 4314,\n        \"avgDurationMinutes\": 149.6072445960428,\n        \"count\": 6060,\n        \"cost\": 8497.014906766937,\n        \"creditsBilledMinutes\": 4248,\n        \"onDemandBilledMinutes\": 3656,\n        \"creditsCost\": 6673.459116163945,\n        \"onDemandCost\": 1358.1884934033828,\n        \"subscriptionBilledMinutes\": {\n          \"key_0\": 7112\n        },\n        \"subscriptionCost\": {\n          \"key_0\": 6607.619913051765,\n          \"key_1\": 3831.226397915851,\n          \"key_2\": 8099.223055920111\n        }\n      }\n    },\n    \"ios\": {\n      \"key_0\": {\n        \"runtimeMinutes\": 3724,\n        \"billedMinutes\": 6326,\n        \"avgDurationMinutes\": 6500.553321500291,\n        \"count\": 6419,\n        \"cost\": 5833.347015288958,\n        \"creditsBilledMinutes\": 5742,\n        \"onDemandBilledMinutes\": 104,\n        \"creditsCost\": 3700.5358414338207,\n        \"onDemandCost\": 5439.403288329661,\n        \"subscriptionBilledMinutes\": {\n          \"key_0\": 8278,\n          \"key_1\": 253,\n          \"key_2\": 4803,\n          \"key_3\": 7408,\n          \"key_4\": 1000\n        },\n        \"subscriptionCost\": {\n          \"key_0\": 4461.9143470143,\n          \"key_1\": 614.1832406195969,\n          \"key_2\": 67.18577452500152\n        }\n      },\n      \"key_1\": {\n        \"runtimeMinutes\": 5206,\n        \"billedMinutes\": 9234,\n        \"avgDurationMinutes\": 1251.981666895675,\n        \"count\": 9473,\n        \"cost\": 4502.107024065939,\n        \"creditsBilledMinutes\": 7819,\n        \"onDemandBilledMinutes\": 3870,\n        \"creditsCost\": 8272.588546664729,\n        \"onDemandCost\": 8844.463997712855,\n        \"subscriptionBilledMinutes\": {\n          \"key_0\": 5781,\n          \"key_1\": 6648\n        },\n        \"subscriptionCost\": {\n          \"key_0\": 6932.634321638561,\n          \"key_1\": 565.7828343730265\n        }\n      },\n      \"key_2\": {\n        \"runtimeMinutes\": 9200,\n        \"billedMinutes\": 4738,\n        \"avgDurationMinutes\": 8269.136001437562,\n        \"count\": 5190,\n        \"cost\": 3984.9655113118056,\n        \"creditsBilledMinutes\": 9185,\n        \"onDemandBilledMinutes\": 2401,\n        \"creditsCost\": 7516.274353905987,\n        \"onDemandCost\": 4909.4491635118275,\n        \"subscriptionBilledMinutes\": {\n          \"key_0\": 5833\n        },\n        \"subscriptionCost\": {\n          \"key_0\": 1666.2793218629545,\n          \"key_1\": 3297.1619798677852\n        }\n      }\n    },\n    \"xcode\": {\n      \"key_0\": {\n        \"runtimeMinutes\": 9850,\n        \"billedMinutes\": 9662,\n        \"avgDurationMinutes\": 7122.461860905157,\n        \"count\": 7198,\n        \"cost\": 1442.9760434254679,\n        \"creditsBilledMinutes\": 6489,\n        \"onDemandBilledMinutes\": 3123,\n        \"creditsCost\": 9421.608125030187,\n        \"onDemandCost\": 8636.29499633407,\n        \"subscriptionBilledMinutes\": {\n          \"key_0\": 2820,\n          \"key_1\": 6903\n        },\n        \"subscriptionCost\": {\n          \"key_0\": 2012.4597267342547,\n          \"key_1\": 7908.3682371596105\n        }\n      }\n    },\n    \"gradle\": {\n      \"key_0\": {\n        \"runtimeMinutes\": 1876,\n        \"billedMinutes\": 5886,\n        \"avgDurationMinutes\": 6320.86352995851,\n        \"count\": 1481,\n        \"cost\": 5836.745757196355,\n        \"creditsBilledMinutes\": 7607,\n        \"onDemandBilledMinutes\": 300,\n        \"creditsCost\": 2341.1052553303093,\n        \"onDemandCost\": 5737.809832765894,\n        \"subscriptionBilledMinutes\": {\n          \"key_0\": 833,\n          \"key_1\": 2621,\n          \"key_2\": 1310\n        },\n        \"subscriptionCost\": {\n          \"key_0\": 7368.479793076662\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "595944e7-4f11-4a0c-b7f4-1c17fefb1195",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "analytics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "bucket",
+                      "value": "day"
+                    },
+                    {
+                      "key": "timezone",
+                      "value": "America/Los_Angeles"
+                    },
+                    {
+                      "key": "labels",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b967c529-2a56-4b96-a155-daaf4700a190",
+          "name": "Get per-instance analytics for the authenticated organization",
+          "request": {
+            "name": "Get per-instance analytics for the authenticated organization",
+            "description": {
+              "content": "Returns per-instance analytics grouped by minute bucket for detailed chart views.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "analytics",
+                "instances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<dateTime>",
+                  "description": "(Required) Start of the time range (inclusive, RFC3339)"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<dateTime>",
+                  "description": "(Required) End of the time range (exclusive, RFC3339)"
+                },
+                {
+                  "disabled": false,
+                  "key": "region",
+                  "value": "<string>",
+                  "description": "Optional region filter"
+                },
+                {
+                  "disabled": false,
+                  "key": "timezone",
+                  "value": "America/Los_Angeles",
+                  "description": "Optional IANA timezone used for minute bucket grouping. Defaults to America/Los_Angeles when omitted."
+                },
+                {
+                  "disabled": false,
+                  "key": "labels",
+                  "value": "<string>",
+                  "description": "Label selector to filter instances (e.g., \"env=prod,team=backend\")"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "59bec681-be92-45c9-b942-418ce9bd4c7d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "analytics",
+                    "instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timezone",
+                      "value": "America/Los_Angeles"
+                    },
+                    {
+                      "key": "labels",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"from\": \"1986-12-22T03:11:44.751Z\",\n  \"to\": \"1970-09-07T01:51:05.949Z\",\n  \"asOf\": \"1972-10-20T13:27:15.798Z\",\n  \"timezone\": \"string\",\n  \"series\": [\n    {\n      \"timestamp\": \"string\",\n      \"instances\": [\n        {\n          \"instanceTid\": \"string\",\n          \"platform\": \"ios\",\n          \"runtimeMinutes\": 6131,\n          \"billedMinutes\": 7556,\n          \"cost\": 9819.998761593122,\n          \"region\": \"string\",\n          \"labels\": {\n            \"key_0\": \"string\"\n          },\n          \"billedBreakdown\": {\n            \"creditsBilledMinutes\": 7530,\n            \"onDemandBilledMinutes\": 9485,\n            \"subscriptionBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"costBreakdown\": {\n            \"creditsCost\": 9078.642664430621,\n            \"onDemandCost\": 8560.29357810451,\n            \"subscriptionCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        },\n        {\n          \"instanceTid\": \"string\",\n          \"platform\": \"ios\",\n          \"runtimeMinutes\": 123,\n          \"billedMinutes\": 5253,\n          \"cost\": 2998.9108911272633,\n          \"region\": \"string\",\n          \"labels\": {\n            \"key_0\": \"string\"\n          },\n          \"billedBreakdown\": {\n            \"creditsBilledMinutes\": 255,\n            \"onDemandBilledMinutes\": 767,\n            \"subscriptionBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_3\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"costBreakdown\": {\n            \"creditsCost\": 3603.3915031579013,\n            \"onDemandCost\": 8870.921825497295,\n            \"subscriptionCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        }\n      ]\n    },\n    {\n      \"timestamp\": \"string\",\n      \"instances\": [\n        {\n          \"instanceTid\": \"string\",\n          \"platform\": \"gradle\",\n          \"runtimeMinutes\": 6231,\n          \"billedMinutes\": 6638,\n          \"cost\": 9759.018318137414,\n          \"region\": \"string\",\n          \"labels\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"billedBreakdown\": {\n            \"creditsBilledMinutes\": 5083,\n            \"onDemandBilledMinutes\": 5690,\n            \"subscriptionBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"costBreakdown\": {\n            \"creditsCost\": 2991.8861753076253,\n            \"onDemandCost\": 7024.836525636855,\n            \"subscriptionCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        },\n        {\n          \"instanceTid\": \"string\",\n          \"platform\": \"android\",\n          \"runtimeMinutes\": 5378,\n          \"billedMinutes\": 5055,\n          \"cost\": 1165.2873439167165,\n          \"region\": \"string\",\n          \"labels\": {\n            \"key_0\": \"string\"\n          },\n          \"billedBreakdown\": {\n            \"creditsBilledMinutes\": 9869,\n            \"onDemandBilledMinutes\": 534,\n            \"subscriptionBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planBilledMinutes\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"costBreakdown\": {\n            \"creditsCost\": 4379.543013386548,\n            \"onDemandCost\": 8295.18162314503,\n            \"subscriptionCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"planCost\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f340b38-672d-4bee-9085-1021fa1fba06",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "analytics",
+                    "instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "region",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "timezone",
+                      "value": "America/Los_Angeles"
+                    },
+                    {
+                      "key": "labels",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"reason\": \"NoSubscription\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d9983912-4146-4f61-99dd-6f61343efe5d",
+    "name": "Limrun Analytics API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Limrun Analytics Assets API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Assets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the asset with given ID.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/assets/:assetId",
+            "params": [
+              {
+                "name": "assetId",
+                "value": "",
+                "type": "path",
+                "description": "Asset ID"
+              },
+              {
+                "name": "includeDownloadUrl",
+                "value": "",
+                "type": "query",
+                "description": "Toggles whether a download URL should be included in the response"
+              },
+              {
+                "name": "includeUploadUrl",
+                "value": "",
+                "type": "query",
+                "description": "Toggles whether an upload URL should be included in the response"
+              }
+            ]
+          },
+          "docs": "Get the asset with given ID."
+        },
+        {
+          "info": {
+            "name": "Delete the asset with given ID.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/assets/:assetId",
+            "params": [
+              {
+                "name": "assetId",
+                "value": "",
+                "type": "path",
+                "description": "Asset ID"
+              }
+            ]
+          },
+          "docs": "Delete the asset with given ID."
+        },
+        {
+          "info": {
+            "name": "List organization's all assets with given filters. If none given, return all assets.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/assets",
+            "params": [
+              {
+                "name": "nameFilter",
+                "value": "",
+                "type": "query",
+                "description": "Case-sensitive exact match on the asset name.\nCannot be combined with namePrefixFilter.\nWhen combined with includeAppStore=true, a leading \"appstore/\" is stripped\nbefore querying App Store assets (whose stored names never carry the prefix).\n"
+              },
+              {
+                "name": "namePrefixFilter",
+                "value": "",
+                "type": "query",
+                "description": "Case-sensitive prefix match on the asset name.\nLIKE wildcards (\"%\", \"_\") in the value are treated as literal characters, not wildcards.\nEmpty string is rejected with 400; omit the parameter if no filtering is desired.\nCannot be combined with nameFilter.\nWhen combined with includeAppStore=true, a leading \"appstore/\" is stripped\nbefore querying App Store assets (whose stored names never carry the prefix);\na partial prefix like \"appstor\" will not match any App Store assets.\n"
+              },
+              {
+                "name": "includeAppStore",
+                "value": "",
+                "type": "query",
+                "description": "If true, also includes assets from Limrun App Store where you have access to.\nApp Store assets will be returned with a \"appstore/\" prefix in their names.\n"
+              },
+              {
+                "name": "includeDownloadUrl",
+                "value": "",
+                "type": "query",
+                "description": "Toggles whether a download URL should be included in the response"
+              },
+              {
+                "name": "includeUploadUrl",
+                "value": "",
+                "type": "query",
+                "description": "Toggles whether an upload URL should be included in the response"
+              },
+              {
+                "name": "kindFilter",
+                "value": "",
+                "type": "query",
+                "description": "Filters assets by kind."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to be returned. The default is 50.\n"
+              }
+            ]
+          },
+          "docs": "List organization's all assets with given filters. If none given, return all assets."
+        },
+        {
+          "info": {
+            "name": "Creates an asset and returns upload and download URLs. If there is a corresponding file uploaded in the storage\nwith given name, its MD5 is returned so you can check if a re-upload is necessary. If no MD5 is returned, then\nthere is no corresponding file in the storage so downloading it directly or using it in instances will fail\nuntil you use the returned upload URL to submit the file.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/assets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an asset and returns upload and download URLs. If there is a corresponding file uploaded in the storage\nwith given name, its MD5 is returned so you can check if a re-upload is necessary. If no MD5 is returned, then\nthere is no corresponding file in the storage so downloading it directly or using it in instances will fail\nuntil you use the returned upload URL to submit the file."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
