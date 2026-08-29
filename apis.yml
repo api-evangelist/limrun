@@ -13,6 +13,18 @@ description: >-
   with an org API key and returns its own per-instance token, data-plane URLs, a signed browser
   stream URL, and its own Model Context Protocol server, which makes Limrun one of the few providers
   shipping a per-instance MCP endpoint alongside first-party Agent Skills for coding agents.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
