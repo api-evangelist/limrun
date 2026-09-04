@@ -35,6 +35,7 @@ accessModel:
   confidence: medium
   source:
   - authentication
+  - {url: 'https://lim.run', status: 301, note: 'declared website redirects to https://limrun.com/ — a different registrable domain (lim.run -> limrun.com), possible rename or acquisition (probed 2026-09-03, roadmap#169)'}
   generated: '2026-07-22'
   method: derived
 image: https://lim.run/logo-inner-filled-no-border.svg
