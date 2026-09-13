@@ -1,0 +1,57 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Limrun",
+    "identifier": "did:web:limrun.com"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:limrun.com:server:mcp",
+      "displayName": "Limrun MCP Server",
+      "description": "Remote MCP server that creates and drives cloud iOS simulators and Android emulators for AI agents.",
+      "type": "application/mcp-server-card+json",
+      "url": "https://limrun.com/.well-known/mcp/server-card.json",
+      "representativeQueries": [
+        "create a cloud iOS simulator and take a screenshot",
+        "run my mobile app on a remote Android emulator",
+        "drive an iOS simulator from an AI agent",
+        "get the accessibility element tree of a running mobile app"
+      ]
+    },
+    {
+      "identifier": "urn:air:limrun.com:skills:index",
+      "displayName": "Limrun Agent Skills",
+      "description": "Agent skills teaching the exact lim CLI workflows for building, testing, and previewing mobile apps on Limrun.",
+      "type": "application/json",
+      "url": "https://limrun.com/.well-known/agent-skills/index.json",
+      "representativeQueries": [
+        "build an Xcode project remotely from a cloud sandbox",
+        "run Maestro tests against a cloud simulator",
+        "compile and preview an Expo app on a remote iOS simulator"
+      ]
+    },
+    {
+      "identifier": "urn:air:limrun.com:api:backend",
+      "displayName": "Limrun Backend API",
+      "description": "OpenAPI specification for the Limrun management API (instances, assets, tokens, organizations).",
+      "type": "application/json",
+      "url": "https://limrun.com/openapi.json",
+      "representativeQueries": [
+        "list my running Limrun instances via API",
+        "create an API token for Limrun",
+        "upload an app asset to Limrun"
+      ]
+    },
+    {
+      "identifier": "urn:air:limrun.com:docs:site",
+      "displayName": "Limrun Documentation",
+      "description": "Customer documentation for Limrun cloud simulators, remote Xcode builds, and agent integrations.",
+      "type": "text/html",
+      "url": "https://docs.limrun.com/docs",
+      "representativeQueries": [
+        "how do I connect my agent to Limrun",
+        "how to authenticate with the Limrun API"
+      ]
+    }
+  ]
+}
