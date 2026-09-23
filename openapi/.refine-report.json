@@ -1,13 +1,7 @@
 {
   "provider": "limrun",
   "sources": [
-    "limrun-analytics-api-openapi.yml",
-    "limrun-android-instances-api-openapi.yml",
-    "limrun-assets-api-openapi.yml",
-    "limrun-downloads-api-openapi.yml",
-    "limrun-gradle-instances-api-openapi.yml",
-    "limrun-ios-instances-api-openapi.yml",
-    "limrun-xcode-instances-api-openapi.yml"
+    "_original/limrun-openapi-original.yml"
   ],
   "outputs": [
     "limrun-analytics-api-openapi.yml",
@@ -21,6 +15,51 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "limrun-openapi-original.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "limrun-openapi-original.yml: tagged paths GET /v1/analytics/private -> Analytics",
+    "limrun-openapi-original.yml: tagged paths GET /v1/analytics -> Analytics",
+    "limrun-openapi-original.yml: tagged paths GET /v1/analytics/instances -> Analytics",
+    "limrun-openapi-original.yml: tagged paths GET /v1/android_instances -> Android Instances",
+    "limrun-openapi-original.yml: tagged paths POST /v1/android_instances -> Android Instances",
+    "limrun-openapi-original.yml: tagged paths GET /v1/android_instances/{id} -> Android Instances",
+    "limrun-openapi-original.yml: tagged paths DELETE /v1/android_instances/{id} -> Android Instances",
+    "limrun-openapi-original.yml: tagged paths GET /v1/ios_instances -> Ios Instances",
+    "limrun-openapi-original.yml: tagged paths POST /v1/ios_instances -> Ios Instances",
+    "limrun-openapi-original.yml: tagged paths GET /v1/ios_instances/{id} -> Ios Instances",
+    "limrun-openapi-original.yml: tagged paths DELETE /v1/ios_instances/{id} -> Ios Instances",
+    "limrun-openapi-original.yml: tagged paths POST /v1/downloads/resolve -> Downloads",
+    "limrun-openapi-original.yml: tagged paths GET /v1/xcode_instances -> Xcode Instances",
+    "limrun-openapi-original.yml: tagged paths POST /v1/xcode_instances -> Xcode Instances",
+    "limrun-openapi-original.yml: tagged paths GET /v1/xcode_instances/{id} -> Xcode Instances",
+    "limrun-openapi-original.yml: tagged paths DELETE /v1/xcode_instances/{id} -> Xcode Instances",
+    "limrun-openapi-original.yml: tagged paths GET /v1/gradle_instances -> Gradle Instances",
+    "limrun-openapi-original.yml: tagged paths POST /v1/gradle_instances -> Gradle Instances",
+    "limrun-openapi-original.yml: tagged paths GET /v1/gradle_instances/{id} -> Gradle Instances",
+    "limrun-openapi-original.yml: tagged paths DELETE /v1/gradle_instances/{id} -> Gradle Instances",
+    "limrun-openapi-original.yml: tagged paths GET /v1/xcode_instances/{id}/build_logs -> Xcode Instances",
+    "limrun-openapi-original.yml: tagged paths GET /v1/xcode_instances/{id}/bazel_build_logs -> Xcode Instances",
+    "limrun-openapi-original.yml: tagged paths GET /v1/assets/{assetId} -> Assets",
+    "limrun-openapi-original.yml: tagged paths DELETE /v1/assets/{assetId} -> Assets",
+    "limrun-openapi-original.yml: tagged paths GET /v1/assets -> Assets",
+    "limrun-openapi-original.yml: tagged paths PUT /v1/assets -> Assets",
+    "limrun-openapi-original.yml: declared missing tag: Analytics",
+    "limrun-openapi-original.yml: declared missing tag: Android Instances",
+    "limrun-openapi-original.yml: declared missing tag: Assets",
+    "limrun-openapi-original.yml: declared missing tag: Downloads",
+    "limrun-openapi-original.yml: declared missing tag: Gradle Instances",
+    "limrun-openapi-original.yml: declared missing tag: Ios Instances",
+    "limrun-openapi-original.yml: declared missing tag: Xcode Instances",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "limrun-analytics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "limrun-android-instances-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "limrun-assets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "limrun-downloads-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "limrun-gradle-instances-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "limrun-ios-instances-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "limrun-xcode-instances-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

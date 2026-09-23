@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.0
-  title: Limrun Analytics Downloads API
+  title: Limrun Downloads API
 tags:
 - name: Downloads
 paths:
@@ -18,9 +18,7 @@ paths:
 
         returned unchanged. Possession of the source URL is the authorization
 
-        capability for this endpoint.
-
-        '
+        capability for this endpoint.'
       operationId: resolveDownload
       requestBody:
         required: true
@@ -58,13 +56,6 @@ components:
           - ConcurrencyLimitReached
       required:
       - message
-    ResolveDownloadRequest:
-      type: object
-      properties:
-        url:
-          type: string
-      required:
-      - url
     ResolvedDownload:
       type: object
       properties:
@@ -80,5 +71,12 @@ components:
           type: object
           additionalProperties:
             type: string
+      required:
+      - url
+    ResolveDownloadRequest:
+      type: object
+      properties:
+        url:
+          type: string
       required:
       - url

@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.0
-  title: Limrun Analytics Xcode Instances API
+  title: Limrun Xcode Instances API
 tags:
 - name: Xcode Instances
 paths:
@@ -159,16 +159,14 @@ paths:
       - Xcode Instances
   /v1/xcode_instances/{id}/build_logs:
     get:
-      summary: List persisted build logs for an Xcode instance.
+      summary: List persisted build logs for an Xcode instance
       description: 'Returns metadata and a short-lived presigned download URL for each
 
         build that ran on the given Xcode instance. Builds are returned in
 
         chronological order. Logs persist after the instance is terminated,
 
-        subject to the configured retention window.
-
-        '
+        subject to the configured retention window.'
       operationId: listXcodeInstanceBuildLogs
       parameters:
       - name: id
@@ -196,16 +194,14 @@ paths:
       - Xcode Instances
   /v1/xcode_instances/{id}/bazel_build_logs:
     get:
-      summary: List persisted Bazel build records for an Xcode instance.
+      summary: List persisted Bazel build records for an Xcode instance
       description: 'Returns a summary and a short-lived presigned download URL for each
 
         Bazel build (RBE invocation) that ran on the given Xcode instance.
 
         Builds are returned in chronological order. Records persist after the
 
-        instance is terminated, subject to the configured retention window.
-
-        '
+        instance is terminated, subject to the configured retention window.'
       operationId: listBazelInstanceBuildLogs
       parameters:
       - name: id
@@ -233,27 +229,6 @@ paths:
       - Xcode Instances
 components:
   schemas:
-    XcodeInstanceState:
-      type: string
-      enum:
-      - unknown
-      - creating
-      - assigned
-      - ready
-      - terminated
-    APIError:
-      type: object
-      properties:
-        message:
-          type: string
-        reason:
-          type: string
-          enum:
-          - NoSubscription
-          - NoRemainingMinutes
-          - ConcurrencyLimitReached
-      required:
-      - message
     XcodeBuildLog:
       type: object
       properties:
@@ -285,59 +260,6 @@ components:
       - id
       - status
       - downloadUrl
-    XcodeInstanceCreate:
-      type: object
-      properties:
-        metadata:
-          type: object
-          properties:
-            displayName:
-              type: string
-            labels:
-              type: object
-              additionalProperties:
-                type: string
-        spec:
-          type: object
-          properties:
-            clues:
-              type: array
-              items:
-                type: object
-                properties:
-                  kind:
-                    type: string
-                    enum:
-                    - ClientIP
-                  clientIp:
-                    type: string
-                required:
-                - kind
-            region:
-              type: string
-              description: "Where the instance will be created. If not given, the region is decided based on scheduling clues\n(client IP) and availability.\n\nA region is a preference, not a hard pin: the request always overflows to every other available\nregion, ordered by proximity, when the preferred ones are full.\n\nAccepted values:\n  * A specific region name (e.g. \"us-west1\"). It is tried first, then the remaining regions in order of\n    proximity to it. Scheduling clues (client IP) are ignored when a region is given.\n  * A region group name (e.g. \"us\", \"eu\"). Its member regions are tried first in their listed order,\n    then the remaining regions by proximity to the first member.\n  * A pipe-separated, ordered list of regions (e.g. \"us-east1|us-west1\"). Those are tried first in the\n    given order, then the remaining regions by proximity to the first."
-            inactivityTimeout:
-              type: string
-              format: duration
-              description: 'After how many minutes of inactivity should the instance be terminated.
-
-                The timer starts once the instance becomes ready.
-
-                Example values 1m, 10m, 3h.
-
-                Default is 5m.
-
-                Providing "0" uses the organization''s default inactivity timeout.'
-              default: 5m
-            hardTimeout:
-              type: string
-              format: duration
-              description: 'After how many minutes should the instance be terminated.
-
-                Example values 1m, 10m, 3h.
-
-                Default is "0" which means no hard timeout.'
-              default: '0'
     BazelBuildLog:
       type: object
       properties:
@@ -368,10 +290,14 @@ components:
       - id
       - status
       - downloadUrl
-    TerminationReason:
+    XcodeInstanceState:
       type: string
-      description: "Machine-readable reason the instance was terminated. Always present once\nstate is \"terminated\", never present before that. New values may be added\nover time, so treat any unrecognized value as \"Unknown\". Known values:\n- \"UserRequested\": terminated by a delete request to the API.\n- \"InactivityTimeout\": the timeout given in spec.inactivityTimeout elapsed.\n- \"HardTimeout\": the timeout given in spec.hardTimeout elapsed.\n- \"Unknown\": terminated for a cause the platform did not attribute,\n  including instances that failed to get ready during creation. See\n  errorMessage for details when available."
-      example: InactivityTimeout
+      enum:
+      - unknown
+      - creating
+      - assigned
+      - ready
+      - terminated
     XcodeInstance:
       type: object
       properties:
@@ -434,3 +360,73 @@ components:
       - metadata
       - spec
       - status
+    TerminationReason:
+      type: string
+      description: "Machine-readable reason the instance was terminated. Always present once\nstate is \"terminated\", never present before that. New values may be added\nover time, so treat any unrecognized value as \"Unknown\". Known values:\n- \"UserRequested\": terminated by a delete request to the API.\n- \"InactivityTimeout\": the timeout given in spec.inactivityTimeout elapsed.\n- \"HardTimeout\": the timeout given in spec.hardTimeout elapsed.\n- \"Unknown\": terminated for a cause the platform did not attribute,\n  including instances that failed to get ready during creation. See\n  errorMessage for details when available."
+      example: InactivityTimeout
+    XcodeInstanceCreate:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            displayName:
+              type: string
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+        spec:
+          type: object
+          properties:
+            clues:
+              type: array
+              items:
+                type: object
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                    - ClientIP
+                  clientIp:
+                    type: string
+                required:
+                - kind
+            region:
+              type: string
+              description: "Where the instance will be created. If not given, the region is decided based on scheduling clues\n(client IP) and availability.\n\nA region is a preference, not a hard pin: the request always overflows to every other available\nregion, ordered by proximity, when the preferred ones are full.\n\nAccepted values:\n  * A specific region name (e.g. \"us-west1\"). It is tried first, then the remaining regions in order of\n    proximity to it. Scheduling clues (client IP) are ignored when a region is given.\n  * A region group name (e.g. \"us\", \"eu\"). Its member regions are tried first in their listed order,\n    then the remaining regions by proximity to the first member.\n  * A pipe-separated, ordered list of regions (e.g. \"us-east1|us-west1\"). Those are tried first in the\n    given order, then the remaining regions by proximity to the first."
+            inactivityTimeout:
+              type: string
+              format: duration
+              description: 'After how many minutes of inactivity should the instance be terminated.
+
+                The timer starts once the instance becomes ready.
+
+                Example values 1m, 10m, 3h.
+
+                Default is 5m.
+
+                Providing "0" uses the organization''s default inactivity timeout.'
+              default: 5m
+            hardTimeout:
+              type: string
+              format: duration
+              description: 'After how many minutes should the instance be terminated.
+
+                Example values 1m, 10m, 3h.
+
+                Default is "0" which means no hard timeout.'
+              default: '0'
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
+      required:
+      - message

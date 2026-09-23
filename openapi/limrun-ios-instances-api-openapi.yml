@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.0
-  title: Limrun Analytics Ios Instances API
+  title: Limrun Ios Instances API
 tags:
 - name: Ios Instances
 paths:
@@ -165,19 +165,6 @@ paths:
       - Ios Instances
 components:
   schemas:
-    APIError:
-      type: object
-      properties:
-        message:
-          type: string
-        reason:
-          type: string
-          enum:
-          - NoSubscription
-          - NoRemainingMinutes
-          - ConcurrencyLimitReached
-      required:
-      - message
     IOSSandboxStatus:
       type: object
       properties:
@@ -186,107 +173,6 @@ components:
           properties:
             url:
               type: string
-    IOSInstanceState:
-      type: string
-      enum:
-      - unknown
-      - creating
-      - assigned
-      - ready
-      - terminated
-    IOSInstance:
-      type: object
-      properties:
-        metadata:
-          type: object
-          properties:
-            id:
-              type: string
-            displayName:
-              type: string
-            organizationId:
-              type: string
-            createdAt:
-              type: string
-              format: date-time
-            terminatedAt:
-              type: string
-              format: date-time
-            labels:
-              type: object
-              additionalProperties:
-                type: string
-          required:
-          - id
-          - organizationId
-          - createdAt
-        spec:
-          type: object
-          properties:
-            region:
-              type: string
-              description: 'The region where the instance will be created. If not given, will be decided based on scheduling clues
-
-                and availability.'
-            inactivityTimeout:
-              type: string
-              format: duration
-              description: 'After how many minutes of inactivity should the instance be terminated.
-
-                The timer starts once the instance becomes ready.
-
-                Example values 1m, 10m, 3h.
-
-                Default is 3m.
-
-                Providing "0" uses the organization''s default inactivity timeout.'
-              default: 3m
-            hardTimeout:
-              type: string
-              format: duration
-              description: 'After how many minutes should the instance be terminated.
-
-                Example values 1m, 10m, 3h.
-
-                Default is "0" which means no hard timeout.'
-              default: '0'
-          required:
-          - region
-          - inactivityTimeout
-        status:
-          type: object
-          properties:
-            state:
-              $ref: '#/components/schemas/IOSInstanceState'
-            apiUrl:
-              type: string
-            endpointWebSocketUrl:
-              type: string
-            signedStreamUrl:
-              type: string
-            targetHttpPortUrlPrefix:
-              type: string
-            mcpUrl:
-              type: string
-            sandbox:
-              $ref: '#/components/schemas/IOSSandboxStatus'
-            token:
-              type: string
-            errorMessage:
-              type: string
-            terminationReason:
-              $ref: '#/components/schemas/TerminationReason'
-          required:
-          - state
-          - token
-      required:
-      - metadata
-      - spec
-      - status
-    TerminationReason:
-      type: string
-      description: "Machine-readable reason the instance was terminated. Always present once\nstate is \"terminated\", never present before that. New values may be added\nover time, so treat any unrecognized value as \"Unknown\". Known values:\n- \"UserRequested\": terminated by a delete request to the API.\n- \"InactivityTimeout\": the timeout given in spec.inactivityTimeout elapsed.\n- \"HardTimeout\": the timeout given in spec.hardTimeout elapsed.\n- \"Unknown\": terminated for a cause the platform did not attribute,\n  including instances that failed to get ready during creation. See\n  errorMessage for details when available."
-      example: InactivityTimeout
     IOSInstanceCreate:
       type: object
       properties:
@@ -409,3 +295,117 @@ components:
                 required:
                 - kind
                 - source
+    IOSInstance:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            id:
+              type: string
+            displayName:
+              type: string
+            organizationId:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+            terminatedAt:
+              type: string
+              format: date-time
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+          required:
+          - id
+          - organizationId
+          - createdAt
+        spec:
+          type: object
+          properties:
+            region:
+              type: string
+              description: 'The region where the instance will be created. If not given, will be decided based on scheduling clues
+
+                and availability.'
+            inactivityTimeout:
+              type: string
+              format: duration
+              description: 'After how many minutes of inactivity should the instance be terminated.
+
+                The timer starts once the instance becomes ready.
+
+                Example values 1m, 10m, 3h.
+
+                Default is 3m.
+
+                Providing "0" uses the organization''s default inactivity timeout.'
+              default: 3m
+            hardTimeout:
+              type: string
+              format: duration
+              description: 'After how many minutes should the instance be terminated.
+
+                Example values 1m, 10m, 3h.
+
+                Default is "0" which means no hard timeout.'
+              default: '0'
+          required:
+          - region
+          - inactivityTimeout
+        status:
+          type: object
+          properties:
+            state:
+              $ref: '#/components/schemas/IOSInstanceState'
+            apiUrl:
+              type: string
+            endpointWebSocketUrl:
+              type: string
+            signedStreamUrl:
+              type: string
+            targetHttpPortUrlPrefix:
+              type: string
+            mcpUrl:
+              type: string
+            sandbox:
+              $ref: '#/components/schemas/IOSSandboxStatus'
+            token:
+              type: string
+            errorMessage:
+              type: string
+            terminationReason:
+              $ref: '#/components/schemas/TerminationReason'
+          required:
+          - state
+          - token
+      required:
+      - metadata
+      - spec
+      - status
+    IOSInstanceState:
+      type: string
+      enum:
+      - unknown
+      - creating
+      - assigned
+      - ready
+      - terminated
+    TerminationReason:
+      type: string
+      description: "Machine-readable reason the instance was terminated. Always present once\nstate is \"terminated\", never present before that. New values may be added\nover time, so treat any unrecognized value as \"Unknown\". Known values:\n- \"UserRequested\": terminated by a delete request to the API.\n- \"InactivityTimeout\": the timeout given in spec.inactivityTimeout elapsed.\n- \"HardTimeout\": the timeout given in spec.hardTimeout elapsed.\n- \"Unknown\": terminated for a cause the platform did not attribute,\n  including instances that failed to get ready during creation. See\n  errorMessage for details when available."
+      example: InactivityTimeout
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
+      required:
+      - message

@@ -1,13 +1,13 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.0
-  title: Limrun Analytics Assets API
+  title: Limrun Assets API
 tags:
 - name: Assets
 paths:
   /v1/assets/{assetId}:
     get:
-      summary: Get the asset with given ID.
+      summary: Get the asset with given ID
       operationId: getAsset
       parameters:
       - name: assetId
@@ -44,7 +44,7 @@ paths:
       tags:
       - Assets
     delete:
-      summary: Delete the asset with given ID.
+      summary: Delete the asset with given ID
       operationId: deleteAsset
       parameters:
       - name: assetId
@@ -66,7 +66,7 @@ paths:
       - Assets
   /v1/assets:
     get:
-      summary: List organization's all assets with given filters. If none given, return all assets.
+      summary: List organization's all assets with given filters.
       operationId: listAssets
       parameters:
       - name: nameFilter
@@ -158,13 +158,7 @@ paths:
       tags:
       - Assets
     put:
-      summary: 'Creates an asset and returns upload and download URLs. If there is a corresponding file uploaded in the storage
-
-        with given name, its MD5 is returned so you can check if a re-upload is necessary. If no MD5 is returned, then
-
-        there is no corresponding file in the storage so downloading it directly or using it in instances will fail
-
-        until you use the returned upload URL to submit the file.'
+      summary: Creates an asset and returns upload and download URLs.
       operationId: putAsset
       requestBody:
         required: true
@@ -189,18 +183,63 @@ paths:
       - Assets
 components:
   schemas:
-    AssetPlatform:
-      type: string
-      enum:
-      - ios
-      - android
-      - xcode
     AssetKind:
       type: string
       enum:
       - App
       - Keychain
       default: App
+    Asset:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        kind:
+          $ref: '#/components/schemas/AssetKind'
+        displayName:
+          type: string
+          description: Human-readable display name for the asset. If not set, the name should be used.
+        platform:
+          $ref: '#/components/schemas/AssetPlatform'
+          description: The platform this asset is for. If not set, the asset is available for all platforms.
+        os:
+          type: string
+          enum:
+          - ios
+          - android
+          - xcode
+          deprecated: true
+          description: 'Deprecated: alias of platform, always mirrors it. Use platform instead.'
+        md5:
+          type: string
+          description: Returned only if there is a corresponding file uploaded already.
+        expiresAt:
+          type: string
+          format: date-time
+          description: When set, the time after which the asset is automatically deleted.
+        signedUploadUrl:
+          type: string
+        signedDownloadUrl:
+          type: string
+      required:
+      - id
+      - name
+      - kind
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
+      required:
+      - message
     AssetPutResult:
       type: object
       properties:
@@ -251,54 +290,9 @@ components:
             '
       required:
       - name
-    APIError:
-      type: object
-      properties:
-        message:
-          type: string
-        reason:
-          type: string
-          enum:
-          - NoSubscription
-          - NoRemainingMinutes
-          - ConcurrencyLimitReached
-      required:
-      - message
-    Asset:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        kind:
-          $ref: '#/components/schemas/AssetKind'
-        displayName:
-          type: string
-          description: Human-readable display name for the asset. If not set, the name should be used.
-        platform:
-          $ref: '#/components/schemas/AssetPlatform'
-          description: The platform this asset is for. If not set, the asset is available for all platforms.
-        os:
-          type: string
-          enum:
-          - ios
-          - android
-          - xcode
-          deprecated: true
-          description: 'Deprecated: alias of platform, always mirrors it. Use platform instead.'
-        md5:
-          type: string
-          description: Returned only if there is a corresponding file uploaded already.
-        expiresAt:
-          type: string
-          format: date-time
-          description: When set, the time after which the asset is automatically deleted.
-        signedUploadUrl:
-          type: string
-        signedDownloadUrl:
-          type: string
-      required:
-      - id
-      - name
-      - kind
+    AssetPlatform:
+      type: string
+      enum:
+      - ios
+      - android
+      - xcode
