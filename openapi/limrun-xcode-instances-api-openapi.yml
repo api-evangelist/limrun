@@ -229,75 +229,6 @@ paths:
       - Xcode Instances
 components:
   schemas:
-    XcodeBuildLog:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Exec ID assigned by limbuild, e.g. build-1776140344112378000.
-        status:
-          type: string
-          description: Terminal status reported by limbuild (e.g. SUCCEEDED, FAILED, CANCELLED).
-        exitCode:
-          type: integer
-          description: Exit code of xcodebuild, if the build reached completion.
-        startedAt:
-          type: string
-          format: date-time
-        finishedAt:
-          type: string
-          format: date-time
-        buildDurationMs:
-          type: integer
-          description: Time spent running xcodebuild, in milliseconds.
-        error:
-          type: string
-          description: Error message captured by limbuild on failure, if any.
-        downloadUrl:
-          type: string
-          description: Short-lived presigned URL for fetching the full .jsonl log from object storage.
-      required:
-      - id
-      - status
-      - downloadUrl
-    BazelBuildLog:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Bazel invocation ID (UUID) from the build event stream.
-        status:
-          type: string
-          description: Terminal status (SUCCEEDED, FAILED, CANCELLED, INCOMPLETE).
-        pattern:
-          type: array
-          items:
-            type: string
-          description: The build target patterns, if captured.
-        startedAt:
-          type: string
-          format: date-time
-        durationMs:
-          type: integer
-          description: Wall-clock duration of the invocation, in milliseconds.
-        error:
-          type: string
-          description: Error message captured on failure, if any.
-        downloadUrl:
-          type: string
-          description: Short-lived presigned URL for fetching the full .jsonl record from object storage.
-      required:
-      - id
-      - status
-      - downloadUrl
-    XcodeInstanceState:
-      type: string
-      enum:
-      - unknown
-      - creating
-      - assigned
-      - ready
-      - terminated
     XcodeInstance:
       type: object
       properties:
@@ -360,10 +291,49 @@ components:
       - metadata
       - spec
       - status
-    TerminationReason:
-      type: string
-      description: "Machine-readable reason the instance was terminated. Always present once\nstate is \"terminated\", never present before that. New values may be added\nover time, so treat any unrecognized value as \"Unknown\". Known values:\n- \"UserRequested\": terminated by a delete request to the API.\n- \"InactivityTimeout\": the timeout given in spec.inactivityTimeout elapsed.\n- \"HardTimeout\": the timeout given in spec.hardTimeout elapsed.\n- \"Unknown\": terminated for a cause the platform did not attribute,\n  including instances that failed to get ready during creation. See\n  errorMessage for details when available."
-      example: InactivityTimeout
+    BazelBuildLog:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Bazel invocation ID (UUID) from the build event stream.
+        status:
+          type: string
+          description: Terminal status (SUCCEEDED, FAILED, CANCELLED, INCOMPLETE).
+        pattern:
+          type: array
+          items:
+            type: string
+          description: The build target patterns, if captured.
+        startedAt:
+          type: string
+          format: date-time
+        durationMs:
+          type: integer
+          description: Wall-clock duration of the invocation, in milliseconds.
+        error:
+          type: string
+          description: Error message captured on failure, if any.
+        downloadUrl:
+          type: string
+          description: Short-lived presigned URL for fetching the full .jsonl record from object storage.
+      required:
+      - id
+      - status
+      - downloadUrl
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
+      required:
+      - message
     XcodeInstanceCreate:
       type: object
       properties:
@@ -417,16 +387,46 @@ components:
 
                 Default is "0" which means no hard timeout.'
               default: '0'
-    APIError:
+    XcodeInstanceState:
+      type: string
+      enum:
+      - unknown
+      - creating
+      - assigned
+      - ready
+      - terminated
+    XcodeBuildLog:
       type: object
       properties:
-        message:
+        id:
           type: string
-        reason:
+          description: Exec ID assigned by limbuild, e.g. build-1776140344112378000.
+        status:
           type: string
-          enum:
-          - NoSubscription
-          - NoRemainingMinutes
-          - ConcurrencyLimitReached
+          description: Terminal status reported by limbuild (e.g. SUCCEEDED, FAILED, CANCELLED).
+        exitCode:
+          type: integer
+          description: Exit code of xcodebuild, if the build reached completion.
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        buildDurationMs:
+          type: integer
+          description: Time spent running xcodebuild, in milliseconds.
+        error:
+          type: string
+          description: Error message captured by limbuild on failure, if any.
+        downloadUrl:
+          type: string
+          description: Short-lived presigned URL for fetching the full .jsonl log from object storage.
       required:
-      - message
+      - id
+      - status
+      - downloadUrl
+    TerminationReason:
+      type: string
+      description: "Machine-readable reason the instance was terminated. Always present once\nstate is \"terminated\", never present before that. New values may be added\nover time, so treat any unrecognized value as \"Unknown\". Known values:\n- \"UserRequested\": terminated by a delete request to the API.\n- \"InactivityTimeout\": the timeout given in spec.inactivityTimeout elapsed.\n- \"HardTimeout\": the timeout given in spec.hardTimeout elapsed.\n- \"Unknown\": terminated for a cause the platform did not attribute,\n  including instances that failed to get ready during creation. See\n  errorMessage for details when available."
+      example: InactivityTimeout

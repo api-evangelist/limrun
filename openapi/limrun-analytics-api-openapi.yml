@@ -191,86 +191,6 @@ paths:
       - Analytics
 components:
   schemas:
-    AnalyticsSummary:
-      type: object
-      description: Summary of analytics across all time buckets, broken down by platform and region
-      properties:
-        android:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/AnalyticsRegionStats'
-          description: Map of region to analytics stats for Android
-        ios:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/AnalyticsRegionStats'
-          description: Map of region to analytics stats for iOS
-        xcode:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/AnalyticsRegionStats'
-          description: Map of region to analytics stats for Xcode
-        gradle:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/AnalyticsRegionStats'
-          description: Map of region to analytics stats for Gradle
-      required:
-      - android
-      - ios
-      - xcode
-      - gradle
-    CostBreakdown:
-      type: object
-      description: Cost breakdown by billing source in dollars
-      properties:
-        creditsCost:
-          type: number
-          format: double
-          description: Cost from credits (always 0)
-        subscriptionCost:
-          type: object
-          additionalProperties:
-            type: number
-            format: double
-          description: Map of subscription ID to cost in dollars
-        planCost:
-          type: object
-          additionalProperties:
-            type: number
-            format: double
-          description: Map of plan ID to cost in dollars
-        onDemandCost:
-          type: number
-          format: double
-          description: Cost from on-demand billing in dollars
-      required:
-      - creditsCost
-      - onDemandCost
-    BilledBreakdown:
-      type: object
-      properties:
-        creditsBilledMinutes:
-          type: integer
-          format: int64
-        subscriptionBilledMinutes:
-          type: object
-          additionalProperties:
-            type: integer
-            format: int64
-          description: Map of subscription ID to billed minutes
-        planBilledMinutes:
-          type: object
-          additionalProperties:
-            type: integer
-            format: int64
-          description: Map of plan ID to billed minutes
-        onDemandBilledMinutes:
-          type: integer
-          format: int64
-      required:
-      - creditsBilledMinutes
-      - onDemandBilledMinutes
     AnalyticsResponse:
       type: object
       properties:
@@ -307,6 +227,35 @@ components:
       - asOf
       - series
       - summary
+    AnalyticsSummary:
+      type: object
+      description: Summary of analytics across all time buckets, broken down by platform and region
+      properties:
+        android:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AnalyticsRegionStats'
+          description: Map of region to analytics stats for Android
+        ios:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AnalyticsRegionStats'
+          description: Map of region to analytics stats for iOS
+        xcode:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AnalyticsRegionStats'
+          description: Map of region to analytics stats for Xcode
+        gradle:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AnalyticsRegionStats'
+          description: Map of region to analytics stats for Gradle
+      required:
+      - android
+      - ios
+      - xcode
+      - gradle
     AnalyticsEntry:
       type: object
       description: Analytics data for a single time bucket, broken down by platform and region
@@ -345,51 +294,71 @@ components:
       - ios
       - xcode
       - gradle
-    AnalyticsInstance:
+    CostBreakdown:
       type: object
-      description: Analytics details for a single instance within a time bucket
+      description: Cost breakdown by billing source in dollars
       properties:
-        instanceTid:
-          type: string
-          description: Instance type ID (e.g., ios_xxx, android_xxx)
-        platform:
-          type: string
-          enum:
-          - android
-          - ios
-          - xcode
-          - gradle
-          description: Platform name.
-        region:
-          type: string
-          description: Region where the instance ran
-        runtimeMinutes:
-          type: integer
-          format: int64
-          description: Actual runtime minutes before platform multiplier
-        billedMinutes:
-          type: integer
-          format: int64
-          description: Billed minutes with platform multiplier applied
-        cost:
+        creditsCost:
           type: number
           format: double
-          description: Total cost in dollars for this instance
-        labels:
+          description: Cost from credits (always 0)
+        subscriptionCost:
           type: object
           additionalProperties:
-            type: string
-          description: Instance labels at billing time
-        billedBreakdown:
-          $ref: '#/components/schemas/BilledBreakdown'
-        costBreakdown:
-          $ref: '#/components/schemas/CostBreakdown'
+            type: number
+            format: double
+          description: Map of subscription ID to cost in dollars
+        planCost:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+          description: Map of plan ID to cost in dollars
+        onDemandCost:
+          type: number
+          format: double
+          description: Cost from on-demand billing in dollars
       required:
-      - instanceTid
-      - platform
-      - runtimeMinutes
-      - billedMinutes
-      - cost
+      - creditsCost
+      - onDemandCost
+    AnalyticsInstanceEntry:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          description: RFC3339 timestamp for the start of the minute bucket in the requested timezone, including the local offset
+        instances:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnalyticsInstance'
+      required:
+      - timestamp
+      - instances
+    AnalyticsInstancesResponse:
+      type: object
+      properties:
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+        asOf:
+          type: string
+          format: date-time
+        timezone:
+          type: string
+          description: IANA timezone used for time bucket grouping
+        series:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnalyticsInstanceEntry'
+      required:
+      - from
+      - to
+      - asOf
+      - timezone
+      - series
     AnalyticsRegionStats:
       type: object
       description: Complete analytics for a specific region including billing breakdown
@@ -452,19 +421,6 @@ components:
       - onDemandBilledMinutes
       - creditsCost
       - onDemandCost
-    AnalyticsInstanceEntry:
-      type: object
-      properties:
-        timestamp:
-          type: string
-          description: RFC3339 timestamp for the start of the minute bucket in the requested timezone, including the local offset
-        instances:
-          type: array
-          items:
-            $ref: '#/components/schemas/AnalyticsInstance'
-      required:
-      - timestamp
-      - instances
     APIError:
       type: object
       properties:
@@ -478,28 +434,72 @@ components:
           - ConcurrencyLimitReached
       required:
       - message
-    AnalyticsInstancesResponse:
+    AnalyticsInstance:
+      type: object
+      description: Analytics details for a single instance within a time bucket
+      properties:
+        instanceTid:
+          type: string
+          description: Instance type ID (e.g., ios_xxx, android_xxx)
+        platform:
+          type: string
+          enum:
+          - android
+          - ios
+          - xcode
+          - gradle
+          description: Platform name.
+        region:
+          type: string
+          description: Region where the instance ran
+        runtimeMinutes:
+          type: integer
+          format: int64
+          description: Actual runtime minutes before platform multiplier
+        billedMinutes:
+          type: integer
+          format: int64
+          description: Billed minutes with platform multiplier applied
+        cost:
+          type: number
+          format: double
+          description: Total cost in dollars for this instance
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Instance labels at billing time
+        billedBreakdown:
+          $ref: '#/components/schemas/BilledBreakdown'
+        costBreakdown:
+          $ref: '#/components/schemas/CostBreakdown'
+      required:
+      - instanceTid
+      - platform
+      - runtimeMinutes
+      - billedMinutes
+      - cost
+    BilledBreakdown:
       type: object
       properties:
-        from:
-          type: string
-          format: date-time
-        to:
-          type: string
-          format: date-time
-        asOf:
-          type: string
-          format: date-time
-        timezone:
-          type: string
-          description: IANA timezone used for time bucket grouping
-        series:
-          type: array
-          items:
-            $ref: '#/components/schemas/AnalyticsInstanceEntry'
+        creditsBilledMinutes:
+          type: integer
+          format: int64
+        subscriptionBilledMinutes:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+          description: Map of subscription ID to billed minutes
+        planBilledMinutes:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+          description: Map of plan ID to billed minutes
+        onDemandBilledMinutes:
+          type: integer
+          format: int64
       required:
-      - from
-      - to
-      - asOf
-      - timezone
-      - series
+      - creditsBilledMinutes
+      - onDemandBilledMinutes
