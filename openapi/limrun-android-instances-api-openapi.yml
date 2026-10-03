@@ -165,6 +165,19 @@ paths:
       - Android Instances
 components:
   schemas:
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
+      required:
+      - message
     SandboxSpec:
       type: object
       properties:
@@ -186,6 +199,10 @@ components:
       - assigned
       - ready
       - terminated
+    TerminationReason:
+      type: string
+      description: "Machine-readable reason the instance was terminated. Always present once\nstate is \"terminated\", never present before that. New values may be added\nover time, so treat any unrecognized value as \"Unknown\". Known values:\n- \"UserRequested\": terminated by a delete request to the API.\n- \"InactivityTimeout\": the timeout given in spec.inactivityTimeout elapsed.\n- \"HardTimeout\": the timeout given in spec.hardTimeout elapsed.\n- \"Unknown\": terminated for a cause the platform did not attribute,\n  including instances that failed to get ready during creation. See\n  errorMessage for details when available."
+      example: InactivityTimeout
     AndroidInstance:
       type: object
       properties:
@@ -277,27 +294,6 @@ components:
       - metadata
       - spec
       - status
-    AndroidSandboxStatus:
-      type: object
-      properties:
-        playwrightAndroid:
-          type: object
-          properties:
-            url:
-              type: string
-    APIError:
-      type: object
-      properties:
-        message:
-          type: string
-        reason:
-          type: string
-          enum:
-          - NoSubscription
-          - NoRemainingMinutes
-          - ConcurrencyLimitReached
-      required:
-      - message
     AndroidInstanceCreate:
       type: object
       properties:
@@ -408,7 +404,11 @@ components:
                       type: string
                 required:
                 - kind
-    TerminationReason:
-      type: string
-      description: "Machine-readable reason the instance was terminated. Always present once\nstate is \"terminated\", never present before that. New values may be added\nover time, so treat any unrecognized value as \"Unknown\". Known values:\n- \"UserRequested\": terminated by a delete request to the API.\n- \"InactivityTimeout\": the timeout given in spec.inactivityTimeout elapsed.\n- \"HardTimeout\": the timeout given in spec.hardTimeout elapsed.\n- \"Unknown\": terminated for a cause the platform did not attribute,\n  including instances that failed to get ready during creation. See\n  errorMessage for details when available."
-      example: InactivityTimeout
+    AndroidSandboxStatus:
+      type: object
+      properties:
+        playwrightAndroid:
+          type: object
+          properties:
+            url:
+              type: string

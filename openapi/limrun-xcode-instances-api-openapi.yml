@@ -229,6 +229,19 @@ paths:
       - Xcode Instances
 components:
   schemas:
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
+      required:
+      - message
     XcodeInstance:
       type: object
       properties:
@@ -291,6 +304,37 @@ components:
       - metadata
       - spec
       - status
+    XcodeBuildLog:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Exec ID assigned by limbuild, e.g. build-1776140344112378000.
+        status:
+          type: string
+          description: Terminal status reported by limbuild (e.g. SUCCEEDED, FAILED, CANCELLED).
+        exitCode:
+          type: integer
+          description: Exit code of xcodebuild, if the build reached completion.
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        buildDurationMs:
+          type: integer
+          description: Time spent running xcodebuild, in milliseconds.
+        error:
+          type: string
+          description: Error message captured by limbuild on failure, if any.
+        downloadUrl:
+          type: string
+          description: Short-lived presigned URL for fetching the full .jsonl log from object storage.
+      required:
+      - id
+      - status
+      - downloadUrl
     BazelBuildLog:
       type: object
       properties:
@@ -321,19 +365,14 @@ components:
       - id
       - status
       - downloadUrl
-    APIError:
-      type: object
-      properties:
-        message:
-          type: string
-        reason:
-          type: string
-          enum:
-          - NoSubscription
-          - NoRemainingMinutes
-          - ConcurrencyLimitReached
-      required:
-      - message
+    XcodeInstanceState:
+      type: string
+      enum:
+      - unknown
+      - creating
+      - assigned
+      - ready
+      - terminated
     XcodeInstanceCreate:
       type: object
       properties:
@@ -387,45 +426,6 @@ components:
 
                 Default is "0" which means no hard timeout.'
               default: '0'
-    XcodeInstanceState:
-      type: string
-      enum:
-      - unknown
-      - creating
-      - assigned
-      - ready
-      - terminated
-    XcodeBuildLog:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Exec ID assigned by limbuild, e.g. build-1776140344112378000.
-        status:
-          type: string
-          description: Terminal status reported by limbuild (e.g. SUCCEEDED, FAILED, CANCELLED).
-        exitCode:
-          type: integer
-          description: Exit code of xcodebuild, if the build reached completion.
-        startedAt:
-          type: string
-          format: date-time
-        finishedAt:
-          type: string
-          format: date-time
-        buildDurationMs:
-          type: integer
-          description: Time spent running xcodebuild, in milliseconds.
-        error:
-          type: string
-          description: Error message captured by limbuild on failure, if any.
-        downloadUrl:
-          type: string
-          description: Short-lived presigned URL for fetching the full .jsonl log from object storage.
-      required:
-      - id
-      - status
-      - downloadUrl
     TerminationReason:
       type: string
       description: "Machine-readable reason the instance was terminated. Always present once\nstate is \"terminated\", never present before that. New values may be added\nover time, so treat any unrecognized value as \"Unknown\". Known values:\n- \"UserRequested\": terminated by a delete request to the API.\n- \"InactivityTimeout\": the timeout given in spec.inactivityTimeout elapsed.\n- \"HardTimeout\": the timeout given in spec.hardTimeout elapsed.\n- \"Unknown\": terminated for a cause the platform did not attribute,\n  including instances that failed to get ready during creation. See\n  errorMessage for details when available."

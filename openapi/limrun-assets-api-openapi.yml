@@ -183,18 +183,41 @@ paths:
       - Assets
 components:
   schemas:
-    AssetPlatform:
-      type: string
-      enum:
-      - ios
-      - android
-      - xcode
-    AssetKind:
-      type: string
-      enum:
-      - App
-      - Keychain
-      default: App
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
+      required:
+      - message
+    AssetPut:
+      type: object
+      properties:
+        name:
+          type: string
+        kind:
+          $ref: '#/components/schemas/AssetKind'
+        platform:
+          $ref: '#/components/schemas/AssetPlatform'
+        ttl:
+          type: string
+          description: 'Optional time-to-live as a Go duration string (e.g. "24h"). When set, the
+
+            asset is deleted this long after now; minimum is 1m. Omit for no expiry.
+
+            On re-upload of an existing asset, a value updates the expiry while omitting
+
+            it leaves the current expiry unchanged.
+
+            '
+      required:
+      - name
     AssetPutResult:
       type: object
       properties:
@@ -223,19 +246,18 @@ components:
       - kind
       - signedUploadUrl
       - signedDownloadUrl
-    APIError:
-      type: object
-      properties:
-        message:
-          type: string
-        reason:
-          type: string
-          enum:
-          - NoSubscription
-          - NoRemainingMinutes
-          - ConcurrencyLimitReached
-      required:
-      - message
+    AssetPlatform:
+      type: string
+      enum:
+      - ios
+      - android
+      - xcode
+    AssetKind:
+      type: string
+      enum:
+      - App
+      - Keychain
+      default: App
     Asset:
       type: object
       properties:
@@ -274,25 +296,3 @@ components:
       - id
       - name
       - kind
-    AssetPut:
-      type: object
-      properties:
-        name:
-          type: string
-        kind:
-          $ref: '#/components/schemas/AssetKind'
-        platform:
-          $ref: '#/components/schemas/AssetPlatform'
-        ttl:
-          type: string
-          description: 'Optional time-to-live as a Go duration string (e.g. "24h"). When set, the
-
-            asset is deleted this long after now; minimum is 1m. Omit for no expiry.
-
-            On re-upload of an existing asset, a value updates the expiry while omitting
-
-            it leaves the current expiry unchanged.
-
-            '
-      required:
-      - name

@@ -43,6 +43,19 @@ paths:
       - Downloads
 components:
   schemas:
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
+      required:
+      - message
     ResolvedDownload:
       type: object
       properties:
@@ -60,19 +73,6 @@ components:
             type: string
       required:
       - url
-    APIError:
-      type: object
-      properties:
-        message:
-          type: string
-        reason:
-          type: string
-          enum:
-          - NoSubscription
-          - NoRemainingMinutes
-          - ConcurrencyLimitReached
-      required:
-      - message
     ResolveDownloadRequest:
       type: object
       properties:
