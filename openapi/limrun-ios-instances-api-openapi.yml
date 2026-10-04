@@ -165,27 +165,6 @@ paths:
       - Ios Instances
 components:
   schemas:
-    IOSSandboxStatus:
-      type: object
-      properties:
-        xcode:
-          type: object
-          properties:
-            url:
-              type: string
-    APIError:
-      type: object
-      properties:
-        message:
-          type: string
-        reason:
-          type: string
-          enum:
-          - NoSubscription
-          - NoRemainingMinutes
-          - ConcurrencyLimitReached
-      required:
-      - message
     IOSInstance:
       type: object
       properties:
@@ -275,6 +254,39 @@ components:
       - metadata
       - spec
       - status
+    TerminationReason:
+      type: string
+      description: "Machine-readable reason the instance was terminated. Always present once\nstate is \"terminated\", never present before that. New values may be added\nover time, so treat any unrecognized value as \"Unknown\". Known values:\n- \"UserRequested\": terminated by a delete request to the API.\n- \"InactivityTimeout\": the timeout given in spec.inactivityTimeout elapsed.\n- \"HardTimeout\": the timeout given in spec.hardTimeout elapsed.\n- \"Unknown\": terminated for a cause the platform did not attribute,\n  including instances that failed to get ready during creation. See\n  errorMessage for details when available."
+      example: InactivityTimeout
+    IOSInstanceState:
+      type: string
+      enum:
+      - unknown
+      - creating
+      - assigned
+      - ready
+      - terminated
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
+      required:
+      - message
+    IOSSandboxStatus:
+      type: object
+      properties:
+        xcode:
+          type: object
+          properties:
+            url:
+              type: string
     IOSInstanceCreate:
       type: object
       properties:
@@ -397,15 +409,3 @@ components:
                 required:
                 - kind
                 - source
-    IOSInstanceState:
-      type: string
-      enum:
-      - unknown
-      - creating
-      - assigned
-      - ready
-      - terminated
-    TerminationReason:
-      type: string
-      description: "Machine-readable reason the instance was terminated. Always present once\nstate is \"terminated\", never present before that. New values may be added\nover time, so treat any unrecognized value as \"Unknown\". Known values:\n- \"UserRequested\": terminated by a delete request to the API.\n- \"InactivityTimeout\": the timeout given in spec.inactivityTimeout elapsed.\n- \"HardTimeout\": the timeout given in spec.hardTimeout elapsed.\n- \"Unknown\": terminated for a cause the platform did not attribute,\n  including instances that failed to get ready during creation. See\n  errorMessage for details when available."
-      example: InactivityTimeout

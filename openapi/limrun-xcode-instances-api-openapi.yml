@@ -229,6 +229,41 @@ paths:
       - Xcode Instances
 components:
   schemas:
+    XcodeBuildLog:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Exec ID assigned by limbuild, e.g. build-1776140344112378000.
+        status:
+          type: string
+          description: Terminal status reported by limbuild (e.g. SUCCEEDED, FAILED, CANCELLED).
+        exitCode:
+          type: integer
+          description: Exit code of xcodebuild, if the build reached completion.
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        buildDurationMs:
+          type: integer
+          description: Time spent running xcodebuild, in milliseconds.
+        error:
+          type: string
+          description: Error message captured by limbuild on failure, if any.
+        downloadUrl:
+          type: string
+          description: Short-lived presigned URL for fetching the full .jsonl log from object storage.
+      required:
+      - id
+      - status
+      - downloadUrl
+    TerminationReason:
+      type: string
+      description: "Machine-readable reason the instance was terminated. Always present once\nstate is \"terminated\", never present before that. New values may be added\nover time, so treat any unrecognized value as \"Unknown\". Known values:\n- \"UserRequested\": terminated by a delete request to the API.\n- \"InactivityTimeout\": the timeout given in spec.inactivityTimeout elapsed.\n- \"HardTimeout\": the timeout given in spec.hardTimeout elapsed.\n- \"Unknown\": terminated for a cause the platform did not attribute,\n  including instances that failed to get ready during creation. See\n  errorMessage for details when available."
+      example: InactivityTimeout
     APIError:
       type: object
       properties:
@@ -242,6 +277,97 @@ components:
           - ConcurrencyLimitReached
       required:
       - message
+    XcodeInstanceCreate:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            displayName:
+              type: string
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+        spec:
+          type: object
+          properties:
+            clues:
+              type: array
+              items:
+                type: object
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                    - ClientIP
+                  clientIp:
+                    type: string
+                required:
+                - kind
+            region:
+              type: string
+              description: "Where the instance will be created. If not given, the region is decided based on scheduling clues\n(client IP) and availability.\n\nA region is a preference, not a hard pin: the request always overflows to every other available\nregion, ordered by proximity, when the preferred ones are full.\n\nAccepted values:\n  * A specific region name (e.g. \"us-west1\"). It is tried first, then the remaining regions in order of\n    proximity to it. Scheduling clues (client IP) are ignored when a region is given.\n  * A region group name (e.g. \"us\", \"eu\"). Its member regions are tried first in their listed order,\n    then the remaining regions by proximity to the first member.\n  * A pipe-separated, ordered list of regions (e.g. \"us-east1|us-west1\"). Those are tried first in the\n    given order, then the remaining regions by proximity to the first."
+            inactivityTimeout:
+              type: string
+              format: duration
+              description: 'After how many minutes of inactivity should the instance be terminated.
+
+                The timer starts once the instance becomes ready.
+
+                Example values 1m, 10m, 3h.
+
+                Default is 5m.
+
+                Providing "0" uses the organization''s default inactivity timeout.'
+              default: 5m
+            hardTimeout:
+              type: string
+              format: duration
+              description: 'After how many minutes should the instance be terminated.
+
+                Example values 1m, 10m, 3h.
+
+                Default is "0" which means no hard timeout.'
+              default: '0'
+    XcodeInstanceState:
+      type: string
+      enum:
+      - unknown
+      - creating
+      - assigned
+      - ready
+      - terminated
+    BazelBuildLog:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Bazel invocation ID (UUID) from the build event stream.
+        status:
+          type: string
+          description: Terminal status (SUCCEEDED, FAILED, CANCELLED, INCOMPLETE).
+        pattern:
+          type: array
+          items:
+            type: string
+          description: The build target patterns, if captured.
+        startedAt:
+          type: string
+          format: date-time
+        durationMs:
+          type: integer
+          description: Wall-clock duration of the invocation, in milliseconds.
+        error:
+          type: string
+          description: Error message captured on failure, if any.
+        downloadUrl:
+          type: string
+          description: Short-lived presigned URL for fetching the full .jsonl record from object storage.
+      required:
+      - id
+      - status
+      - downloadUrl
     XcodeInstance:
       type: object
       properties:
@@ -304,129 +430,3 @@ components:
       - metadata
       - spec
       - status
-    XcodeBuildLog:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Exec ID assigned by limbuild, e.g. build-1776140344112378000.
-        status:
-          type: string
-          description: Terminal status reported by limbuild (e.g. SUCCEEDED, FAILED, CANCELLED).
-        exitCode:
-          type: integer
-          description: Exit code of xcodebuild, if the build reached completion.
-        startedAt:
-          type: string
-          format: date-time
-        finishedAt:
-          type: string
-          format: date-time
-        buildDurationMs:
-          type: integer
-          description: Time spent running xcodebuild, in milliseconds.
-        error:
-          type: string
-          description: Error message captured by limbuild on failure, if any.
-        downloadUrl:
-          type: string
-          description: Short-lived presigned URL for fetching the full .jsonl log from object storage.
-      required:
-      - id
-      - status
-      - downloadUrl
-    BazelBuildLog:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Bazel invocation ID (UUID) from the build event stream.
-        status:
-          type: string
-          description: Terminal status (SUCCEEDED, FAILED, CANCELLED, INCOMPLETE).
-        pattern:
-          type: array
-          items:
-            type: string
-          description: The build target patterns, if captured.
-        startedAt:
-          type: string
-          format: date-time
-        durationMs:
-          type: integer
-          description: Wall-clock duration of the invocation, in milliseconds.
-        error:
-          type: string
-          description: Error message captured on failure, if any.
-        downloadUrl:
-          type: string
-          description: Short-lived presigned URL for fetching the full .jsonl record from object storage.
-      required:
-      - id
-      - status
-      - downloadUrl
-    XcodeInstanceState:
-      type: string
-      enum:
-      - unknown
-      - creating
-      - assigned
-      - ready
-      - terminated
-    XcodeInstanceCreate:
-      type: object
-      properties:
-        metadata:
-          type: object
-          properties:
-            displayName:
-              type: string
-            labels:
-              type: object
-              additionalProperties:
-                type: string
-        spec:
-          type: object
-          properties:
-            clues:
-              type: array
-              items:
-                type: object
-                properties:
-                  kind:
-                    type: string
-                    enum:
-                    - ClientIP
-                  clientIp:
-                    type: string
-                required:
-                - kind
-            region:
-              type: string
-              description: "Where the instance will be created. If not given, the region is decided based on scheduling clues\n(client IP) and availability.\n\nA region is a preference, not a hard pin: the request always overflows to every other available\nregion, ordered by proximity, when the preferred ones are full.\n\nAccepted values:\n  * A specific region name (e.g. \"us-west1\"). It is tried first, then the remaining regions in order of\n    proximity to it. Scheduling clues (client IP) are ignored when a region is given.\n  * A region group name (e.g. \"us\", \"eu\"). Its member regions are tried first in their listed order,\n    then the remaining regions by proximity to the first member.\n  * A pipe-separated, ordered list of regions (e.g. \"us-east1|us-west1\"). Those are tried first in the\n    given order, then the remaining regions by proximity to the first."
-            inactivityTimeout:
-              type: string
-              format: duration
-              description: 'After how many minutes of inactivity should the instance be terminated.
-
-                The timer starts once the instance becomes ready.
-
-                Example values 1m, 10m, 3h.
-
-                Default is 5m.
-
-                Providing "0" uses the organization''s default inactivity timeout.'
-              default: 5m
-            hardTimeout:
-              type: string
-              format: duration
-              description: 'After how many minutes should the instance be terminated.
-
-                Example values 1m, 10m, 3h.
-
-                Default is "0" which means no hard timeout.'
-              default: '0'
-    TerminationReason:
-      type: string
-      description: "Machine-readable reason the instance was terminated. Always present once\nstate is \"terminated\", never present before that. New values may be added\nover time, so treat any unrecognized value as \"Unknown\". Known values:\n- \"UserRequested\": terminated by a delete request to the API.\n- \"InactivityTimeout\": the timeout given in spec.inactivityTimeout elapsed.\n- \"HardTimeout\": the timeout given in spec.hardTimeout elapsed.\n- \"Unknown\": terminated for a cause the platform did not attribute,\n  including instances that failed to get ready during creation. See\n  errorMessage for details when available."
-      example: InactivityTimeout

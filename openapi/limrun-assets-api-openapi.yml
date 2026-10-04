@@ -183,19 +183,12 @@ paths:
       - Assets
 components:
   schemas:
-    APIError:
-      type: object
-      properties:
-        message:
-          type: string
-        reason:
-          type: string
-          enum:
-          - NoSubscription
-          - NoRemainingMinutes
-          - ConcurrencyLimitReached
-      required:
-      - message
+    AssetPlatform:
+      type: string
+      enum:
+      - ios
+      - android
+      - xcode
     AssetPut:
       type: object
       properties:
@@ -218,46 +211,19 @@ components:
             '
       required:
       - name
-    AssetPutResult:
+    APIError:
       type: object
       properties:
-        id:
+        message:
           type: string
-        name:
+        reason:
           type: string
-        kind:
-          $ref: '#/components/schemas/AssetKind'
-        platform:
-          $ref: '#/components/schemas/AssetPlatform'
-        md5:
-          type: string
-          description: Returned only if there is a corresponding file uploaded already.
-        expiresAt:
-          type: string
-          format: date-time
-          description: When set, the time after which the asset is automatically deleted.
-        signedUploadUrl:
-          type: string
-        signedDownloadUrl:
-          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
       required:
-      - id
-      - name
-      - kind
-      - signedUploadUrl
-      - signedDownloadUrl
-    AssetPlatform:
-      type: string
-      enum:
-      - ios
-      - android
-      - xcode
-    AssetKind:
-      type: string
-      enum:
-      - App
-      - Keychain
-      default: App
+      - message
     Asset:
       type: object
       properties:
@@ -296,3 +262,37 @@ components:
       - id
       - name
       - kind
+    AssetKind:
+      type: string
+      enum:
+      - App
+      - Keychain
+      default: App
+    AssetPutResult:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        kind:
+          $ref: '#/components/schemas/AssetKind'
+        platform:
+          $ref: '#/components/schemas/AssetPlatform'
+        md5:
+          type: string
+          description: Returned only if there is a corresponding file uploaded already.
+        expiresAt:
+          type: string
+          format: date-time
+          description: When set, the time after which the asset is automatically deleted.
+        signedUploadUrl:
+          type: string
+        signedDownloadUrl:
+          type: string
+      required:
+      - id
+      - name
+      - kind
+      - signedUploadUrl
+      - signedDownloadUrl
