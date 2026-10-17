@@ -189,41 +189,6 @@ components:
       - ios
       - android
       - xcode
-    AssetPut:
-      type: object
-      properties:
-        name:
-          type: string
-        kind:
-          $ref: '#/components/schemas/AssetKind'
-        platform:
-          $ref: '#/components/schemas/AssetPlatform'
-        ttl:
-          type: string
-          description: 'Optional time-to-live as a Go duration string (e.g. "24h"). When set, the
-
-            asset is deleted this long after now; minimum is 1m. Omit for no expiry.
-
-            On re-upload of an existing asset, a value updates the expiry while omitting
-
-            it leaves the current expiry unchanged.
-
-            '
-      required:
-      - name
-    APIError:
-      type: object
-      properties:
-        message:
-          type: string
-        reason:
-          type: string
-          enum:
-          - NoSubscription
-          - NoRemainingMinutes
-          - ConcurrencyLimitReached
-      required:
-      - message
     Asset:
       type: object
       properties:
@@ -262,12 +227,47 @@ components:
       - id
       - name
       - kind
+    AssetPut:
+      type: object
+      properties:
+        name:
+          type: string
+        kind:
+          $ref: '#/components/schemas/AssetKind'
+        platform:
+          $ref: '#/components/schemas/AssetPlatform'
+        ttl:
+          type: string
+          description: 'Optional time-to-live as a Go duration string (e.g. "24h"). When set, the
+
+            asset is deleted this long after now; minimum is 1m. Omit for no expiry.
+
+            On re-upload of an existing asset, a value updates the expiry while omitting
+
+            it leaves the current expiry unchanged.
+
+            '
+      required:
+      - name
     AssetKind:
       type: string
       enum:
       - App
       - Keychain
       default: App
+    APIError:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+          enum:
+          - NoSubscription
+          - NoRemainingMinutes
+          - ConcurrencyLimitReached
+      required:
+      - message
     AssetPutResult:
       type: object
       properties:

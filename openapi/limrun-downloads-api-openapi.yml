@@ -60,13 +60,6 @@ components:
             type: string
       required:
       - url
-    ResolveDownloadRequest:
-      type: object
-      properties:
-        url:
-          type: string
-      required:
-      - url
     APIError:
       type: object
       properties:
@@ -80,3 +73,10 @@ components:
           - ConcurrencyLimitReached
       required:
       - message
+    ResolveDownloadRequest:
+      type: object
+      properties:
+        url:
+          type: string
+      required:
+      - url
